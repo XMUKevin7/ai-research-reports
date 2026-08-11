@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全市场舆情监测分析报告（2026-08-11）</title>
+<style>
+:root { --bg:#0f1117; --panel:#1a1d24; --panel2:#242833; --text:#e8eaf0; --sub:#9aa3b5;
+  --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; padding:28px; }
+.wrap { max-width:1050px; margin:0 auto; }
+h1 { font-size:25px; margin-bottom:4px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:22px; }
+h2 { font-size:19px; margin:30px 0 12px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:15px; margin:14px 0 8px; color:#c9d2e3; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:14px; }
+.card.warn { border-left:4px solid var(--red); }
+.card.good { border-left:4px solid var(--green); }
+.card.info { border-left:4px solid var(--blue); }
+.card.hl { border-left:4px solid var(--yellow); }
+table { width:100%; border-collapse:collapse; font-size:13px; margin:8px 0; }
+th { background:var(--panel2); color:var(--sub); padding:8px 10px; text-align:left; }
+td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; margin-right:4px; }
+.tag.red { background:rgba(255,93,93,.15); color:var(--red); }
+.tag.green { background:rgba(38,194,129,.15); color:var(--green); }
+.tag.yellow { background:rgba(255,212,59,.15); color:var(--yellow); }
+.tag.blue { background:rgba(74,158,255,.15); color:var(--blue); }
+.tag.purple { background:rgba(177,151,252,.15); color:var(--purple); }
+ul, ol { padding-left:20px; }
+li { margin:3px 0; }
+.neg { color:var(--red); } .pos { color:var(--green); } .flag { color:var(--yellow); font-weight:700; }
+.verdict { background:linear-gradient(135deg,#1a1d24,#242833); border:1px solid var(--border); border-radius:12px; padding:18px; margin:14px 0; }
+.kpi { display:flex; gap:12px; flex-wrap:wrap; margin:10px 0; }
+.kpi div { background:var(--panel2); border-radius:8px; padding:10px 14px; min-width:110px; flex:1; }
+.kpi .k { font-size:11px; color:var(--sub); }
+.kpi .v { font-size:18px; font-weight:700; margin-top:2px; }
+.small { font-size:12px; color:var(--sub); }
+.bigflag { background:rgba(255,93,93,.08); border:1px solid rgba(255,93,93,.3); border-radius:10px; padding:14px 16px; margin:10px 0; }
+.section-note { font-size:12px; color:var(--sub); margin-top:5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>全市场舆情监测分析报告</h1>
+<div class="sub">as_of: 2026-08-11 | 观察窗口: 2026-08-08 ~ 08-11 | 监控范围: 全市场热点 + 关注池（quant_core ETF 池 + 三安/联创）| 数据源: iFinD 新闻/公告 + Tushare + 上证指数基准</div>
+
+<h2>一、结论速览</h2>
+<div class="verdict">
+<h3>⚡ 本周舆情主线</h3>
+<p><b>① 监管趋严</b>：*ST实达立案、联创光电立案后再度跌停——证监会立案频率上升；<br>
+<b>② 重组活跃</b>：建设机械重组涨停（+10%）、麦迪科技异动 +23%——资产重组主题升温；<br>
+<b>③ AI 光互连主题</b>：光模块/CPO 产业链梳理刷屏，但多为概念放大；<br>
+<b>④ 股东风险暴露</b>：富煌钢构控股股东 100% 冻结、三安问询函——股权风险扩散。<br>
+<b>核心判断</b>：<span class="flag">市场呈现"监管风险与重组/科技主题并存"的分化格局——跌停的跌停（联创 -27.8% 超额）、涨停的涨停（麦迪 +31.8% 超额）</span>。</p>
+</div>
+
+<h2>二、全市场热点事件清单（7 大事件）</h2>
+<div class="card">
+<table>
+<tr><th>#</th><th>标的</th><th>事件</th><th>类型</th><th>8/4→8/11 超额</th><th>风险</th></tr>
+<tr><td>1</td><td>*ST实达 600734</td><td>8/8 证监会立案告知书（2026-036）</td><td class="tag red">监管立案</td><td class="neg">-6.9%</td><td class="flag">高</td></tr>
+<tr><td>2</td><td>联创光电 600363</td><td>8/10 第二次跌停（立案后）；8/11 异动公告</td><td class="tag red">监管立案</td><td class="neg">-27.8%</td><td class="flag">极高</td></tr>
+<tr><td>3</td><td>建设机械 600984</td><td>8/10 筹划重大资产重组（收购蒲洁能化100%），涨停</td><td class="tag green">重组</td><td class="pos">+9.4%</td><td>中</td></tr>
+<tr><td>4</td><td>麦迪科技 603990</td><td>8/7 龙虎榜（三日偏离20%），本周 +23%</td><td class="tag purple">异动</td><td class="pos">+31.8%</td><td class="flag">中高（情绪）</td></tr>
+<tr><td>5</td><td>富煌钢构 002743</td><td>控股股东 100% 股份轮候冻结（7次）+ 质押 99.99%</td><td class="tag yellow">股东风险</td><td class="pos">+1.8%</td><td class="flag">中高</td></tr>
+<tr><td>6</td><td>三安光电 600703</td><td>8/11 回复上交所年报问询函（LED 下滑/研发投入）</td><td class="tag yellow">监管问询</td><td class="pos">+3.1%</td><td>中</td></tr>
+<tr><td>7</td><td>光模块/CPO 板块</td><td>AI 光互连产业链全景梳理（光迅/天孚/博创）</td><td class="tag blue">主题</td><td>—</td><td class="flag">概念放大风险</td></tr>
+</table>
+</div>
+
+<h2>三、量化影响评估（超额收益 vs 上证 +2.9%）</h2>
+<div class="card">
+<table>
+<tr><th>标的</th><th>区间累计</th><th>超额收益</th><th>事件日细节</th><th>量化解读</th></tr>
+<tr><td>麦迪科技</td><td class="pos">+34.7%</td><td class="pos">+31.8%</td><td>8/7 +7.8% / 8/10 +5.5% / 8/11 +2.8%</td><td class="flag">异动连续放量，纯情绪驱动嫌疑大，需核验基本面支撑</td></tr>
+<tr><td>联创光电</td><td class="neg">-24.9%</td><td class="neg">-27.8%</td><td>8/10 -10.0%（第2个跌停）/ 8/11 +0.1%</td><td class="flag">立案后持续出清，2 个跌停 + 超跌，风险未释放完</td></tr>
+<tr><td>建设机械</td><td class="pos">+12.3%</td><td class="pos">+9.4%</td><td>8/10 +10.0%（重组涨停）</td><td class="pos">重组公告驱动，事件真实，但需评估标的资产质量</td></tr>
+<tr><td>三安光电</td><td class="pos">+6.0%</td><td class="pos">+3.1%</td><td>8/7 +5.0% / 8/10 -4.0% / 8/11 -2.6%</td><td>问询函回复日 -2.6%，利空消化中</td></tr>
+<tr><td>富煌钢构</td><td class="pos">+4.7%</td><td class="pos">+1.8%</td><td>8/10 +4.7%</td><td class="flag">冻结 100% 却不跌反涨——市场无视股东风险，值得警惕</td></tr>
+<tr><td>*ST实达</td><td class="neg">-4.0%</td><td class="neg">-6.9%</td><td>8/10 -2.3%</td><td class="flag">立案后阴跌，*ST 风险叠加</td></tr>
+</table>
+</div>
+
+<h2>四、关注池重点跟踪（三安/联创）</h2>
+<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div class="card warn">
+<h3>联创光电（600363）— 持续恶化</h3>
+<ul>
+<li class="flag"><b>8/10 第二次跌停 -10%</b>（立案后第 2 个，累计 -24.9%）</li>
+<li>8/11 发布股票交易异常波动公告（2026-050）</li>
+<li>立案调查周期 6-12 个月，期间持续压制</li>
+<li class="flag">超额 -27.8%：系统性治理+流动性危机未出清</li>
+</ul>
+</div>
+<div class="card">
+<h3>三安光电（600703）— 问询函落地</h3>
+<ul>
+<li>8/11 回复上交所年报问询函（LED 行业下滑 4.2%、研发投入下降原因）</li>
+<li>回复日 -2.6%，利空逐步消化</li>
+<li class="pos">8/4→8/11 仍 +6.0%（超额 +3.1%），问询函未改变中期逻辑</li>
+<li>后续关注：中报（8 月）、SiC 产能、InP 概念验证</li>
+</ul>
+</div>
+</div>
+
+<h2>五、舆情主题聚类与热度</h2>
+<div class="card info">
+<table>
+<tr><th>主题</th><th>代表事件</th><th>热度</th><th>持续性</th></tr>
+<tr><td>监管立案</td><td>*ST实达、联创光电</td><td class="flag">🔥🔥🔥 高</td><td>长（调查周期）</td></tr>
+<tr><td>重组/资产注入</td><td>建设机械（蒲洁能化）</td><td>🔥🔥 中高</td><td>中（看标的质地）</td></tr>
+<tr><td>AI 光互连/CPO</td><td>光模块产业链梳理</td><td>🔥🔥 中高</td><td class="flag">概念放大风险</td></tr>
+<tr><td>股东风险（冻结/质押）</td><td>富煌钢构、三安</td><td>🔥 中</td><td>长（悬顶）</td></tr>
+<tr><td>业绩预告/中报</td><td>中报季"好学生先交卷"</td><td>🔥 中</td><td>8 月下旬高峰</td></tr>
+</table>
+</div>
+
+<h2>六、独立核验（子代理 kimi k3）</h2>
+<div class="card hl">
+<h3>核验状态：子代理执行中（6 大事件逐件核验）</h3>
+<div class="section-note">⚠️ 完整核验结论（真实性/相关度评分/主题聚类/风险排序）由子代理生成后更新本节。</div>
+</div>
+
+<h2>七、风险矩阵与观察指标</h2>
+<div class="card">
+<table>
+<tr><th>标的</th><th>风险等级</th><th>核心矛盾</th><th>观察指标</th></tr>
+<tr><td>联创光电</td><td class="flag">🔴 极高</td><td>立案 + 连续跌停 + 流动性危机</td><td>跌停打开、立案进展、拍卖结果</td></tr>
+<tr><td>*ST实达</td><td class="flag">🔴 高</td><td>立案 + *ST 退市风险</td><td>立案结果、重组可能</td></tr>
+<tr><td>麦迪科技</td><td class="flag">🟡 中高</td><td>纯情绪异动 +23%，基本面待验证</td><td>龙虎榜、中报、回落风险</td></tr>
+<tr><td>富煌钢构</td><td class="flag">🟡 中高</td><td>控股股东 100% 冻结 + 质押 99.99%</td><td>拍卖、被动减持、控制权</td></tr>
+<tr><td>建设机械</td><td>🟡 中</td><td>重组标的（蒲洁能化）质地待评估</td><td>重组草案、停牌进展</td></tr>
+<tr><td>三安光电</td><td>🟢 中低</td><td>问询函落地 + 冻结悬顶 + InP 概念</td><td>中报、InP 产能验证、冻结进展</td></tr>
+</table>
+</div>
+
+<div class="small" style="margin-top:20px">
+⚠️ 本报告为全市场舆情监测研究，不构成投资建议。方法：超额收益 = 个股区间累计 - 上证指数累计（+2.9%）；事件日逐日收益用 Tushare pct_chg。核验由独立子代理（kimi k3）执行，结论交叉验证后更新。事实（公告）、推断（解读）、观点（风险等级）分层标注。
+</div>
+
+</div>
+</body>
+</html>
