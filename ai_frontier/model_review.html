@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes 模型实战评测 · 一页纸</title>
+<style>
+:root { --bg:#0d0f14; --panel:#151923; --panel2:#1c2130; --line:#2a3145; --text:#e8eaf0; --sub:#8b94a8;
+  --accent:#4a9eff; --accent2:#26c281; --warn:#ffa94d; --danger:#ff5d5d; --purple:#b197fc; --gold:#ffd43b; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.8; }
+.layout { display:flex; }
+.sidebar { width:250px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; padding:28px 16px; background:var(--panel); border-right:1px solid var(--line); z-index:10; }
+.sidebar .logo { font-size:14px; font-weight:700; padding:0 10px 18px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .logo small { display:block; color:var(--sub); font-weight:400; font-size:11px; margin-top:4px; }
+.sidebar nav a { display:block; padding:7px 10px; color:var(--sub); text-decoration:none; font-size:12.5px; border-radius:6px; margin:2px 0; border-left:3px solid transparent; }
+.sidebar nav a:hover { color:var(--text); background:var(--panel2); }
+.sidebar nav a.active { color:var(--accent); background:rgba(74,158,255,.08); border-left-color:var(--accent); }
+.main { margin-left:250px; flex:1; min-width:0; padding:40px 48px 80px; max-width:1100px; }
+.banner { border:1px solid var(--line); border-radius:14px; padding:32px 36px; margin-bottom:36px; background:linear-gradient(135deg,#151923 0%,#1a2233 60%,#17202f 100%); position:relative; overflow:hidden; }
+.banner::after { content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(74,158,255,.15), transparent 70%); }
+.banner h1 { font-size:28px; font-weight:800; }
+.banner .en { color:var(--accent); font-size:13px; font-weight:600; letter-spacing:2px; margin-top:6px; text-transform:uppercase; }
+.banner .meta { margin-top:16px; color:var(--sub); font-size:12.5px; display:flex; gap:16px; flex-wrap:wrap; }
+.chapter { margin-bottom:56px; }
+.ch-head { border-left:4px solid var(--accent); padding-left:16px; margin-bottom:20px; }
+.ch-head .num { color:var(--accent); font-size:12px; font-weight:700; letter-spacing:2px; }
+.ch-head h2 { font-size:23px; font-weight:800; margin-top:3px; }
+.ch-head .en { color:var(--sub); font-size:12px; letter-spacing:1.5px; margin-top:3px; text-transform:uppercase; }
+h3 { font-size:16px; font-weight:700; margin:22px 0 10px; color:#dfe4f0; }
+p { margin:9px 0; font-size:14px; color:#c9d0de; }
+strong { color:var(--text); }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin:14px 0; }
+.card.hl { border-left:4px solid var(--gold); }
+.card.info { border-left:4px solid var(--accent); }
+.card.good { border-left:4px solid var(--accent2); }
+.card.warn { border-left:4px solid var(--danger); }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th { background:var(--panel2); color:var(--sub); padding:9px 11px; text-align:left; font-weight:600; border-bottom:1px solid var(--line); }
+td { padding:9px 11px; border-bottom:1px solid var(--line); color:#c9d0de; vertical-align:top; }
+tr:hover td { background:rgba(255,255,255,.015); }
+.tag { display:inline-block; padding:2px 9px; border-radius:11px; font-size:11px; font-weight:600; }
+.tag.blue { background:rgba(74,158,255,.12); color:var(--accent); }
+.tag.green { background:rgba(38,194,129,.12); color:var(--accent2); }
+.tag.gold { background:rgba(255,212,59,.12); color:var(--gold); }
+.tag.red { background:rgba(255,93,93,.12); color:var(--danger); }
+.tag.purple { background:rgba(177,151,252,.12); color:var(--purple); }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin:16px 0; }
+.kpi { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; }
+.kpi .v { font-size:24px; font-weight:800; color:var(--accent); }
+.kpi .k { font-size:12px; color:var(--sub); margin-top:3px; }
+.kpi .s { font-size:11px; color:var(--sub); margin-top:2px; opacity:.7; }
+.quote { border-left:3px solid var(--accent2); background:rgba(38,194,129,.05); padding:12px 16px; margin:12px 0; border-radius:0 10px 10px 0; font-size:14px; color:#c9d0de; }
+.callout { background:rgba(74,158,255,.06); border:1px solid rgba(74,158,255,.2); border-radius:10px; padding:14px 18px; margin:14px 0; }
+.callout b { color:var(--accent); }
+.small { font-size:11.5px; color:var(--sub); }
+.footer { border-top:1px solid var(--line); margin-top:50px; padding-top:18px; color:var(--sub); font-size:12px; }
+@media (max-width:900px) { .sidebar { display:none; } .main { margin-left:0; padding:22px; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="logo">模型实战评测<small>Hermes 全量审计 · 一页纸</small></div>
+  <nav>
+    <a href="#preface">结论速览</a>
+    <a href="#ch1">一 · Token 全量</a>
+    <a href="#ch2">二 · 失败率</a>
+    <a href="#ch3">三 · 耗时</a>
+    <a href="#ch4">四 · 完成度</a>
+    <a href="#ch5">五 · 逐模型评价</a>
+    <a href="#ch6">六 · 关键判断</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<div class="banner">
+  <h1>Hermes 模型实战评测</h1>
+  <div class="en">DATA-DRIVEN MODEL REVIEW · JULY-AUGUST 2026</div>
+  <div class="meta">
+    <span>📅 2026-08-12</span>
+    <span>📊 102 个会话 · 4,000+ 工具调用</span>
+    <span>🗄 state.db 全量审计</span>
+    <span>🔬 消息级 JSON 结构化判定</span>
+  </div>
+</div>
+
+<!-- 结论速览 -->
+<div class="chapter" id="preface">
+  <div class="ch-head"><div class="num">结论先行</div><h2>一页纸结论</h2><div class="en">EXECUTIVE SUMMARY</div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">5.9%</div><div class="k">最低失败率</div><div class="s">deepseek-v4-flash</div></div>
+    <div class="kpi"><div class="v">100%</div><div class="k">子代理完成率</div><div class="s">8/8 delegation</div></div>
+    <div class="kpi"><div class="v">21.6s</div><div class="k">最慢单轮（k3）</div><div class="s">但产出最深</div></div>
+    <div class="kpi"><div class="v">$4.5</div><div class="k">4 个月总成本</div><div class="s">14M 输入 token</div></div>
+  </div>
+  <div class="quote"><strong>一句话：</strong>失败率 5.9%~11.7% 的分布中，大部分来自工具环境（sandbox/网络/限频），不是模型智力——真正决定体验的，是把「快而稳」的 flash 放主对话、「多面手」glm 放代码、「慢而深」的 k3 放金融核验。</div>
+</div>
+
+<!-- 一 Token -->
+<div class="chapter" id="ch1">
+  <div class="ch-head"><div class="num">1</div><h2>Token 消耗全量</h2><div class="en">TOKEN CONSUMPTION</div></div>
+  <table>
+    <tr><th>模型</th><th>会话</th><th>输入tok</th><th>输出tok</th><th>缓存读</th><th>推理tok</th><th>估算成本</th></tr>
+    <tr><td>deepseek-reasoner</td><td>2</td><td>6.89M</td><td>578K</td><td class="tag gold">401M</td><td>95K</td><td>$2.45</td></tr>
+    <tr><td>deepseek-v4-pro</td><td>22</td><td>3.10M</td><td>455K</td><td>84.6M</td><td>108K</td><td>$1.47</td></tr>
+    <tr><td>deepseek-chat</td><td>36</td><td>1.20M</td><td>267K</td><td>26.5M</td><td>0</td><td>$0.32</td></tr>
+    <tr><td>glm-5.2 (volcano)</td><td>15</td><td>854K</td><td>152K</td><td>11.1M</td><td>3K</td><td>$0.03</td></tr>
+    <tr><td>glm-5.2 (zai/其他)</td><td>8</td><td>1.45M</td><td>169K</td><td>31.4M</td><td>48K</td><td>$0.12</td></tr>
+    <tr><td>deepseek-v4-flash</td><td>10</td><td>239K</td><td>50K</td><td>1.6M</td><td>30K</td><td class="tag green">$0.05</td></tr>
+    <tr><td>k3 (kimi)</td><td>7</td><td>235K</td><td>22K</td><td>1.9M</td><td>0</td><td class="tag green">$0.01</td></tr>
+  </table>
+  <div class="callout"><b>修正说明：</b>初版统计漏了 reasoner 的 6.89M 输入 + 401M 缓存读（session_model_usage 表缺记）。全量合计 <b>≈14M 输入 tok + 5.4 亿缓存读 + $4.5</b>。</div>
+</div>
+
+<!-- 二 失败率 -->
+<div class="chapter" id="ch2">
+  <div class="ch-head"><div class="num">2</div><h2>工具调用失败率</h2><div class="en">TOOL FAILURE RATE</div></div>
+  <p class="small">判定标准：工具结果 JSON 中 error 非空 或 exit_code≠0（消息级结构化判定，非关键词误判）</p>
+  <table>
+    <tr><th>模型</th><th>工具调用</th><th>失败</th><th>失败率</th><th>硬失败</th><th>用过的工具</th></tr>
+    <tr><td>deepseek-v4-flash</td><td>85</td><td>5</td><td class="tag green">5.9%</td><td>3</td><td>5</td></tr>
+    <tr><td>kimi-k3</td><td>16</td><td>1</td><td class="tag green">6.2%</td><td>1</td><td>2</td></tr>
+    <tr><td>glm-5.2</td><td>504</td><td>38</td><td class="tag green">7.5%</td><td>23</td><td>10</td></tr>
+    <tr><td>k3</td><td>51</td><td>4</td><td>7.8%</td><td>4</td><td>4</td></tr>
+    <tr><td>deepseek-reasoner</td><td>1798</td><td>138</td><td>7.7%</td><td>118</td><td>20</td></tr>
+    <tr><td>deepseek-chat</td><td>860</td><td>94</td><td>10.9%</td><td>67</td><td>15</td></tr>
+    <tr><td>deepseek-v4-pro</td><td>848</td><td>99</td><td class="tag red">11.7%</td><td>71</td><td>15</td></tr>
+  </table>
+  <h3>失败重灾区（环境问题 &gt; 模型问题）</h3>
+  <table>
+    <tr><th>工具</th><th>高失败模型</th><th>失败率</th><th>根因</th></tr>
+    <tr><td>execute_code</td><td>v4-pro / reasoner / glm</td><td>24.2% / 30.0% / 11.9%</td><td>sandbox 环境依赖</td></tr>
+    <tr><td>terminal</td><td>chat / v4-pro</td><td>15.4% / 15.3%</td><td>网络 / 限频 / 权限</td></tr>
+    <tr><td>skill_manage</td><td>v4-pro</td><td>30.8%</td><td>symlink skill 已知坑</td></tr>
+    <tr><td>memory</td><td>reasoner / v4-pro</td><td>38.9% / 28.6%</td><td>记忆容量满</td></tr>
+    <tr><td>delegate_task</td><td>v4-pro</td><td>22.2%</td><td>子代理调度</td></tr>
+  </table>
+</div>
+
+<!-- 三 耗时 -->
+<div class="chapter" id="ch3">
+  <div class="ch-head"><div class="num">3</div><h2>平均耗时</h2><div class="en">LATENCY</div></div>
+  <h3>会话时长（分钟）</h3>
+  <table>
+    <tr><th>模型</th><th>平均</th><th>最短</th><th>最长</th></tr>
+    <tr><td>k3</td><td class="tag gold">473</td><td>12</td><td>935</td></tr>
+    <tr><td>glm-5.2</td><td>75.6</td><td>0.2</td><td>1164</td></tr>
+    <tr><td>deepseek-v4-pro</td><td>61.9</td><td>0.9</td><td>852</td></tr>
+    <tr><td>deepseek-chat</td><td>27.7</td><td>0.0</td><td>599</td></tr>
+    <tr><td>deepseek-v4-flash</td><td class="tag green">10.4</td><td>1.2</td><td>24</td></tr>
+  </table>
+  <h3>每轮响应（秒，中位数）</h3>
+  <table>
+    <tr><th>模型</th><th>中位数</th><th>平均</th><th>特点</th></tr>
+    <tr><td>deepseek-chat</td><td class="tag green">4.8s</td><td>23.7s</td><td>最快，但旧代</td></tr>
+    <tr><td>deepseek-reasoner</td><td>5.0s</td><td>14.7s</td><td>快，早期重活</td></tr>
+    <tr><td>deepseek-v4-pro</td><td>9.5s</td><td>21.7s</td><td>中等</td></tr>
+    <tr><td>glm-5.2</td><td>11.3s</td><td>21.9s</td><td>执行稳健</td></tr>
+    <tr><td>deepseek-v4-flash</td><td>12.9s</td><td>40.2s</td><td>工具编排多</td></tr>
+    <tr><td>kimi-k3</td><td>16.5s</td><td>25.3s</td><td>偏慢</td></tr>
+    <tr><td>k3</td><td class="tag gold">21.6s</td><td>36.6s</td><td>最慢 = 最深</td></tr>
+  </table>
+</div>
+
+<!-- 四 完成度 -->
+<div class="chapter" id="ch4">
+  <div class="ch-head"><div class="num">4</div><h2>任务完成度</h2><div class="en">TASK COMPLETION</div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">8/8</div><div class="k">子代理任务完成</div><div class="s">0 失败</div></div>
+    <div class="kpi"><div class="v">46</div><div class="k">正常关闭会话</div><div class="s">agent_close</div></div>
+    <div class="kpi"><div class="v">32</div><div class="k">cron 完成</div><div class="s">cron_complete</div></div>
+    <div class="kpi"><div class="v">0</div><div class="k">异常崩溃</div><div class="s">无核心故障</div></div>
+  </div>
+  <table>
+    <tr><th>子代理任务</th><th>模型</th><th>耗时</th><th>调用</th><th>结果</th></tr>
+    <tr><td>全市场舆情核验</td><td>k3</td><td>1343s</td><td>24</td><td class="tag green">独立复算误差&lt;0.3%</td></tr>
+    <tr><td>舆情核验（联创/三安）</td><td>k3</td><td>808s</td><td>15</td><td class="tag green">发现 4 个遗漏事实</td></tr>
+    <tr><td>AI 算力研究（3 并行）</td><td>glm-5.2</td><td>3896s</td><td>—</td><td class="tag green">长任务完成</td></tr>
+    <tr><td>路由验证</td><td>glm-5.2</td><td>11-47s</td><td>1-4</td><td class="tag green">秒级</td></tr>
+    <tr><td>归因交叉验证</td><td>ds-v4-pro</td><td>52s</td><td>1</td><td class="tag green">纯推理完成</td></tr>
+  </table>
+</div>
+
+<!-- 五 逐模型评价 -->
+<div class="chapter" id="ch5">
+  <div class="ch-head"><div class="num">5</div><h2>逐模型评价</h2><div class="en">PER-MODEL REVIEW</div></div>
+
+  <div class="card good">
+    <h3>🏆 deepseek-v4-flash —— 「最高效全能王」<span class="tag green">主对话主力</span></h3>
+    <p>失败率 5.9%（全系最低）· 会话最快（10.4min）· 成本 $0.05 · 每轮 12.9s（在复杂工具编排下可接受）</p>
+    <p><strong>结论：主对话选它完全正确</strong>——「快 + 稳 + 便宜」三角最优。</p>
+  </div>
+
+  <div class="card good">
+    <h3>🥈 glm-5.2 —— 「稳健执行者」<span class="tag blue">代码/执行主力</span></h3>
+    <p>失败率 7.5%（第二低）· 工具种类最广（10 种）· 执行快（11.3s）· 完成 3 并行长任务</p>
+    <p><strong>结论：代码/执行路由正确</strong>——「多面手」定位，execute_code 11.9% 失败是 sandbox 环境问题。</p>
+  </div>
+
+  <div class="card hl">
+    <h3>🥉 k3 (Kimi) —— 「深度思考者」<span class="tag gold">金融/核验主力</span></h3>
+    <p>失败率 7.8% · <strong>每轮 21.6s 最慢 · 会话最长 473min</strong> · 工具调用少（51 次，重思考轻操作）</p>
+    <p><strong>结论：金融核验/深度推理用它对</strong>——两次核验都发现主报告遗漏的关键事实（预付款暴增 443%、子公司账户冻结 3.96 亿）。<strong>慢是特性不是缺陷</strong>。</p>
+  </div>
+
+  <div class="card warn">
+    <h3>⚠️ deepseek-v4-pro —— 「过气主力」<span class="tag red">备用</span></h3>
+    <p>失败率 11.7%（最高）· execute_code 24.2% / skill_manage 30.8% / delegate_task 22.2%</p>
+    <p><strong>结论：pro 路由备用即可</strong>——问题在工具编排纪律（错误路径反复试），不在智力。被 flash（主对话）+ k3（子代理）双重取代。</p>
+  </div>
+
+  <div class="card">
+    <h3>🗑 deepseek-chat / reasoner —— 已淘汰</h3>
+    <p>chat：execute_code 8/8 全败（100%）· reasoner：6.89M token + 401M 缓存读（历史包袱），memory 38.9% 失败</p>
+    <p><strong>结论：历史数据保留，无新任务。</strong></p>
+  </div>
+</div>
+
+<!-- 六 关键判断 -->
+<div class="chapter" id="ch6">
+  <div class="ch-head"><div class="num">6</div><h2>三个关键判断</h2><div class="en">KEY INSIGHTS</div></div>
+  <div class="card info">
+    <h3>① 失败率分布 = 工具环境问题 &gt; 模型智力问题</h3>
+    <p>高失败集中在 execute_code（sandbox）、terminal（网络/限频）、memory（容量满）、skill_manage（symlink 坑）——<strong>这些是 Hermes 配置问题，换哪个模型都一样</strong>。模型间真实差异（&lt;4pct）远小于环境差异。</p>
+  </div>
+  <div class="card info">
+    <h3>② 路由决策已被数据全面验证</h3>
+    <p>flash（主对话）+ glm（代码）+ k3（深度核验）= 失败率最低组合。pro 退役正确。这不是拍脑袋，是 102 个会话 4000+ 次调用跑出来的。</p>
+  </div>
+  <div class="card hl">
+    <h3>③ 「最慢的模型，干出最深的活」</h3>
+    <p>k3 21.6s/轮 = 更多推理 = 发现级输出。glm 11.3s = 稳健执行。flash 12.9s = 高频稳定。<strong>这就是模型路由的意义：让每个任务找到它该有的「速度 × 深度」组合。</strong></p>
+    <div class="quote">分享会金句：「模型是插槽，Harness 是主板——最贵的插槽不一定最好，匹配任务的那个才是。」</div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>数据来源：Hermes state.db（sessions / messages 全量表，2026-07-01 ~ 08-12，102 会话 4000+ 工具调用）+ async_delegations 回执。失败判定：工具结果 JSON error≠null 或 exit_code≠0。成本为估算（部分 provider 无定价条目显示 $0）。</p>
+  <p>归档：~/research_notes/ai_frontier/ · 设计规范：WorkBuddy 白皮书风格</p>
+</div>
+
+</main>
+</div>
+
+<script>
+const links = document.querySelectorAll('.sidebar nav a');
+const sections = [...document.querySelectorAll('.chapter')];
+window.addEventListener('scroll', () => {
+  let cur = sections[0];
+  for (const s of sections) { if (window.scrollY >= s.offsetTop - 120) cur = s; }
+  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur.id));
+});
+</script>
+</body>
+</html>
