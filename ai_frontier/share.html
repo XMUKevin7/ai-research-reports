@@ -8,206 +8,251 @@
 :root {
   --bg:#f5f7fa; --panel:#ffffff; --panel2:#f8fafc; --line:#e2e8f0; --line2:#cbd5e1;
   --text:#1a1f2e; --sub:#5a6478; --sub2:#94a3b8;
-  --red:#d4353b; --red-bg:#fef2f2; --red-light:#fce8e8;
-  --green:#16a34a; --green-bg:#f0fdf4; --green-light:#86efac;
+  --red:#d4353b; --red-bright:#ea5a5f; --red-bg:#fef2f2;
+  --red-border:rgba(212,53,59,.35); --red-shadow:rgba(165,38,43,.10);
+  --green:#0dba8f; --green-deep:#0a8a6c; --green-bg:#e8faf4; --green-mark:rgba(13,186,143,.16);
   --blue:#2563eb; --blue-bg:#eff6ff;
   --gold:#ca8a04; --gold-bg:#fefce8;
   --purple:#7c3aed; --purple-bg:#f5f3ff;
+  --slate-grad:linear-gradient(135deg,#334155,#64748b);
+  --hero-grad:linear-gradient(135deg,#1a1f2e 0%,#2d1a24 55%,#3d1520 100%);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,"system-ui","PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.8;font-size:16px;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"system-ui","PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.75;font-size:16px;}
 .layout{display:flex;}
-.sidebar{width:252px;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;padding:28px 16px;background:rgba(255,255,255,.97);border-right:1px solid var(--line);z-index:10;}
-.sidebar .logo{font-size:15px;font-weight:780;padding:0 10px 18px;border-bottom:1px solid var(--line);margin-bottom:14px;color:var(--red);}
-.sidebar .logo small{display:block;color:var(--sub);font-weight:400;font-size:11.5px;margin-top:4px;}
-.sidebar nav a{display:block;padding:7px 10px;color:var(--sub);text-decoration:none;font-size:13px;border-radius:6px;margin:2px 0;border-left:3px solid transparent;transition:all .15s;}
+
+/* ── 侧边栏 ── */
+.sidebar{width:260px;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;padding:28px 16px;background:rgba(255,255,255,.97);border-right:1px solid var(--line);z-index:10;backdrop-filter:blur(8px);}
+.sidebar .logo{font-size:15px;font-weight:780;padding:0 10px 18px;border-bottom:1px solid var(--line);margin-bottom:14px;color:var(--text);letter-spacing:-.2px;}
+.sidebar .logo small{display:block;color:var(--sub);font-weight:400;font-size:11.5px;margin-top:5px;letter-spacing:.3px;}
+.sidebar nav a{display:block;padding:7px 12px;color:var(--sub);text-decoration:none;font-size:13px;border-radius:8px;margin:2px 0;border-left:3px solid transparent;transition:all .15s;}
 .sidebar nav a:hover{color:var(--text);background:var(--panel2);}
-.sidebar nav a.active{color:var(--red);background:var(--red-bg);border-left-color:var(--red);}
-.main{margin-left:252px;flex:1;min-width:0;padding:40px 52px 80px;max-width:1120px;}
-.banner{border:1px solid var(--line);border-radius:14px;padding:34px 38px;margin-bottom:36px;background:linear-gradient(135deg,#fff 0%,var(--red-bg) 100%);position:relative;overflow:hidden;}
-.banner::after{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(212,53,59,.08),transparent 70%);}
-.banner h1{font-size:29px;font-weight:780;letter-spacing:.5px;color:var(--text);}
-.banner .en{color:var(--red);font-size:13px;font-weight:600;letter-spacing:2px;margin-top:6px;text-transform:uppercase;}
-.banner .meta{margin-top:16px;color:var(--sub);font-size:12.5px;display:flex;gap:16px;flex-wrap:wrap;}
-.banner .meta b{color:var(--red);}
-.chapter{margin-bottom:56px;}
-.ch-head{border-left:4px solid var(--red);padding-left:16px;margin-bottom:22px;}
-.ch-head .num{color:var(--red);font-size:12px;font-weight:700;letter-spacing:2px;}
-.ch-head h2{font-size:24px;font-weight:780;margin-top:3px;color:var(--text);}
-.ch-head .en{color:var(--sub);font-size:12px;letter-spacing:1.5px;margin-top:3px;text-transform:uppercase;}
-h3{font-size:17px;font-weight:700;margin:24px 0 10px;color:var(--text);}
-h4{font-size:14.5px;font-weight:700;margin:16px 0 8px;color:var(--red);}
-p{margin:9px 0;font-size:14.5px;color:#334155;}
+.sidebar nav a.active{color:var(--red);background:var(--red-bg);border-left-color:var(--red);font-weight:700;}
+
+.main{margin-left:260px;flex:1;min-width:0;padding:0 48px 80px;max-width:1140px;}
+
+/* ── Hero 深色区 ── */
+.hero{background:var(--hero-grad);border-radius:0 0 24px 24px;margin:0 -48px 44px;padding:64px 48px 48px;color:#fff;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(212,53,59,.25),transparent 65%);}
+.hero::before{content:'';position:absolute;left:35%;bottom:-120px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(13,186,143,.12),transparent 65%);}
+.hero h1{font-size:42px;font-weight:800;letter-spacing:-1.2px;line-height:1.25;position:relative;}
+.hero .en{color:var(--red-bright);font-size:13px;font-weight:700;letter-spacing:2.5px;margin-top:12px;text-transform:uppercase;position:relative;}
+.hero .meta-cards{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;position:relative;}
+.hero .mcard{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.16);border-radius:18px;padding:16px 20px;min-width:150px;}
+.hero .mcard .v{font-size:22px;font-weight:800;color:#fff;}
+.hero .mcard .v em{color:var(--red-bright);font-style:normal;font-size:14px;font-weight:750;}
+.hero .mcard .k{font-size:12px;color:rgba(255,255,255,.72);margin-top:4px;}
+
+/* ── 章节标题 ── */
+.chapter{margin-bottom:60px;}
+.ch-head{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.ch-head .badge{width:42px;height:42px;border-radius:11px;background:var(--slate-grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:780;flex-shrink:0;}
+.ch-head h2{font-size:24px;font-weight:780;letter-spacing:-.24px;color:var(--text);}
+.ch-head .en{display:block;font-size:12px;font-weight:600;letter-spacing:1.8px;color:var(--sub2);text-transform:uppercase;margin-top:2px;}
+.ch-lead{color:var(--sub);font-size:13px;font-weight:750;letter-spacing:.5px;margin:6px 0 18px 56px;}
+
+h3{font-size:17.5px;font-weight:780;margin:28px 0 12px;color:var(--text);letter-spacing:-.2px;}
+h4{font-size:15px;font-weight:750;margin:16px 0 8px;color:var(--text);}
+p{margin:10px 0;font-size:15px;color:#334155;}
 strong{color:var(--text);font-weight:700;}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;}
-.card.hl{border-left:4px solid var(--red);}
-.card.info{border-left:4px solid var(--blue);}
-.card.good{border-left:4px solid var(--green);}
-.card.warn{border-left:4px solid var(--gold);}
-.card.purple{border-left:4px solid var(--purple);}
-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;}
-th{background:var(--panel2);color:var(--text);padding:10px 12px;text-align:left;font-weight:700;border-bottom:2px solid var(--line2);}
-td{padding:10px 12px;border-bottom:1px solid var(--line);color:#334155;vertical-align:top;}
-tr:hover td{background:var(--panel2);}
-.tag{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11.5px;font-weight:700;}
-.tag.red{background:var(--red-bg);color:var(--red);}
-.tag.green{background:var(--green-bg);color:var(--green);}
-.tag.blue{background:var(--blue-bg);color:var(--blue);}
-.tag.gold{background:var(--gold-bg);color:var(--gold);}
-.tag.purple{background:var(--purple-bg);color:var(--purple);}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0;}
-.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center;}
-.kpi .v{font-size:26px;font-weight:780;color:var(--red);}
-.kpi .v.green{color:var(--green);}
-.kpi .k{font-size:12px;color:var(--sub);margin-top:3px;}
-.kpi .s{font-size:11px;color:var(--sub2);margin-top:2px;}
-.quote{border-left:3px solid var(--green);background:var(--green-bg);padding:12px 16px;margin:12px 0;border-radius:0 10px 10px 0;font-size:14px;color:#334155;}
-.callout{background:var(--red-bg);border:1px solid rgba(212,53,59,.15);border-radius:10px;padding:14px 18px;margin:14px 0;}
-.callout b{color:var(--red);}
-.arch{margin:16px 0;}
-.arch .layer{border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:5px 0;background:var(--panel);}
-.arch .layer .lname{font-size:11.5px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:5px;}
-.arch .layer .items{display:flex;gap:7px;flex-wrap:wrap;}
-.arch .layer .item{background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:7px 12px;font-size:12.5px;}
-.arch .layer .item b{display:block;font-size:13px;color:var(--text);}
-.arch .arrow{text-align:center;color:var(--sub2);font-size:13px;margin:-2px 0;}
+mark{background:var(--green-mark);color:var(--green-deep);border-radius:6px;padding:1px 7px;font-weight:700;}
 .small{font-size:12px;color:var(--sub);}
-/* DisclosureTriangle */
-.disclosure{border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden;background:var(--panel);}
-.disclosure summary{padding:12px 16px;cursor:pointer;font-weight:700;font-size:14px;color:var(--text);list-style:none;display:flex;align-items:center;gap:8px;user-select:none;}
-.disclosure summary::-webkit-details-marker{display:none;}
-.disclosure summary::before{content:'▸';color:var(--red);font-size:16px;transition:transform .2s;}
-.disclosure[open] summary::before{transform:rotate(90deg);}
-.disclosure summary .src{margin-left:auto;font-size:12px;font-weight:400;color:var(--sub);}
-.disclosure .body{padding:0 16px 14px;border-top:1px solid var(--line);}
-/* Tab */
-.tabs{display:flex;gap:0;margin:12px 0 0;border-bottom:2px solid var(--line);}
-.tab{padding:8px 20px;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--sub);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;}
-.tab.active{color:var(--red);border-bottom-color:var(--red);}
-.tab:hover{color:var(--text);}
-.tab-panel{display:none;padding:14px 0;}
-.tab-panel.active{display:block;}
-/* Case card */
-.case{border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;background:var(--panel);position:relative;}
-.case .medal{position:absolute;top:-12px;left:18px;font-size:20px;}
-.case h4{margin-top:6px;}
+
+/* ── 卡片 ── */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 24px;margin:16px 0;}
+.card.red{border-left:4px solid var(--red);}
+.card.green{border-left:4px solid var(--green);}
+.card.blue{border-left:4px solid var(--blue);}
+.card.gold{border-left:4px solid var(--gold);}
+.card.purple{border-left:4px solid var(--purple);}
+
+/* ── 核心观点框（绿底） ── */
+.keybox{background:var(--green-bg);border:2px solid rgba(13,186,143,.30);border-radius:16px;padding:20px 24px;margin:18px 0;position:relative;}
+.keybox::before{content:'💡';position:absolute;top:-14px;left:20px;background:var(--green);border-radius:10px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 12px rgba(13,186,143,.35);}
+.keybox p{margin:4px 0;color:#134e42;}
+.keybox strong{color:var(--green-deep);}
+
+/* ── 红色提示框 ── */
+.redbox{background:var(--red-bg);border:2px solid var(--red-border);border-radius:16px;padding:18px 22px;margin:16px 0;}
+.redbox b{color:var(--red);}
+
+/* ── 表格 ── */
+table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;font-size:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
+th{background:var(--panel2);color:var(--text);padding:12px 14px;text-align:left;font-weight:700;font-size:12.5px;border-bottom:1px solid var(--line);}
+td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--sub);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--panel2);}
+td b{color:var(--text);}
+
+/* ── 胶囊标签 ── */
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:700;background:var(--red-bg);color:var(--red);margin:2px 3px 2px 0;}
+.chip.green{background:var(--green-bg);color:var(--green-deep);}
+.chip.blue{background:var(--blue-bg);color:var(--blue);}
+.chip.gold{background:var(--gold-bg);color:var(--gold);}
+.chip.purple{background:var(--purple-bg);color:var(--purple);}
+
+/* ── KPI ── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;margin:18px 0;}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px;}
+.kpi .v{font-size:30px;font-weight:800;color:var(--text);letter-spacing:-.5px;}
+.kpi .v em{color:var(--red-bright);font-style:normal;font-size:15px;font-weight:750;}
+.kpi .v.g{color:var(--green-deep);}
+.kpi .k{font-size:12px;color:var(--sub);margin-top:4px;font-weight:600;}
+.kpi .s{font-size:11px;color:var(--sub2);margin-top:2px;}
+
+/* ── 折叠面板（DisclosureTriangle）── */
+details{background:var(--panel);border:2px solid var(--red-border);border-radius:16px;box-shadow:0 8px 26px var(--red-shadow);margin:18px 0 8px;overflow:hidden;}
+details summary{padding:18px 24px;cursor:pointer;font-weight:700;font-size:15px;color:var(--text);list-style:none;display:flex;align-items:center;gap:10px;user-select:none;}
+details summary::-webkit-details-marker{display:none;}
+details summary::before{content:'▸';color:var(--red);font-size:17px;transition:transform .2s;flex-shrink:0;}
+details[open] summary::before{transform:rotate(90deg);}
+details summary .src{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--sub2);flex-shrink:0;}
+details .body{padding:2px 24px 20px;border-top:1px dashed var(--line);}
+
+/* ── 架构图 ── */
+.arch{margin:16px 0;}
+.arch .layer{border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:6px 0;background:var(--panel);}
+.arch .layer .lname{font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:7px;}
+.arch .layer.l3 .lname{color:var(--red);}
+.arch .layer.l2 .lname{color:var(--blue);}
+.arch .layer.l1 .lname{color:var(--green-deep);}
+.arch .layer.l0 .lname{color:var(--sub);}
+.arch .layer .items{display:flex;gap:8px;flex-wrap:wrap;}
+.arch .layer .item{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 13px;font-size:12.5px;color:var(--sub);}
+.arch .layer .item b{display:block;font-size:13px;color:var(--text);font-weight:700;}
+.arch .arrow{text-align:center;color:var(--sub2);font-size:14px;margin:0;}
+
+/* ── 案例卡 ── */
+.case{border:1px solid var(--line);border-radius:16px;padding:22px 26px;margin:16px 0;background:var(--panel);position:relative;box-shadow:0 2px 10px rgba(26,31,46,.04);}
+.case .medal{position:absolute;top:-13px;left:22px;font-size:22px;background:var(--panel);padding:0 6px;}
+.case .result{background:var(--green-bg);border:1px solid rgba(13,186,143,.25);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;color:#134e42;}
+.case .result strong{color:var(--green-deep);}
 .case .meta-line{color:var(--sub);font-size:12.5px;margin:6px 0;}
-.case .result{background:var(--green-bg);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:13.5px;color:#334155;}
-.footer{border-top:1px solid var(--line);margin-top:50px;padding-top:18px;color:var(--sub);font-size:12px;}
-@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;padding:22px;}}
+.case a.btn{display:inline-block;padding:5px 14px;border-radius:999px;font-size:12.5px;font-weight:700;text-decoration:none;margin:4px 6px 0 0;transition:transform .12s;}
+.case a.btn:hover{transform:translateY(-1px);}
+.case a.btn.r{background:var(--red-bg);color:var(--red);}
+.case a.btn.b{background:var(--blue-bg);color:var(--blue);}
+.case a.btn.g{background:var(--green-bg);color:var(--green-deep);}
+.case a.btn.p{background:var(--purple-bg);color:var(--purple);}
+
+/* ── 金句 ── */
+.quote{border-left:4px solid var(--green);background:var(--green-bg);padding:14px 20px;margin:16px 0;border-radius:0 14px 14px 0;font-size:15px;color:#134e42;}
+.quote strong{color:var(--green-deep);}
+
+.footer{border-top:1px solid var(--line);margin-top:56px;padding-top:20px;color:var(--sub);font-size:12px;}
+@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;padding:0 20px 60px;}.hero{margin:0 -20px 36px;padding:44px 24px 36px;border-radius:0 0 20px 20px;}.hero h1{font-size:30px;}}
 </style>
 </head>
 <body>
 <div class="layout">
 
 <aside class="sidebar">
-  <div class="logo">AI 前沿与智能体实践<small>兴趣小组分享 · 10 min</small></div>
+  <div class="logo">AI 前沿与智能体实践<small>兴趣小组分享 · 10 分钟 · 2026-08-12</small></div>
   <nav>
     <a href="#act1">第一幕 · AI 前沿进展</a>
-    <a href="#act1b">├ 模型横评 Benchmark</a>
-    <a href="#act1c">├ Agent 演进与 Token 经济</a>
-    <a href="#act1d">├ 具身智能落地</a>
+    <a href="#act1b">　├ 模型横评 Benchmark</a>
+    <a href="#act1c">　├ Agent 演进与 Token 经济</a>
+    <a href="#act1d">　└ 具身智能落地</a>
     <a href="#act2">第二幕 · 我的模型实测</a>
-    <a href="#act2b">├ 三个最佳案例</a>
-    <a href="#act2c">├ 全量数据审计</a>
+    <a href="#act2b">　├ 三个最佳案例</a>
+    <a href="#act2c">　└ 全量数据审计</a>
     <a href="#act3">第三幕 · AI 协同模式对比</a>
-    <a href="#act3b">├ 三种模式对比</a>
-    <a href="#act3c">├ Kimi Agent Swarm</a>
-    <a href="#act3d">├ 我的 Hermes 模式</a>
+    <a href="#act3c">　├ Kimi Agent Swarm</a>
+    <a href="#act3d">　└ 我的 Hermes 模式</a>
     <a href="#act4">第四幕 · 银行落地畅想</a>
-    <a href="#act4b">├ WorkBuddy 架构</a>
-    <a href="#act4c">├ Harness 性能影响</a>
-    <a href="#act4d">├ 三大挑战与路径</a>
+    <a href="#act4c">　├ Harness 性能影响</a>
+    <a href="#act4d">　└ 挑战与路径</a>
   </nav>
 </aside>
 
 <main class="main">
 
-<div class="banner">
+<div class="hero">
   <h1>AI 前沿与智能体实践调研</h1>
-  <div class="en">FROM FOUNDATION MODELS TO AGENTS · AI 兴趣小组分享</div>
-  <div class="meta">
-    <span>📅 2026-08-12</span>
-    <span>⏱ 10 分钟</span>
-    <span>🔬 数据源：Artificial Analysis · LMArena · 实测审计</span>
-    <span>🏷 主题：<b>模型 → Harness → 协同 → 落地</b></span>
+  <div class="en">FROM FOUNDATION MODELS TO AGENTS</div>
+  <div class="meta-cards">
+    <div class="mcard"><div class="v">4<em> 个月</em></div><div class="k">Hermes 投研 Harness 实战</div></div>
+    <div class="mcard"><div class="v">102</div><div class="k">会话 · 4000+ 次工具调用审计</div></div>
+    <div class="mcard"><div class="v">3<em> 模型</em></div><div class="k">flash / glm-5.2 / k3 路由实测</div></div>
+    <div class="mcard"><div class="v">10<em> min</em></div><div class="k">模型 → Harness → 协同 → 落地</div></div>
   </div>
 </div>
 
 <!-- ═══════════ 第一幕 ═══════════ -->
 <div class="chapter" id="act1">
-  <div class="ch-head"><div class="num">第一幕</div><h2>AI 前沿进展</h2><div class="en">WHAT'S NEW IN MODELS & EMBODIED AI</div></div>
-  <p><strong>近一个月，模型军备竞赛进入平台期</strong>——但竞争焦点正从「谁更强」转向「谁会干活」。</p>
+  <div class="ch-head"><div class="badge">1</div><div><h2>AI 前沿进展<span class="en">What's New in Models & Embodied AI</span></h2></div></div>
+  <div class="ch-lead">模型军备竞赛进入平台期——竞争焦点从「谁更强」转向「谁会干活」</div>
 
   <h3 id="act1b">1.1 Artificial Analysis · Intelligence Index</h3>
-  <p class="small">综合评测指数（越高越好）· 2026-08-12 实时抓取</p>
+  <p class="small">综合评测指数（越高越好）· 2026-08-12 实时抓取 · artificialanalysis.ai</p>
   <table>
-    <tr><th>#</th><th>模型</th><th>指数</th><th>速度 t/s</th><th>每任务成本 $</th><th>定位</th></tr>
-    <tr><td>1</td><td><strong>Claude Opus 5 (max)</strong></td><td class="tag red">63</td><td>53</td><td>$2.34</td><td>最强，最贵</td></tr>
+    <tr><th>#</th><th>模型</th><th>指数</th><th>速度 t/s</th><th>每任务成本</th><th>定位</th></tr>
+    <tr><td>1</td><td><b>Claude Opus 5 (max)</b></td><td><span class="chip">63</span></td><td>53</td><td>$2.34</td><td>最强，最贵</td></tr>
     <tr><td>2</td><td>Claude Fable 5</td><td>62</td><td>63</td><td>$3.14</td><td>全能</td></tr>
-    <tr><td>3</td><td><strong>GPT-5.6 Sol (max)</strong></td><td>61</td><td>63</td><td>$1.23</td><td>OpenAI 旗舰</td></tr>
-    <tr><td>4</td><td><strong style="color:var(--red)">Kimi K3 (max)</strong></td><td class="tag green">60</td><td>41</td><td>$0.84</td><td>开源前沿，成本 1/3</td></tr>
+    <tr><td>3</td><td><b>GPT-5.6 Sol (max)</b></td><td>61</td><td>63</td><td>$1.23</td><td>OpenAI 旗舰</td></tr>
+    <tr><td>4</td><td><b>Kimi K3 (max)</b></td><td><span class="chip green">60</span></td><td>41</td><td>$0.84</td><td>开源前沿，成本 1/3</td></tr>
     <tr><td>5</td><td>Muse Spark 1.2</td><td>57</td><td>—</td><td>$0.40</td><td>Meta</td></tr>
     <tr><td>6</td><td>Grok 4.5 (high)</td><td>56</td><td>57</td><td>$0.36</td><td>xAI</td></tr>
-    <tr><td>7</td><td><strong>GLM-5.2 (max)</strong></td><td>53</td><td class="tag green">128</td><td class="tag green">$0.31</td><td>智谱，速度 + 成本优</td></tr>
-    <tr><td>8</td><td><strong>DeepSeek V4 Flash</strong></td><td>52</td><td>125</td><td class="tag green">$0.03</td><td>极致性价比</td></tr>
-    <tr><td>9</td><td>Gemini 3.6 Flash</td><td>52</td><td class="tag red">230</td><td>$0.56</td><td>最快</td></tr>
+    <tr><td>7</td><td><b>GLM-5.2 (max)</b></td><td>53</td><td><span class="chip green">128</span></td><td><span class="chip green">$0.31</span></td><td>智谱，速度+成本优</td></tr>
+    <tr><td>8</td><td><b>DeepSeek V4 Flash</b></td><td>52</td><td>125</td><td><span class="chip green">$0.03</span></td><td>极致性价比</td></tr>
+    <tr><td>9</td><td>Gemini 3.6 Flash</td><td>52</td><td><span class="chip">230</span></td><td>$0.56</td><td>最快</td></tr>
     <tr><td>10</td><td>MiniMax-M3</td><td>45</td><td>81</td><td>$0.14</td><td>国内新锐</td></tr>
   </table>
-  <div class="callout"><b>三个读数：</b>① 前三差距只有 <strong>2 分</strong>——模型趋同；② <strong>Kimi K3 指数 60 直追闭源旗舰，成本仅 1/3</strong>；③ DS V4 Flash 每任务 $0.03 = Opus 5 的 <strong>1/78</strong>。</div>
+  <div class="keybox">
+    <p><strong>三个读数：</strong>① 前三差距只有 <strong>2 分</strong>——模型趋同；② <strong>Kimi K3 指数 60 直追闭源旗舰，成本仅 1/3</strong>；③ DS V4 Flash 每任务 $0.03 = Opus 5 的 <strong>1/78</strong>。</p>
+  </div>
 
-  <details class="disclosure" open>
-    <summary>必补模型：Qwen3.8-Max（此前体系遗漏） <span class="src">来源：LMArena + HuggingFace</span></summary>
+  <details open>
+    <summary>必补模型：Qwen3.8-Max（此前体系遗漏，特此补上）<span class="src">来源：LMArena + HuggingFace</span></summary>
     <div class="body">
       <table>
         <tr><th>维度</th><th>数据</th><th>说明</th></tr>
-        <tr><td>LMArena Text</td><td class="tag blue">1490（第 9）</td><td>逼近 Claude 第一梯队（1506）</td></tr>
-        <tr><td>LMArena WebDev</td><td class="tag blue">1670（第 3）</td><td>编码能力国内第一梯队</td></tr>
-        <tr><td>LMArena Vision</td><td class="tag blue">1301（第 2）</td><td>多模态直追 Claude Fable 5</td></tr>
-        <tr><td>HF 开源生态</td><td>Qwen3.8 系列（27B / 4B 蒸馏版）</td><td>4B 蒸馏版社区下载 41.3k——小模型受追捧</td></tr>
+        <tr><td>LMArena Text</td><td><span class="chip blue">1490 · 第 9</span></td><td>逼近 Claude 第一梯队（1506）</td></tr>
+        <tr><td>LMArena WebDev</td><td><span class="chip blue">1670 · 第 3</span></td><td>编码能力国内第一梯队</td></tr>
+        <tr><td>LMArena Vision</td><td><span class="chip blue">1301 · 第 2</span></td><td>多模态直追 Claude Fable 5</td></tr>
+        <tr><td>HF 开源生态</td><td>Qwen3.8 系列（27B / 4B 蒸馏版）</td><td>4B 蒸馏版社区下载 41.3k</td></tr>
       </table>
-      <p><strong>为什么值得关注：</strong>阿里 Qwen 系列是「<strong>开源 + 多模态 + 编码</strong>」三项全能的平衡选手。WebDev 第 3 + Vision 第 2 的组合，在国产模型里独一份——银行要自建多模态文档处理，qwen 绕不开。</p>
+      <p><strong>为什么值得关注：</strong>阿里 Qwen 系列是「<mark>开源 + 多模态 + 编码</mark>」三项全能的平衡选手。WebDev 第 3 + Vision 第 2 的组合，国产模型里独一份——银行要自建多模态文档处理，qwen 绕不开。</p>
     </div>
   </details>
 
   <h3 id="act1c">1.2 Agent 演进时间线与 Token 经济</h3>
-  <div class="card info">
+  <div class="card blue">
     <h4>从「会回答」到「会执行」再到「会协作」</h4>
     <table>
       <tr><th>时间</th><th>里程碑</th><th>含义</th></tr>
       <tr><td>2025.01</td><td>DeepSeek R1 发布</td><td>Agent 开始具备更强思考能力</td></tr>
       <tr><td>2025.05</td><td>Claude Code 发布</td><td>Agent 从「会说」走向「会做」</td></tr>
       <tr><td>2025.07</td><td>CodeBuddy IDE 发布</td><td>Agent 成为持续协作的开发伙伴</td></tr>
-      <tr><td>2025.11</td><td>Gemini 3 Pro 发布</td><td>多模态 + 代码融合执行</td></tr>
-      <tr><td>2026.01</td><td>OpenClaw + Claude Cowork</td><td><strong>多 Agent 协同</strong>，共享上下文与任务分工</td></tr>
-      <tr><td>2026.02</td><td>OpenAI 提出 <strong>Harness Engineering</strong></td><td>Context / Tool / Eval 三角支撑可靠落地</td></tr>
+      <tr><td>2026.01</td><td>OpenClaw + Claude Cowork</td><td><b>多 Agent 协同</b>，共享上下文与任务分工</td></tr>
+      <tr><td>2026.02</td><td>OpenAI 提出 <b>Harness Engineering</b></td><td>Context / Tool / Eval 三角支撑可靠落地</td></tr>
     </table>
     <p class="small">来源：腾讯 AI 实践与企业智能化应用 v4.2.3 · p9</p>
   </div>
 
-  <details class="disclosure">
-    <summary>OpenClaw 现象：一款产品改写全球 Token 曲线 <span class="src">来源：腾讯 PPT p7 · OpenRouter</span></summary>
+  <details>
+    <summary>OpenClaw 现象：一款产品改写全球 Token 曲线<span class="src">来源：腾讯 PPT p7 · OpenRouter</span></summary>
     <div class="body">
       <div class="kpis">
-        <div class="kpi"><div class="v">16.9T</div><div class="k">全球周 Token 用量</div><div class="s">60 天翻倍（+141%）</div></div>
-        <div class="kpi"><div class="v">5000万</div><div class="k">首日 Twitter 浏览</div><div class="s">72h 全网刷屏</div></div>
-        <div class="kpi"><div class="v">10-50x</div><div class="k">单任务 Token 倍数</div><div class="s">vs 普通 Chat</div></div>
+        <div class="kpi"><div class="v">16.9<em>T</em></div><div class="k">全球周 Token 用量</div><div class="s">60 天翻倍（+141%）</div></div>
+        <div class="kpi"><div class="v">5000<em>万</em></div><div class="k">首日 Twitter 浏览</div><div class="s">72h 全网刷屏</div></div>
+        <div class="kpi"><div class="v">10-50<em>x</em></div><div class="k">单任务 Token 倍数</div><div class="s">vs 普通 Chat</div></div>
       </div>
-      <p><strong>核心转变：Chat 经济 → Act 经济。</strong>过去 Token 计费主战场是「问答 / 写作」（单次几百 Token）；OpenClaw 让 Token 大头转向「浏览 / 操作 / 反思」循环——一次任务 = Chat 的 10-50 倍 Token。AI 进入「<strong>按动作计费</strong>」新经济。</p>
+      <p><strong>核心转变：Chat 经济 → Act 经济。</strong>过去 Token 计费主战场是「问答/写作」（单次几百 Token）；OpenClaw 让 Token 大头转向「浏览/操作/反思」循环——一次任务 = Chat 的 10-50 倍。AI 进入「<mark>按动作计费</mark>」新经济。</p>
     </div>
   </details>
 
-  <details class="disclosure">
-    <summary>2025→2026 趋势：从「编排平台」到「动态规划」 <span class="src">来源：腾讯 PPT p10</span></summary>
+  <details>
+    <summary>2025→2026 趋势：从「编排平台」到「动态规划」<span class="src">来源：腾讯 PPT p10</span></summary>
     <div class="body">
       <table>
         <tr><th>维度</th><th>2025 · 编排平台时代</th><th>2026 · 动态规划时代</th></tr>
-        <tr><td><strong>关键词</strong></td><td>可视化拖拽、静态流程编排</td><td>自主规划、长链推理、<strong>Harness Engineering</strong></td></tr>
-        <tr><td><strong>谁画流程图</strong></td><td>人来画（DAG 固定节点）</td><td><strong>模型自己画</strong>（运行时拆解/回溯/换路径）</td></tr>
-        <tr><td><strong>工具角色</strong></td><td>插件（按预设顺序调用）</td><td>资源池（按需调用浏览器/文件/API/子 Agent）</td></tr>
-        <tr><td><strong>代表产品</strong></td><td>腾讯 ADP / 字节 HiAgent / 百度 AppBuilder</td><td>ima + WorkBuddy / 扣子空间 / OpenClaw</td></tr>
-        <tr><td><strong>天花板</strong></td><td>跑得动 80% 演示，跑不动 20% 长尾</td><td>Harness Engineering 支撑可靠落地</td></tr>
+        <tr><td><b>关键词</b></td><td>可视化拖拽、静态流程编排</td><td>自主规划、长链推理、<b>Harness Engineering</b></td></tr>
+        <tr><td><b>谁画流程图</b></td><td>人来画（DAG 固定节点）</td><td><b>模型自己画</b>（运行时拆解/回溯/换路径）</td></tr>
+        <tr><td><b>工具角色</b></td><td>插件（按预设顺序调用）</td><td>资源池（按需调用浏览器/文件/API/子 Agent）</td></tr>
+        <tr><td><b>代表产品</b></td><td>腾讯 ADP / 字节 HiAgent / 百度 AppBuilder</td><td>ima + WorkBuddy / 扣子空间 / OpenClaw</td></tr>
+        <tr><td><b>天花板</b></td><td>跑得动 80% 演示，跑不动 20% 长尾</td><td>Harness Engineering 支撑可靠落地</td></tr>
       </table>
     </div>
   </details>
@@ -215,102 +260,92 @@ tr:hover td{background:var(--panel2);}
   <h3 id="act1d">1.3 具身智能落地进展</h3>
   <table>
     <tr><th>事件</th><th>日期</th><th>信号</th></tr>
-    <tr><td><strong>宇树上海 IPO 超购 8000+ 倍</strong></td><td>8/11</td><td>资本热度极端，产业预期高涨</td></tr>
+    <tr><td><b>宇树上海 IPO 超购 8000+ 倍</b></td><td>8/11</td><td>资本热度极端，产业预期高涨</td></tr>
     <tr><td>小米 38B 世界模型开源</td><td>7/16</td><td>为机器人生成训练数据，世界模型路线受追捧</td></tr>
     <tr><td>Needle2: 14MB agentic LLM</td><td>8/10</td><td>手机/可穿戴/机器人端侧运行——边缘部署趋势</td></tr>
     <tr><td>现代汽车工人罢工</td><td>7/17</td><td>对人形机器人的就业担忧真实存在</td></tr>
   </table>
-  <div class="quote"><strong>一句话：</strong>模型趋同之后，AI 的下一步在「身体」——具身智能 + 端侧 Agent，而这两者都依赖 <strong>Harness（工程系统）</strong> 而非单纯模型。</div>
+  <div class="quote"><strong>一句话：</strong>模型趋同之后，AI 的下一步在「身体」——具身智能 + 端侧 Agent，而这两者都依赖 <strong>Harness（工程系统）</strong> 而非单纯模型。这正好引出我的实测。</div>
 </div>
 
 <!-- ═══════════ 第二幕 ═══════════ -->
 <div class="chapter" id="act2">
-  <div class="ch-head"><div class="num">第二幕</div><h2>我的模型实测</h2><div class="en">HANDS-ON: FLASH · GLM · K3 IN HERMES</div></div>
-  <p>我在自建的 Hermes 投研 Harness 上跑了 4 个月、<strong>102 个会话、4000+ 次工具调用</strong>。每个模型挑一个完成最好的案例：</p>
+  <div class="ch-head"><div class="badge">2</div><div><h2>我的模型实测<span class="en">Hands-on: Flash · GLM · K3 in Hermes</span></h2></div></div>
+  <div class="ch-lead">自建 Hermes 投研 Harness · 4 个月 · 102 会话 · 4000+ 工具调用</div>
 
   <h3 id="act2b">2.1 三个最佳案例</h3>
 
   <div class="case">
     <div class="medal">🏆</div>
-    <h4>flash · 全市场舆情监测流水线 <span class="tag green">主对话编排</span></h4>
-    <div class="meta-line">任务：一句指令「开启今日舆情监测」→ 全自动完成 6 只股票监测 | 2026-08-11</div>
+    <h4>flash · 全市场舆情监测流水线 <span class="chip green">主对话编排</span></h4>
+    <div class="meta-line">任务：一句指令「开启今日舆情监测」→ 全自动完成 6 只股票监测 ｜ 2026-08-11</div>
     <div class="result">✅ 采集 iFinD 6 大主题 → 量化 6 股超额收益（vs 上证 +2.9%）→ 派子代理核验 → 生成 2 份 HTML → 推 GitHub Pages + 飞书，<strong>一次对话全流程完成</strong></div>
-    <p>全系<strong style="color:var(--green)">最低失败率 5.9%</strong> · 会话平均 10.4 分钟 · 成本 $0.05。「快 + 稳 + 便宜」三角最优。</p>
-    <p style="margin-top:10px;">
-      <a href="cases/flash_report.html" target="_blank" style="color:var(--red);font-weight:700;font-size:13px;text-decoration:none;">📄 查看成果报告 →</a>
-      &nbsp;&nbsp;
-      <a href="cases/flash_agents.html" target="_blank" style="color:var(--blue);font-weight:700;font-size:13px;text-decoration:none;">🤖 查看 Agent 协同记录 →</a>
-    </p>
+    <p>全系<strong style="color:var(--green-deep)">最低失败率 5.9%</strong> · 会话平均 10.4 分钟 · 成本 $0.05。「快 + 稳 + 便宜」三角最优。</p>
+    <a class="btn r" href="cases/flash_report.html" target="_blank">📄 成果报告 →</a>
+    <a class="btn b" href="cases/flash_agents.html" target="_blank">🤖 Agent 协同记录 →</a>
   </div>
 
   <div class="case">
     <div class="medal">🥈</div>
-    <h4>glm-5.2 · 全球 AI 算力产业链研究 <span class="tag blue">3 路并行子代理</span></h4>
-    <div class="meta-line">任务：研究全球 AI 算力产业链结构、市场规模（3 个并行子代理）| deleg_dbc9e5ce</div>
+    <h4>glm-5.2 · 全球 AI 算力产业链研究 <span class="chip blue">3 路并行子代理</span></h4>
+    <div class="meta-line">任务：研究全球 AI 算力产业链结构、市场规模（3 个并行子代理）｜ deleg_dbc9e5ce</div>
     <div class="result">✅ <strong>3896 秒长任务 3 路并行完成</strong>，工具使用最广（10 种），中途无中断无重试</div>
     <p>失败率 7.5%（第二低）· 每轮 11.3s。LMArena WebDev 1588 印证编码可用。「多面手」定位。</p>
-    <p style="margin-top:10px;">
-      <a href="cases/flash_agents_0806.html" target="_blank" style="color:var(--blue);font-weight:700;font-size:13px;text-decoration:none;">🤖 查看 8/6 Agent 协同记录（含 glm 并行任务） →</a>
-    </p>
+    <a class="btn b" href="cases/flash_agents_0806.html" target="_blank">🤖 8/6 Agent 协同记录 →</a>
   </div>
 
   <div class="case">
     <div class="medal">🥉</div>
-    <h4>k3 · 舆情独立核验 <span class="tag red">发现级推理</span></h4>
-    <div class="meta-line">任务：独立核验联创/三安立案事件真实性 | deleg_34d9dec7，808 秒，15 次调用</div>
+    <h4>k3 · 舆情独立核验 <span class="chip">发现级推理</span></h4>
+    <div class="meta-line">任务：独立核验联创/三安立案事件真实性 ｜ deleg_34d9dec7 · 808 秒 · 15 次调用</div>
     <div class="result">✅ 逐条回溯公告原文 + 独立拉行情复算，<strong>发现主报告遗漏的 4 个关键事实</strong>（预付款暴增 443% / 子公司账户冻结 3.96 亿 / 逾期 5.06 亿 / 2025-10 警示函），独立复算误差 &lt;0.3%</div>
     <p>每轮 <strong style="color:var(--gold)">21.6s 最慢</strong>但产出最深——<strong>「最慢的模型，干出最深的活」</strong>。LMArena WebDev 第 2、Agent 第 5，被严重低估。</p>
-    <p style="margin-top:10px;">
-      <a href="cases/k3_report.html" target="_blank" style="color:var(--red);font-weight:700;font-size:13px;text-decoration:none;">📄 查看个股对比报告 →</a>
-      &nbsp;&nbsp;
-      <a href="cases/k3_agents.html" target="_blank" style="color:var(--blue);font-weight:700;font-size:13px;text-decoration:none;">🤖 查看 Agent 协同记录 →</a>
-      &nbsp;&nbsp;
-      <a href="cases/k3_attribution.html" target="_blank" style="color:var(--purple);font-weight:700;font-size:13px;text-decoration:none;">📊 查看归因分析专章 →</a>
-    </p>
+    <a class="btn r" href="cases/k3_report.html" target="_blank">📄 个股对比报告 →</a>
+    <a class="btn b" href="cases/k3_agents.html" target="_blank">🤖 Agent 协同记录 →</a>
+    <a class="btn p" href="cases/k3_attribution.html" target="_blank">📊 归因分析专章 →</a>
   </div>
 
-  <details class="disclosure">
-    <summary>全量数据审计（102 会话 · 4000+ 工具调用） <span class="src">来源：Hermes state.db 全量消息级 JSON 判定</span></summary>
+  <details id="act2c">
+    <summary>全量数据审计（102 会话 · 4000+ 工具调用）<span class="src">来源：Hermes state.db 消息级 JSON 判定</span></summary>
     <div class="body">
       <table>
         <tr><th>模型</th><th>失败率</th><th>每轮响应</th><th>会话均长</th><th>总成本</th><th>结论</th></tr>
-        <tr><td><strong>flash</strong></td><td class="tag green">5.9%</td><td>12.9s</td><td>10.4min</td><td>$0.05</td><td>主对话主力</td></tr>
-        <tr><td><strong>glm-5.2</strong></td><td class="tag green">7.5%</td><td>11.3s</td><td>75.6min</td><td>$0.03</td><td>代码 / 并行</td></tr>
-        <tr><td><strong>k3</strong></td><td>7.8%</td><td class="tag gold">21.6s</td><td>473min</td><td>$0.01</td><td>金融 / 核验</td></tr>
-        <tr><td>v4-pro（已退役）</td><td class="tag red">11.7%</td><td>9.5s</td><td>61.9min</td><td>$1.47</td><td>被 flash+k3 取代</td></tr>
+        <tr><td><b>flash</b></td><td><span class="chip green">5.9%</span></td><td>12.9s</td><td>10.4min</td><td>$0.05</td><td>主对话主力</td></tr>
+        <tr><td><b>glm-5.2</b></td><td><span class="chip green">7.5%</span></td><td>11.3s</td><td>75.6min</td><td>$0.03</td><td>代码 / 并行</td></tr>
+        <tr><td><b>k3</b></td><td>7.8%</td><td><span class="chip gold">21.6s</span></td><td>473min</td><td>$0.01</td><td>金融 / 核验</td></tr>
+        <tr><td>v4-pro（已退役）</td><td><span class="chip">11.7%</span></td><td>9.5s</td><td>61.9min</td><td>$1.47</td><td>被 flash+k3 取代</td></tr>
       </table>
-      <p><strong>关键洞察：</strong>失败率差异（5.9%~11.7%）大部分来自<strong>工具环境</strong>（sandbox / 网络 / 限频），不是模型智力——真正决定体验的，是把「快而稳」放主对话、「多面手」放代码、「慢而深」放金融核验。</p>
+      <p><strong>关键洞察：</strong>失败率差异（5.9%~11.7%）大部分来自<mark>工具环境</mark>（sandbox / 网络 / 限频），不是模型智力——真正决定体验的，是把「快而稳」放主对话、「多面手」放代码、「慢而深」放金融核验。</p>
     </div>
   </details>
 </div>
 
 <!-- ═══════════ 第三幕 ═══════════ -->
 <div class="chapter" id="act3">
-  <div class="ch-head"><div class="num">第三幕</div><h2>AI 协同模式对比</h2><div class="en">CHATBOT vs SWARM vs HARNESS</div></div>
-  <p>同样是大模型，三种协同模式，体验天差地别：</p>
+  <div class="ch-head"><div class="badge">3</div><div><h2>AI 协同模式对比<span class="en">Chatbot vs Swarm vs Harness</span></h2></div></div>
+  <div class="ch-lead">同样是大模型，三种协同模式，体验天差地别</div>
 
-  <h3 id="act3b">3.1 三种模式对比</h3>
   <table>
     <tr><th>维度</th><th>豆包 / 裸 Chat</th><th>Kimi Agent Swarm</th><th>我的 Hermes Harness</th></tr>
-    <tr><td><strong>本质</strong></td><td>应答系统</td><td>多智能体协作平台</td><td>常驻 AI 员工运行时</td></tr>
-    <tr><td><strong>接任务</strong></td><td>一问一答，被动响应</td><td>Orchestrator 拆解 + 6 路并行</td><td>多模型路由 + 子代理派发</td></tr>
-    <tr><td><strong>执行</strong></td><td>不能接触文件</td><td>子代理只读调研 + Workspace 写文档</td><td>读写文件/终端/API/浏览器全权限</td></tr>
-    <tr><td><strong>记忆</strong></td><td>对话结束即忘</td><td>Workspace 文档沉淀</td><td>MEMORY.md 长期记忆 + skills 沉淀</td></tr>
-    <tr><td><strong>交付</strong></td><td>一段文字</td><td>plan.md 方案文档</td><td>可验收成果：报告/HTML/看板/推送</td></tr>
-    <tr><td><strong>自动化</strong></td><td>无</td><td>手动触发</td><td><strong>cron 定时流水线</strong>（早报/复盘/舆情）</td></tr>
+    <tr><td><b>本质</b></td><td>应答系统</td><td>多智能体协作平台</td><td>常驻 AI 员工运行时</td></tr>
+    <tr><td><b>接任务</b></td><td>一问一答，被动响应</td><td>Orchestrator 拆解 + 6 路并行</td><td>多模型路由 + 子代理派发</td></tr>
+    <tr><td><b>执行</b></td><td>不能接触文件</td><td>子代理只读调研 + Workspace 写文档</td><td>读写文件/终端/API/浏览器全权限</td></tr>
+    <tr><td><b>记忆</b></td><td>对话结束即忘</td><td>Workspace 文档沉淀</td><td>MEMORY.md 长期记忆 + skills 沉淀</td></tr>
+    <tr><td><b>交付</b></td><td>一段文字</td><td>plan.md 方案文档</td><td>可验收成果：报告/HTML/看板/推送</td></tr>
+    <tr><td><b>自动化</b></td><td>无</td><td>手动触发</td><td><b>cron 定时流水线</b>（早报/复盘/舆情）</td></tr>
   </table>
 
-  <details class="disclosure" open>
-    <summary>三代产品形态演进：Chatbot → Workflow → WorkBuddy <span class="src">来源：WorkBuddy 白皮书</span></summary>
+  <details open>
+    <summary>三代产品形态演进：Chatbot → Workflow → WorkBuddy<span class="src">来源：WorkBuddy 白皮书</span></summary>
     <div class="body">
       <table>
         <tr><th>维度</th><th>第一代 · Chatbot</th><th>第二代 · Workflow</th><th>第三代 · WorkBuddy / Hermes</th></tr>
-        <tr><td><strong>工作方式</strong></td><td>一问一答</td><td>按预设固定流程执行</td><td>自然语言交办，<strong>自主规划执行路径</strong></td></tr>
-        <tr><td><strong>复杂指令</strong></td><td>多轮追问逐步引导</td><td>流程外需求无法覆盖</td><td>理解复杂目标，自主拆解连贯执行</td></tr>
-        <tr><td><strong>工具</strong></td><td>基本不调用</td><td>人工编排路径</td><td>Agent 自主调用，路径动态规划</td></tr>
-        <tr><td><strong>本地操作</strong></td><td>不能</td><td>通常云端，难触达本地</td><td>直接读写本地文件，真实环境执行</td></tr>
-        <tr><td><strong>企业资产</strong></td><td>对话结束即消散</td><td>流程可复用但难生长</td><td>沉淀技能/知识/经验，持续复用</td></tr>
-        <tr><td><strong>交付物</strong></td><td>一段文字</td><td>一次流程输出</td><td><strong>可验收的工作成果 + 可复用的组织能力</strong></td></tr>
+        <tr><td><b>工作方式</b></td><td>一问一答</td><td>按预设固定流程执行</td><td>自然语言交办，<b>自主规划执行路径</b></td></tr>
+        <tr><td><b>复杂指令</b></td><td>多轮追问逐步引导</td><td>流程外需求无法覆盖</td><td>理解复杂目标，自主拆解连贯执行</td></tr>
+        <tr><td><b>工具</b></td><td>基本不调用</td><td>人工编排路径</td><td>Agent 自主调用，路径动态规划</td></tr>
+        <tr><td><b>本地操作</b></td><td>不能</td><td>通常云端，难触达本地</td><td>直接读写本地文件，真实环境执行</td></tr>
+        <tr><td><b>企业资产</b></td><td>对话结束即消散</td><td>流程可复用但难生长</td><td>沉淀技能/知识/经验，持续复用</td></tr>
+        <tr><td><b>交付物</b></td><td>一段文字</td><td>一次流程输出</td><td><b>可验收成果 + 可复用组织能力</b></td></tr>
       </table>
       <p class="small">「Chatbot 让问答变快，Workflow 让流程变快，WorkBuddy 让工作本身变快——且每次成功沉淀为技能，成为下一位员工的起点。」</p>
     </div>
@@ -320,9 +355,9 @@ tr:hover td{background:var(--panel2);}
   <div class="card purple">
     <p>在 Kimi Work 里用 K3 集群跑「用 hermes agent 搭建金融投研 OPC」调研：</p>
     <div class="arch">
-      <div class="layer"><div class="lname">🧠 Orchestrator（主控）</div><div class="items"><div class="item"><b>任务拆解</b>6 路并行调研</div><div class="item"><b>结果综合</b>Stage 2 写 plan.md</div></div></div>
+      <div class="layer l3"><div class="lname">🧠 ORCHESTRATOR 主控</div><div class="items"><div class="item"><b>任务拆解</b>6 路并行调研</div><div class="item"><b>结果综合</b>Stage 2 写 plan.md</div></div></div>
       <div class="arrow">▼ 并行派发</div>
-      <div class="layer"><div class="lname">🐝 Swarm 六宫格（6 个 Explore 子代理）</div><div class="items">
+      <div class="layer l2"><div class="lname">🐝 SWARM 六宫格 · 6 个 Explore 子代理</div><div class="items">
         <div class="item"><b>01 戴博序</b>Hermes 本体调研</div>
         <div class="item"><b>02 欧文</b>开源案例盘点</div>
         <div class="item"><b>03 菲耶</b>框架选型</div>
@@ -331,107 +366,106 @@ tr:hover td{background:var(--panel2);}
         <div class="item"><b>06 李华</b>本机环境</div>
       </div></div>
       <div class="arrow">▼ 汇总</div>
-      <div class="layer"><div class="lname">📄 Workspace（文档协作区）</div><div class="items"><div class="item"><b>plan.md</b>实时渲染方案文档</div></div></div>
+      <div class="layer l1"><div class="lname">📄 WORKSPACE 文档协作区</div><div class="items"><div class="item"><b>plan.md</b>实时渲染方案文档</div></div></div>
     </div>
     <p class="small">体验：6 子代理并行只读调研 → 主控综合写文档 → 断点续跑。适合<strong>一次性复杂调研</strong>，但无法主动定时执行。</p>
   </div>
 
   <h3 id="act3d">3.3 我的 Hermes 模式：从「问答」到「流水线」</h3>
-  <div class="card good">
+  <div class="card green">
     <div class="arch">
-      <div class="layer"><div class="lname">🎯 一句话指令（CEO 视角）</div><div class="items"><div class="item">「开启今日舆情监测」</div><div class="item">「复盘今日收盘」</div><div class="item">「解读这篇研报」</div></div></div>
+      <div class="layer l3"><div class="lname">🎯 一句话指令 · CEO 视角</div><div class="items"><div class="item">「开启今日舆情监测」</div><div class="item">「复盘今日收盘」</div><div class="item">「解读这篇研报」</div></div></div>
       <div class="arrow">▼</div>
-      <div class="layer"><div class="lname">🔀 多模型路由（Harness 选插槽）</div><div class="items">
+      <div class="layer l2"><div class="lname">🔀 多模型路由 · HARNESS 选插槽</div><div class="items">
         <div class="item"><b>flash</b>主对话 / 通用</div>
         <div class="item"><b>glm-5.2</b>纯代码</div>
         <div class="item"><b>k3</b>金融 / 核验</div>
       </div></div>
       <div class="arrow">▼</div>
-      <div class="layer"><div class="lname">🧩 能力层（Skills + 子代理）</div><div class="items">
+      <div class="layer l1"><div class="lname">🧩 能力层 · SKILLS + 子代理</div><div class="items">
         <div class="item"><b>22 个 skills</b>采集/量化/核验/报告</div>
         <div class="item"><b>delegate_task</b>子代理独立核验</div>
         <div class="item"><b>cron</b>早报 07:00 / 复盘 15:30</div>
       </div></div>
       <div class="arrow">▼</div>
-      <div class="layer"><div class="lname">📦 交付层</div><div class="items"><div class="item"><b>HTML 报告</b>WorkBuddy 风格</div><div class="item"><b>GitHub Pages</b>外部分享</div><div class="item"><b>飞书推送</b>摘要直达</div></div></div>
+      <div class="layer l0"><div class="lname">📦 交付层</div><div class="items"><div class="item"><b>HTML 报告</b>WorkBuddy 风格</div><div class="item"><b>GitHub Pages</b>外部分享</div><div class="item"><b>飞书推送</b>摘要直达</div></div></div>
     </div>
-    <p><strong>与豆包的本质区别：</strong>豆包是「你问它答」；Hermes 是「<strong>你说目标，它把活干完</strong>」——包括定时主动干活（cron）。与 Kimi Swarm 的区别：Swarm 是一次性调研，Hermes 是<strong>常驻员工 + 可积累技能 + 可定时</strong>。</p>
+    <p><strong>与豆包的本质区别：</strong>豆包是「你问它答」；Hermes 是「<mark>你说目标，它把活干完</mark>」——包括定时主动干活（cron）。与 Kimi Swarm 的区别：Swarm 是一次性调研，Hermes 是<strong>常驻员工 + 可积累技能 + 可定时</strong>。</p>
   </div>
   <div class="quote"><strong>金句：</strong>「模型是插槽，Harness 是主板。同样的 DeepSeek 模型，在豆包里是聊天机器人，在我的 Hermes 里是投研总监——<strong>差别不在模型，在 Harness</strong>。」</div>
 </div>
 
 <!-- ═══════════ 第四幕 ═══════════ -->
 <div class="chapter" id="act4">
-  <div class="ch-head"><div class="num">第四幕</div><h2>银行落地畅想</h2><div class="en">WORKBUDDY & DIGITAL EMPLOYEES IN CMB</div></div>
+  <div class="ch-head"><div class="badge">4</div><div><h2>银行落地畅想<span class="en">WorkBuddy & Digital Employees in CMB</span></h2></div></div>
+  <div class="ch-lead">基础大模型是底座（L0），但不是全部——真正的工作量在上面三层</div>
 
-  <h3 id="act4b">4.1 WorkBuddy 三层工程体系</h3>
-  <p>招行 × 腾讯分享的 WorkBuddy 白皮书 + 腾讯 PPT v4.2.3：<strong>基础大模型是底座（L0），但不是全部</strong>。</p>
+  <h3>4.1 WorkBuddy 三层工程体系</h3>
   <div class="arch">
-    <div class="layer"><div class="lname">L3 · 智能体应用层 · 两类应用接入</div><div class="items">
+    <div class="layer l3"><div class="lname">L3 · 智能体应用层 · 两类应用接入</div><div class="items">
       <div class="item"><b>WorkBuddy 通用智能体</b>超级员工 · 项目协作</div>
       <div class="item"><b>企业自定义 Agent</b>开放 API / SDK</div>
     </div></div>
     <div class="arrow">▼</div>
-    <div class="layer"><div class="lname">L2 · 智能体引擎层 · WorkBuddy 核心工作量所在</div><div class="items">
+    <div class="layer l2"><div class="lname">L2 · 智能体引擎层 · 核心工作量所在</div><div class="items">
       <div class="item"><b>Agent 内核</b>编排 · 记忆 · 行动 · 管控</div>
       <div class="item"><b>Runtime</b>云端独立沙箱 · 隔离运行</div>
       <div class="item"><b>安全治理</b>数据留域 · 全程审计</div>
       <div class="item"><b>弹性扩展</b>资源池化 · 按需付费</div>
     </div></div>
     <div class="arrow">▼</div>
-    <div class="layer"><div class="lname">L0 · 基础设施层 · 大模型是底座，但不是全部</div><div class="items"><div class="item"><b>大模型 & 推理</b></div><div class="item"><b>对象存储</b></div><div class="item"><b>弹性资源</b></div></div></div>
+    <div class="layer l0"><div class="lname">L0 · 基础设施层 · 大模型在这里</div><div class="items"><div class="item"><b>大模型 & 推理</b></div><div class="item"><b>对象存储</b></div><div class="item"><b>弹性资源</b></div></div></div>
   </div>
-  <div class="callout"><b>核心公式：</b>Managed Agents = Agent 内核（<strong>Harness 编排</strong>）+ 云端沙箱运行时（Runtime）——<strong>「模型是电厂，企业要的是能运转的工厂」</strong>。2000 万+ 月活，合并访问量超其他大厂同类之和。</div>
+  <div class="redbox"><b>核心公式：</b>Managed Agents = Agent 内核（<b>Harness 编排</b>）+ 云端沙箱运行时（Runtime）——「<b>模型是电厂，企业要的是能运转的工厂</b>」。2000 万+ 月活，合并访问量超其他大厂同类之和。</div>
 
   <h3 id="act4c">4.2 Harness 对性能的影响（我的实测）</h3>
-  <div class="card warn">
+  <div class="card gold">
     <table>
       <tr><th>Harness 维度</th><th>对性能的影响（实测）</th></tr>
-      <tr><td><strong>上下文管理</strong></td><td>同样的 flash，裸 Chat 只能答问题；Hermes 里自动注入文件/检索/压缩——<strong>兑现率翻倍</strong></td></tr>
-      <tr><td><strong>工具编排</strong></td><td>失败率 5.9%~11.7% 的差异中，<strong>大部分是工具环境问题而非模型问题</strong>——Harness 决定失败率</td></tr>
-      <tr><td><strong>记忆系统</strong></td><td>MEMORY.md 让模型跨会话「认识 Kevin」——不用每次重新交代背景</td></tr>
-      <tr><td><strong>子代理核验</strong></td><td>k3 核验发现主报告遗漏 4 个关键事实——<strong>Harness 的质检机制直接提升产出质量</strong></td></tr>
-      <tr><td><strong>模型路由</strong></td><td>同一任务用对模型：flash $0.05 / k3 $0.01 vs v4-pro $1.47——<strong>Harness 决定成本</strong></td></tr>
+      <tr><td><b>上下文管理</b></td><td>同样的 flash，裸 Chat 只能答问题；Hermes 里自动注入文件/检索/压缩——<b>兑现率翻倍</b></td></tr>
+      <tr><td><b>工具编排</b></td><td>失败率 5.9%~11.7% 的差异中，<b>大部分是工具环境问题而非模型问题</b>——Harness 决定失败率</td></tr>
+      <tr><td><b>记忆系统</b></td><td>MEMORY.md 让模型跨会话「认识 Kevin」——不用每次重新交代背景</td></tr>
+      <tr><td><b>子代理核验</b></td><td>k3 核验发现主报告遗漏 4 个关键事实——<b>Harness 的质检机制直接提升产出质量</b></td></tr>
+      <tr><td><b>模型路由</b></td><td>同一任务用对模型：flash $0.05 / k3 $0.01 vs v4-pro $1.47——<b>Harness 决定成本</b></td></tr>
     </table>
     <p><strong>结论：Harness 决定模型的「兑现率 × 失败率 × 成本」</strong>——这正好是银行评估 AI 投入的三个核心指标。</p>
   </div>
 
   <h3 id="act4d">4.3 银行业三大挑战与落地路径</h3>
-  <details class="disclosure" open>
-    <summary>三大共性挑战 · 知识体系薄弱 / 数据治理滞后 / AI 文化缺失 <span class="src">来源：腾讯 PPT p31</span></summary>
+  <details open>
+    <summary>三大共性挑战 · 知识体系薄弱 / 数据治理滞后 / AI 文化缺失<span class="src">来源：腾讯 PPT p31</span></summary>
     <div class="body">
       <table>
         <tr><th>挑战</th><th>表现</th><th>影响</th></tr>
-        <tr><td class="tag red">AI「学无所依」</td><td>业务经验散落个人头脑和碎片文档；制度与操作脱节；好案例/坏案例无结构化沉淀</td><td>知识断点普遍，新人培养靠「师傅带徒弟」</td></tr>
-        <tr><td class="tag red">AI「数出无源」</td><td>数据分散信贷/核心/OA 多系统形成孤岛；口径不统一；非结构化数据占比超 60%</td><td>「垃圾进垃圾出」，AI 能力无高质量数据支撑</td></tr>
-        <tr><td class="tag red">AI「算力不足」</td><td>数据安全要求下，传统私有化模式「水土不服」</td><td>合规与效率的矛盾</td></tr>
+        <tr><td><span class="chip">AI「学无所依」</span></td><td>业务经验散落个人头脑和碎片文档；制度与操作脱节；好案例/坏案例无结构化沉淀</td><td>知识断点普遍，新人培养靠「师傅带徒弟」</td></tr>
+        <tr><td><span class="chip">AI「数出无源」</span></td><td>数据分散信贷/核心/OA 多系统形成孤岛；口径不统一；非结构化数据占比超 60%</td><td>「垃圾进垃圾出」，AI 能力无高质量数据支撑</td></tr>
+        <tr><td><span class="chip">AI「算力不足」</span></td><td>数据安全要求下，传统私有化模式「水土不服」</td><td>合规与效率的矛盾</td></tr>
       </table>
     </div>
   </details>
 
-  <details class="disclosure">
-    <summary>人机分工四象限：基于知识不对称的协作策略 <span class="src">来源：腾讯 PPT p35</span></summary>
+  <details>
+    <summary>人机分工四象限：基于知识不对称的协作策略<span class="src">来源：腾讯 PPT p35</span></summary>
     <div class="body">
       <table>
         <tr><th>象限</th><th>定义</th><th>协作策略</th><th>典型场景</th></tr>
-        <tr><td class="tag green">开放区</td><td>AI 知道 + 人知道</td><td><strong>极致自动化</strong>，直接下达指令</td><td>样板代码、格式化重构</td></tr>
-        <tr><td class="tag gold">盲区</td><td>AI 不知道 + 人知道</td><td><strong>上下文注入</strong>（spec / Rules / Skills / MCP）</td><td>最常被忽视的象限</td></tr>
-        <tr><td class="tag blue">潜能区</td><td>AI 知道 + 人不知道</td><td><strong>知识杠杆</strong>，用 AI 广博知识补全短板</td><td>陌生技术栈、编译报错</td></tr>
-        <tr><td class="tag purple">未知区</td><td>AI 不知道 + 人不知道</td><td><strong>协同探索</strong>，人提供假设，AI 验证</td><td>创新 / 预研</td></tr>
+        <tr><td><span class="chip green">开放区</span></td><td>AI 知道 + 人知道</td><td><b>极致自动化</b>，直接下达指令</td><td>样板代码、格式化重构</td></tr>
+        <tr><td><span class="chip gold">盲区</span></td><td>AI 不知道 + 人知道</td><td><b>上下文注入</b>（spec / Rules / Skills / MCP）</td><td>最常被忽视的象限</td></tr>
+        <tr><td><span class="chip blue">潜能区</span></td><td>AI 知道 + 人不知道</td><td><b>知识杠杆</b>，用 AI 广博知识补全短板</td><td>陌生技术栈、编译报错</td></tr>
+        <tr><td><span class="chip purple">未知区</span></td><td>AI 不知道 + 人不知道</td><td><b>协同探索</b>，人提供假设，AI 验证</td><td>创新 / 预研</td></tr>
       </table>
       <p class="small">启发式：每次开始任务前问自己——① 是否涉及团队私有知识？② 我自己是否清楚怎么做？两个答案映射到四象限。</p>
     </div>
   </details>
 
-  <details class="disclosure">
-    <summary>矩阵型「人 + 智能体」组织架构 <span class="src">来源：腾讯 PPT p33</span></summary>
+  <details>
+    <summary>矩阵型「人 + 智能体」组织架构<span class="src">来源：腾讯 PPT p33</span></summary>
     <div class="body">
-      <p>传统组织（职能/项目制）→ AI 时代 <strong>矩阵型「人 + 智能体」组织</strong>：</p>
       <table>
         <tr><th>角色</th><th>传统定位</th><th>AI 时代重新定义</th></tr>
-        <tr><td><strong>项目负责人</strong></td><td>任务派发</td><td>转向<strong>智能体编排</strong>——把需求/设计/开发/测试/交付各阶段智能体串成产线</td></tr>
-        <tr><td><strong>技能专家</strong></td><td>亲自动手做</td><td>转向<strong>训练 + 评估</strong>——让本领域智能体的稳定性/准确率/安全性持续提升</td></tr>
-        <tr><td><strong>一线员工</strong></td><td>流程执行者</td><td>转向<strong>决策审核者</strong>——更多时间用于判断、协商、客户共情</td></tr>
+        <tr><td><b>项目负责人</b></td><td>任务派发</td><td>转向<b>智能体编排</b>——把需求/设计/开发/测试/交付各阶段智能体串成产线</td></tr>
+        <tr><td><b>技能专家</b></td><td>亲自动手做</td><td>转向<b>训练 + 评估</b>——让本领域智能体稳定性/准确率/安全性持续提升</td></tr>
+        <tr><td><b>一线员工</b></td><td>流程执行者</td><td>转向<b>决策审核者</b>——更多时间用于判断、协商、客户共情</td></tr>
       </table>
     </div>
   </details>
@@ -439,23 +473,25 @@ tr:hover td{background:var(--panel2);}
   <h3>4.4 数字员工在招行的落地路径</h3>
   <table>
     <tr><th>阶段</th><th>形态</th><th>场景举例</th><th>成本/合规</th></tr>
-    <tr><td class="tag green">近期（1 年）</td><td><strong>内部工具型</strong></td><td>纪要生成、报表自动化、客户画像摘要、KYC 预审</td><td>低风险，先跑起来</td></tr>
-    <tr><td class="tag blue">中期（1-2 年）</td><td><strong>流程型</strong></td><td>贷前尽调辅助、舆情监控、研报解读（我已在跑）</td><td>人工复核兜底</td></tr>
-    <tr><td class="tag gold">远期（2-3 年）</td><td><strong>面客型</strong></td><td>智能投顾助手（信息层，建议层人工）</td><td>合规最严，谨慎推进</td></tr>
+    <tr><td><span class="chip green">近期 · 1 年</span></td><td><b>内部工具型</b></td><td>纪要生成、报表自动化、客户画像摘要、KYC 预审</td><td>低风险，先跑起来</td></tr>
+    <tr><td><span class="chip blue">中期 · 1-2 年</span></td><td><b>流程型</b></td><td>贷前尽调辅助、舆情监控、研报解读（我已在跑）</td><td>人工复核兜底</td></tr>
+    <tr><td><span class="chip gold">远期 · 2-3 年</span></td><td><b>面客型</b></td><td>智能投顾助手（信息层，建议层人工）</td><td>合规最严，谨慎推进</td></tr>
   </table>
-  <div class="quote"><strong>收尾金句：</strong>「模型是潜能，Harness 是产能。上半场比谁的大脑强，下半场比谁的身体好。<strong>银行不缺模型，缺「可控的身体」——权限、审计、沙箱、数据不出域。谁把 Harness 能力建起来，谁就拿到 AI 下半场的门票。</strong>」</div>
+
+  <div class="keybox">
+    <p><strong>收尾金句：</strong>「模型是潜能，Harness 是产能。上半场比谁的大脑强，下半场比谁的身体好。<strong>银行不缺模型，缺「可控的身体」——权限、审计、沙箱、数据不出域。谁把 Harness 能力建起来，谁就拿到 AI 下半场的门票。</strong>」</p>
+  </div>
 </div>
 
 <div class="footer">
-  <p>数据来源：Artificial Analysis（2026-08-12 抓取）· LMArena · HuggingFace · Hermes state.db 全量审计（102 会话 / 4000+ 调用）· Kimi Agent Swarm 实拍截图（glm-4.5v 解析）· WorkBuddy 银行业白皮书 · 腾讯 AI 实践与企业智能化应用 v4.2.3（2026-08-04）</p>
-  <p>设计规范：WorkBuddy 白皮书风格（招商红 #d4353b + 白底 + 绿色辅助 + 折叠面板 + Tab 切换）</p>
+  <p>数据来源：Artificial Analysis（2026-08-12 抓取）· LMArena · HuggingFace · Hermes state.db 全量审计（102 会话 / 4000+ 调用）· Kimi Agent Swarm 实拍截图 · WorkBuddy 银行业白皮书 · 腾讯 AI 实践与企业智能化应用 v4.2.3（2026-08-04）</p>
+  <p>视觉规范：WorkBuddy 白皮书对齐（招商红 #d4353b + 翡翠绿 #0dba8f + 白底 + 折叠面板 + 灰蓝渐变章节徽标）</p>
 </div>
 
 </main>
 </div>
 
 <script>
-// TOC scroll highlight
 const links = document.querySelectorAll('.sidebar nav a');
 const sections = [...document.querySelectorAll('.chapter')];
 window.addEventListener('scroll', () => {
