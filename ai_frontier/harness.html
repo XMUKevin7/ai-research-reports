@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harness 之于模型 · 深度讲解</title>
+<style>
+:root { --bg:#0d0f14; --panel:#151923; --panel2:#1c2130; --line:#2a3145; --text:#e8eaf0; --sub:#8b94a8;
+  --accent:#4a9eff; --accent2:#26c281; --warn:#ffa94d; --danger:#ff5d5d; --purple:#b197fc; --gold:#ffd43b; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.8; }
+/* 布局：左侧固定 TOC + 右侧内容 */
+.layout { display:flex; }
+.sidebar { width:260px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; padding:28px 18px; background:var(--panel); border-right:1px solid var(--line); z-index:10; }
+.sidebar .logo { font-size:15px; font-weight:700; letter-spacing:.5px; padding:0 10px 18px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+.sidebar .logo small { display:block; color:var(--sub); font-weight:400; font-size:11px; margin-top:4px; }
+.sidebar nav a { display:block; padding:7px 10px; color:var(--sub); text-decoration:none; font-size:13px; border-radius:6px; margin:2px 0; border-left:3px solid transparent; transition:all .15s; }
+.sidebar nav a:hover { color:var(--text); background:var(--panel2); }
+.sidebar nav a.active { color:var(--accent); background:rgba(74,158,255,.08); border-left-color:var(--accent); }
+.sidebar nav a.lv2 { padding-left:24px; font-size:12px; }
+.main { margin-left:260px; flex:1; min-width:0; padding:40px 56px 80px; max-width:1080px; }
+/* Banner */
+.banner { border:1px solid var(--line); border-radius:14px; padding:36px 40px; margin-bottom:40px; background:linear-gradient(135deg,#151923 0%,#1a2233 60%,#17202f 100%); position:relative; overflow:hidden; }
+.banner::after { content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(74,158,255,.15), transparent 70%); }
+.banner h1 { font-size:30px; font-weight:800; letter-spacing:.5px; }
+.banner .en { color:var(--accent); font-size:14px; font-weight:600; letter-spacing:2px; margin-top:6px; text-transform:uppercase; }
+.banner .meta { margin-top:18px; color:var(--sub); font-size:13px; display:flex; gap:18px; flex-wrap:wrap; }
+.banner .meta span { display:flex; align-items:center; gap:6px; }
+/* 章节 */
+.chapter { margin-bottom:64px; }
+.ch-head { border-left:4px solid var(--accent); padding-left:18px; margin-bottom:24px; }
+.ch-head .num { color:var(--accent); font-size:13px; font-weight:700; letter-spacing:2px; }
+.ch-head h2 { font-size:26px; font-weight:800; margin-top:4px; }
+.ch-head .en { color:var(--sub); font-size:13px; letter-spacing:1.5px; margin-top:4px; text-transform:uppercase; }
+h3 { font-size:18px; font-weight:700; margin:28px 0 12px; color:#dfe4f0; }
+h4 { font-size:15px; font-weight:600; margin:20px 0 8px; color:var(--accent); }
+p { margin:10px 0; font-size:14.5px; color:#c9d0de; }
+strong { color:var(--text); }
+/* 卡片 */
+.card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin:16px 0; }
+.card.hl { border-left:4px solid var(--gold); }
+.card.info { border-left:4px solid var(--accent); }
+.card.good { border-left:4px solid var(--accent2); }
+.card.warn { border-left:4px solid var(--danger); }
+/* 表格 */
+table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px; }
+th { background:var(--panel2); color:var(--sub); padding:10px 12px; text-align:left; font-weight:600; border-bottom:1px solid var(--line); }
+td { padding:10px 12px; border-bottom:1px solid var(--line); color:#c9d0de; vertical-align:top; }
+tr:hover td { background:rgba(255,255,255,.015); }
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:11.5px; font-weight:600; }
+.tag.blue { background:rgba(74,158,255,.12); color:var(--accent); }
+.tag.green { background:rgba(38,194,129,.12); color:var(--accent2); }
+.tag.gold { background:rgba(255,212,59,.12); color:var(--gold); }
+.tag.red { background:rgba(255,93,93,.12); color:var(--danger); }
+.tag.purple { background:rgba(177,151,252,.12); color:var(--purple); }
+/* KPI */
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin:18px 0; }
+.kpi { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px; }
+.kpi .v { font-size:26px; font-weight:800; color:var(--accent); }
+.kpi .k { font-size:12px; color:var(--sub); margin-top:4px; }
+.kpi .s { font-size:11px; color:var(--sub); margin-top:2px; opacity:.7; }
+/* 架构图 */
+.arch { margin:18px 0; }
+.arch .layer { border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin:6px 0; background:var(--panel); }
+.arch .layer .lname { font-size:12px; font-weight:700; letter-spacing:1px; color:var(--accent); margin-bottom:6px; }
+.arch .layer .items { display:flex; gap:8px; flex-wrap:wrap; }
+.arch .layer .item { background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:8px 14px; font-size:12.5px; }
+.arch .layer .item b { display:block; font-size:13px; }
+.arch .arrow { text-align:center; color:var(--sub); font-size:14px; margin:-2px 0; }
+/* 折叠 */
+details { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 20px; margin:12px 0; }
+details summary { cursor:pointer; color:var(--accent); font-size:13.5px; font-weight:600; }
+details[open] summary { margin-bottom:10px; }
+/* 引用框 */
+.quote { border-left:3px solid var(--accent2); background:rgba(38,194,129,.05); padding:14px 18px; margin:14px 0; border-radius:0 10px 10px 0; font-size:14px; color:#c9d0de; }
+.callout { background:rgba(74,158,255,.06); border:1px solid rgba(74,158,255,.2); border-radius:10px; padding:16px 20px; margin:16px 0; }
+.callout b { color:var(--accent); }
+/* Tab */
+.tabs { margin:14px 0; }
+.tab-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.tab-btns button { background:var(--panel2); border:1px solid var(--line); color:var(--sub); padding:8px 18px; border-radius:8px; cursor:pointer; font-size:13px; transition:all .15s; }
+.tab-btns button.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+.tab-panel { display:none; margin-top:12px; }
+.tab-panel.on { display:block; }
+.small { font-size:12px; color:var(--sub); }
+code { background:var(--panel2); border:1px solid var(--line); padding:2px 7px; border-radius:5px; font-size:12.5px; font-family:'SF Mono',Menlo,monospace; color:#9ecbff; }
+.footer { border-top:1px solid var(--line); margin-top:60px; padding-top:20px; color:var(--sub); font-size:12px; }
+/* 响应式 */
+@media (max-width:900px) { .sidebar { display:none; } .main { margin-left:0; padding:24px; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- 左侧 TOC -->
+<aside class="sidebar">
+  <div class="logo">HARNESS 深度讲解<small>从看模型，到看 Harness</small></div>
+  <nav>
+    <a href="#preface">前言 · AI 下半场</a>
+    <a href="#ch1">第一章 · Harness 是什么</a>
+    <a href="#ch2">第二章 · Harness 之于模型的意义</a>
+    <a href="#ch3">第三章 · Harness 解剖</a>
+    <a href="#ch4">第四章 · 主流 Harness 横评</a>
+    <a href="#ch5">第五章 · 证据：同一模型，不同 Harness</a>
+    <a href="#ch6">第六章 · 对 Kevin 的现实意义</a>
+    <a href="#end">结语 · 从模型到系统</a>
+  </nav>
+</aside>
+
+<!-- 右侧内容 -->
+<main class="main">
+
+<!-- Banner -->
+<div class="banner">
+  <h1>Harness 之于模型</h1>
+  <div class="en">FROM MODELS TO SYSTEMS — WHY THE HARNESS MATTERS MORE</div>
+  <div class="meta">
+    <span>📅 2026-08-12</span>
+    <span>👤 Kevin 投研搭档</span>
+    <span>🔗 参考设计：WorkBuddy 白皮书</span>
+    <span>🏷️ 模型 · Harness · Agent</span>
+  </div>
+</div>
+
+<!-- 前言 -->
+<div class="chapter" id="preface">
+  <div class="ch-head">
+    <div class="num">序</div>
+    <h2>前言 · AI 下半场</h2>
+    <div class="en">FROM FOUNDATION MODELS TO AGENTS</div>
+  </div>
+  <p><strong>过去三年的主线是模型的军备竞赛</strong>——更大的参数、更强的榜单分数。但当模型能力越过「可用」门槛之后，竞争焦点正在转移：<strong>谁能让 AI 真正进入工作流程、交付可验收的结果</strong>。</p>
+  <p>一个被忽视的事实：<strong>模型本身不干活，干活的是「模型 + 它周围的一切」</strong>。那个「周围的一切」——工具调用、上下文管理、记忆、编排、权限、沙箱、观测——业界统称为 <strong>Harness（缰绳 / 工作台）</strong>。</p>
+  <div class="quote">「你听到的所有 'AI 生产力神话'——Claude Code 半小时重构一个项目、Agent 自主跑完一单研究——<strong>都是 Harness 的功劳，模型只是其中被调度的执行单元</strong>。」</div>
+  <div class="callout"><b>核心主张：</b>模型决定「潜力上限」，Harness 决定「交付下限」。同一个人，配不同工具，产出完全不同——Agent 同理。</div>
+</div>
+
+<!-- 第一章 -->
+<div class="chapter" id="ch1">
+  <div class="ch-head">
+    <div class="num">1</div>
+    <h2>Harness 是什么</h2>
+    <div class="en">NOT A WRAPPER, BUT THE OTHER HALF OF THE BRAIN</div>
+  </div>
+  <h3>1.1 定义：模型 = 大脑，Harness = 神经系统 + 身体</h3>
+  <p>把模型比作一个<strong>极其聪明但「瘫痪」的天才</strong>：它什么都知道，但没有手、没有眼、没有记忆、不能行动。Harness 就是给它装上的——</p>
+  <table>
+    <tr><th>能力</th><th>裸模型（Chat 界面）</th><th>模型 + Harness（Agent）</th></tr>
+    <tr><td><strong>行动</strong></td><td>只能输出文字</td><td>调用工具：读写文件、执行命令、调 API、操作浏览器</td></tr>
+    <tr><td><strong>记忆</strong></td><td>对话结束即遗忘</td><td>持久记忆：偏好、历史、项目上下文跨会话保留</td></tr>
+    <tr><td><strong>感知</strong></td><td>只能读你贴进来的文本</td><td>读取文件、网页、数据库、多模态输入</td></tr>
+    <tr><td><strong>规划</strong></td><td>一次性回答</td><td>拆解任务、多步执行、失败重试、反思修正</td></tr>
+    <tr><td><strong>边界</strong></td><td>无权限概念</td><td>权限控制、审批流、沙箱隔离、审计日志</td></tr>
+  </table>
+  <h3>1.2 澄清三个常见误解</h3>
+  <div class="card hl">
+    <p><strong>误解一：「Harness 只是包装，模型强就行」</strong> —— 错。同一个模型跑在不同 Harness 里，效果差异可以是「不可用」到「惊艳」（见第五章证据）。</p>
+    <p><strong>误解二：「Harness = Agent 框架」</strong> —— 不准确。框架（LangChain 等）是开发库；Harness 是<strong>运行环境 + 工具链 + 治理</strong>的完整系统。Claude Code、Codex、ZCode、DeepSeek Harness、OpenClaw、Hermes 都是 Harness。</p>
+    <p><strong>误解三：「Harness 是工程问题，不是研究问题」</strong> —— 部分错。上下文工程、记忆架构、工具调用协议至今没有最优解，是当前最活跃的研究前沿。</p>
+  </div>
+</div>
+
+<!-- 第二章 -->
+<div class="chapter" id="ch2">
+  <div class="ch-head">
+    <div class="num">2</div>
+    <h2>Harness 之于模型的意义</h2>
+    <div class="en">WHY THE HARNESS MATTERS MORE THAN THE MODEL</div>
+  </div>
+  <h3>2.1 意义一：模型趋同，Harness 是唯一差异化</h3>
+  <p>2026 年的事实：<strong>开源与闭源模型差距已收窄到个位数百分比</strong>（Kimi K3 / GLM 5.2 / qwen3.8 均逼近 Claude 第一梯队）。当大家用几乎同级的模型时——</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v">TOP10</div><div class="k">LMArena Text 榜分差</div><div class="s">claude-fable-5 (1506) vs 第10名 (1489)，仅 1.1%</div></div>
+    <div class="kpi"><div class="v">±200</div><div class="k">WebDev 榜分差</div><div class="s">opus-5-max (1692) vs ds-v4-flash (1585)，同为可用编码模型</div></div>
+    <div class="kpi"><div class="v">10×</div><div class="k">同一模型的产出差异</div><div class="s">不同 Harness 下「不可用 → 惊艳」的体验差距</div></div>
+  </div>
+  <h3>2.2 意义二：Harness 决定「模型能力的兑现率」</h3>
+  <p>模型的真实能力 = 理论能力 × <strong>兑现率</strong>。兑现率由 Harness 决定：</p>
+  <table>
+    <tr><th>Harness 维度</th><th>兑现率低（裸 Chat）</th><th>兑现率高（成熟 Harness）</th></tr>
+    <tr><td>上下文利用</td><td>手动贴，丢三落四</td><td>自动注入相关文件、检索增强、压缩历史</td></tr>
+    <tr><td>工具利用</td><td>无工具</td><td>结构化工具协议（MCP / function calling），一次规划多次调用</td></tr>
+    <tr><td>纠错机制</td><td>错了就重问</td><td>自动读错误信息、改代码、重跑、验证闭环</td></tr>
+    <tr><td>长任务</td><td>上下文爆掉</td><td>子任务委派、checkpoint、断点续跑</td></tr>
+  </table>
+  <div class="quote"><strong>举例：</strong>同样的 deepseek-v4-flash，在裸 Chat 里只能回答问题；在 Kevin 的 Hermes Harness 里——读研报、算 AR/CAR、调 iFinD、派子代理核验、生成 HTML、推 GitHub Pages，<strong>一次对话完成一整套投研流水线</strong>。模型没变，Harness 变了。</div>
+  <h3>2.3 意义三：Harness 是「信任」的载体</h3>
+  <p>企业（尤其银行）不信任「裸模型」，但可以信任「带护栏的 Harness」：权限审批、审计日志、沙箱隔离、数据不出域。WorkBuddy 白皮书的三层架构正是此逻辑——<strong>模型在最底层（L0），真正的工程工作量在 L1-L3 的 Harness 体系</strong>。</p>
+  <div class="arch">
+    <div class="layer"><div class="lname">L3 · 智能体应用层</div><div class="items"><div class="item"><b>WorkBuddy</b>通用智能体</div><div class="item"><b>企业自定义</b>Agent 接入</div><div class="item"><b>Skills 市场</b>工作流沉淀</div></div></div>
+    <div class="arrow">▼</div>
+    <div class="layer"><div class="lname">L2 · 智能体引擎层（Harness 核心）</div><div class="items"><div class="item"><b>编排</b>多 Agent / SubAgent</div><div class="item"><b>上下文工程</b>压缩 / 检索</div><div class="item"><b>记忆</b>Memory 系统</div><div class="item"><b>行动</b>Action / Hooks</div><div class="item"><b>沙箱</b>隔离 Runtime</div><div class="item"><b>观测</b>Trace / 审计</div></div></div>
+    <div class="arrow">▼</div>
+    <div class="layer"><div class="lname">L0 · 基础设施层（模型在这里，但不是全部）</div><div class="items"><div class="item"><b>大模型 & 推理</b>Kimi / GLM / DS / Claude</div><div class="item"><b>存储</b>对象存储</div><div class="item"><b>资源</b>弹性管理</div></div></div>
+  </div>
+</div>
+
+<!-- 第三章 -->
+<div class="chapter" id="ch3">
+  <div class="ch-head">
+    <div class="num">3</div>
+    <h2>Harness 解剖</h2>
+    <div class="en">THE SEVEN ORGANS OF A HARNESS</div>
+  </div>
+  <h3>3.1 七大组成模块</h3>
+  <table>
+    <tr><th>模块</th><th>作用</th><th>代表实现</th></tr>
+    <tr><td><strong>① 编排 Orchestration</strong></td><td>任务拆解、步骤规划、多 Agent 协作</td><td>OpenClaw 多 Agent、Hermes delegate_task、WorkBuddy SubAgent Teams</td></tr>
+    <tr><td><strong>② 上下文工程</strong></td><td>把「对的上下文」放进「对的位置」：压缩、检索、注入</td><td>Claude Code 文件索引、MCP 检索、上下文窗口管理</td></tr>
+    <tr><td><strong>③ 记忆系统</strong></td><td>跨会话持久化：用户画像、长期事实、工作区状态</td><td>Hermes MEMORY.md / USER.md、OpenClaw 4 层文件记忆、Remembrane</td></tr>
+    <tr><td><strong>④ 行动系统</strong></td><td>工具调用协议与执行：文件 / 终端 / API / 浏览器</td><td>MCP、function calling、Codex harness、Hermes terminal tool</td></tr>
+    <tr><td><strong>⑤ 运行时 Runtime</strong></td><td>沙箱隔离、会话管理、checkpoint、弹性</td><td>WorkBuddy 云端沙箱、Codex 容器、Claude Code 本地进程</td></tr>
+    <tr><td><strong>⑥ 安全与治理</strong></td><td>权限、审批、审计、数据边界</td><td>WorkBuddy Admin、Hermes 密钥管理、银行合规要求</td></tr>
+    <tr><td><strong>⑦ 观测 Observability</strong></td><td>Trace、日志、成本、效果评测</td><td>Hermes live_transcripts、dashboard_watcher、token 看板</td></tr>
+  </table>
+  <h3>3.2 一个 Harness 的灵魂：SOUL / 人格层</h3>
+  <p>在 OpenClaw / Hermes 系里，Harness 还有一个独特模块——<strong>SOUL.md / 人格定义</strong>：它决定了模型「以谁的身份、按什么原则、用什么语气」工作。</p>
+  <div class="card info">
+    <p><strong>Kevin 的实证：</strong>我的 SOUL.md 定义了「研究纪律：标明 as_of、区分事实与推断、数字可追溯、给出反证条件」——<strong>同一个 deepseek-v4-flash，没有这份 SOUL 就是个聊天机器人，有它就是投研总监</strong>。人格层把「模型的能力」定向成「组织要的行为」。</p>
+  </div>
+</div>
+
+<!-- 第四章 -->
+<div class="chapter" id="ch4">
+  <div class="ch-head">
+    <div class="num">4</div>
+    <h2>主流 Harness 横评</h2>
+    <div class="en">ZCODE · DEEPSEEK HARNESS · CLAUDE CODE · CODEX · OPENCLAW · HERMES</div>
+  </div>
+  <h3>4.1 六大 Harness 速览</h3>
+  <table>
+    <tr><th>Harness</th><th>定位</th><th>核心特点</th><th>适用</th></tr>
+    <tr><td><strong>ZCode（智谱）</strong></td><td class="tag blue">编码 Agent</td><td>GLM-5.2 专属；CLI + IDE 插件；中文友好；WebDev LMArena 1588</td><td>GLM 系模型的编码工作流</td></tr>
+    <tr><td><strong>DeepSeek Harness</strong></td><td class="tag blue">编码 Agent</td><td>DeepSeek V4 系列；「反转 agent 产品经济学」——极低成本跑 agent（HN 6/25）</td><td>成本敏感的大规模 agent</td></tr>
+    <tr><td><strong>Claude Code</strong></td><td class="tag blue">编码 Agent</td><td>Anthropic 官方；终端交互；最强 WebDev 生态（opus-5-max 1692）</td><td>最强编码，但闭源锁 Anthropic</td></tr>
+    <tr><td><strong>OpenAI Codex</strong></td><td class="tag blue">编码 Agent</td><td>GPT-5.6 驱动；App Server 架构开放（2/5 文章）；云沙箱</td><td>OpenAI 生态</td></tr>
+    <tr><td><strong>OpenClaw（龙虾）</strong></td><td class="tag purple">个人 Agent 网关</td><td>10 万+ star；SOUL.md 人格定义；20+ 聊天渠道；4 层文件记忆；多 Agent 编排 v4 规划中</td><td>个人 / 小团队全能助手</td></tr>
+    <tr><td><strong>Hermes（Nous）</strong></td><td class="tag purple">研究 Agent 平台</td><td>Kevin 在用；skills + delegation + cron + 多模型路由 + memory；投研专用</td><td>投研 / 知识工作流水线</td></tr>
+  </table>
+  <h3>4.2 Harness × 模型的组合矩阵</h3>
+  <p><strong>关键洞察：Harness 与模型是「可插拔」的。</strong> 好 Harness 可以换模型，好模型可以换 Harness——这正在催生「模型路由」经济学：</p>
+  <table>
+    <tr><th>任务类型</th><th>推荐模型</th><th>推荐 Harness</th><th>理由</th></tr>
+    <tr><td>复杂多模态 + 金融推理</td><td>Kimi K3</td><td>Hermes</td><td>K3 WebDev 第 2 + Agent 第 5，性价比之王</td></tr>
+    <tr><td>纯代码</td><td>GLM-5.2</td><td>ZCode / Claude Code 模式</td><td>GLM 成本低，编码质量逼近 Claude</td></tr>
+    <tr><td>通用 / 长任务编排</td><td>DeepSeek V4 Flash</td><td>Hermes / OpenClaw</td><td>成本极低，Harness 补足规划与记忆</td></tr>
+    <tr><td>最强单次编码</td><td>Claude Opus 5</td><td>Claude Code</td><td>WebDev 1692 断层第一（但贵）</td></tr>
+  </table>
+  <div class="callout"><b>Kevin 的架构印证：</b>delegation-router.sh 把任务按类型路由到 k3 / glm-5.2 / ds-v4-flash ——<strong>这正是「Harness 固定、模型可变」的工程实践</strong>。模型是插槽，Harness 是主板。</div>
+</div>
+
+<!-- 第五章 -->
+<div class="chapter" id="ch5">
+  <div class="ch-head">
+    <div class="num">5</div>
+    <h2>证据：同一模型，不同 Harness</h2>
+    <div class="en">THE BENZI CASE & THE ARENA DISCREPANCY</div>
+  </div>
+  <h3>5.1 直接证据：Benzi——「在 Sonnet 上打败 Claude Code 的 Harness」</h3>
+  <div class="card hl">
+    <p>HN 2026-08-08：<strong>「Try Benzi – A coding harness/agent beating Claude Code itself on Sonnet」</strong></p>
+    <p>同一个 <strong>Claude Sonnet 模型</strong>，跑在 Benzi Harness 里，<strong>在基准上打败了 Claude Code</strong>（Anthropic 自家 Harness）。</p>
+    <p class="small">→ 模型完全相同，胜负手 100% 来自 Harness 的上下文策略、工具调用方式、验证循环。</p>
+  </div>
+  <h3>5.2 间接证据：LMArena 榜的「同模型不同榜」差异</h3>
+  <p>同一模型在不同评测 Harness 下的排名剧烈变化：</p>
+  <table>
+    <tr><th>模型</th><th>Text 榜</th><th>WebDev 榜</th><th>Agent 榜</th><th>说明</th></tr>
+    <tr><td>claude-fable-5</td><td class="tag gold">第 1（1506）</td><td>第 5（1628）</td><td>第 1（+12.0%）</td><td>全能王</td></tr>
+    <tr><td>kimi-k3-max</td><td>未入前十</td><td class="tag green">第 2（1674）</td><td class="tag green">第 5（+10.4%）</td><td><strong>裸对话一般，编码 Harness 下爆发</strong></td></tr>
+    <tr><td>qwen3.8-max</td><td>第 9（1490）</td><td>第 3（1670）</td><td>—</td><td>同样「编码强于对话」</td></tr>
+    <tr><td>deepseek-v4-flash</td><td>未入前十</td><td>第 8（1585）</td><td>—</td><td>成本 1/10，WebDev 差 <7%</td></tr>
+  </table>
+  <div class="quote"><strong>解读：</strong>Text 榜测的是「裸模型对话」，WebDev/Agent 榜测的是「模型 + 评测 Harness 的协同」。Kimi K3 从「前十不入」到「WebDev 第 2」——<strong>差距全在 Harness 协同质量</strong>。这也解释了为什么「Chat 里的一般模型」到了 agent 工作流里可能吊打「Chat 里的王者」。</div>
+  <h3>5.3 反面证据：Harness 翻车案例</h3>
+  <div class="card warn">
+    <p><strong>「Accidental data loss in Claude Code and OpenAI Codex: when AI deletes user files」</strong>（HN 7/23）</p>
+    <p>同样的模型能力，Harness 的<strong>权限设计缺陷</strong>（无确认的 rm、覆盖写）导致用户数据丢失。<strong>Harness 不只是放大器，也是风险面</strong>——这也是银行要求「先审后做、沙箱隔离」的根本原因。</p>
+  </div>
+</div>
+
+<!-- 第六章 -->
+<div class="chapter" id="ch6">
+  <div class="ch-head">
+    <div class="num">6</div>
+    <h2>对 Kevin 的现实意义</h2>
+    <div class="en">WHAT THIS MEANS FOR YOUR INVESTMENT RESEARCH STACK</div>
+  </div>
+  <h3>6.1 你的 Harness 已经是差异化资产</h3>
+  <p>Kevin 的 Hermes 栈 = 22 个 OPC skills + delegation 路由 + 6 阶段 cron 流水线 + 多模态核验 + GitHub Pages 交付——<strong>这是「投研版 WorkBuddy」</strong>。这套 Harness 的价值 = 模型能力 × 投研方法论封装。</p>
+  <h3>6.2 三条可执行结论</h3>
+  <div class="card good">
+    <p><strong>① 模型选型可以更激进地「以 Harness 为中心」：</strong>K3 / GLM / DS 三模型路由已被 LMArena 验证合理——不需要等「最强的模型」，需要「在你的 Harness 里兑现率最高的模型」。</p>
+    <p><strong>② 你的竞争力从「会调模型」变成「会造 Harness」：</strong>面试财富管理岗时，讲「我给自己的投研工作流造了一套 Harness：采集→核验→量化→交付」比讲「我会用 ChatGPT」有说服力一个数量级。</p>
+    <p><strong>③ 银行 ToB 的 AI 落地点 = Harness 治理：</strong>银行不缺模型，缺「可控的 Harness」——权限、审计、沙箱、数据不出域。你懂投研 + 懂 Harness 架构 = 稀缺复合人才。</p>
+  </div>
+  <h3>6.3 一句话总结</h3>
+  <div class="callout"><b>模型是「潜能」，Harness 是「产能」。</b> 上半场比谁的大脑强，下半场比谁的身体好。你已经在下半场的赛道上，而且跑的是自己组装的车。</div>
+</div>
+
+<!-- 结语 -->
+<div class="chapter" id="end">
+  <div class="ch-head">
+    <div class="num">结</div>
+    <h2>结语 · 从模型到系统</h2>
+    <div class="en">FROM MODELS TO SYSTEMS</div>
+  </div>
+  <p>WorkBuddy 白皮书把 2026 年定义为「AI 下半场」：<strong>能力比拼从基础模型转向 Agent 应用</strong>。本文把这个判断再推进一步：</p>
+  <p style="font-size:17px; font-weight:700; color:var(--gold);">Agent 的比拼，本质是 Harness 的比拼。</p>
+  <p>ZCode、DeepSeek Harness、Claude Code、Codex、OpenClaw、Hermes——名字不同，内核相同：<strong>都在回答「如何让一个聪明但瘫痪的大脑，变成能交付结果的员工」</strong>。</p>
+  <p>对 Kevin：你已经用 Hermes 跑通了「投研 Harness」的完整范式。下一个问题是——<strong>如何把它产品化、可复制、可讲述</strong>。那才是从「超级个体」到「超级团队」的桥。</p>
+</div>
+
+<div class="footer">
+  <p>数据来源：LMArena 实时榜（2026-08-12）、HackerNews Algolia（2026-02 ~ 08）、WorkBuddy 银行业白皮书（腾讯 CodeBuddy 团队）· 设计参考：http://139.199.159.190/cmb/#team</p>
+  <p>本文档遵循 Hermes 投研纪律：事实与推断分离，数字可追溯，观点有反证条件。归档：~/research_notes/ai_frontier/harness_deep_dive_20260812.html</p>
+</div>
+
+</main>
+</div>
+
+<script>
+// 侧边栏滚动高亮
+const links = document.querySelectorAll('.sidebar nav a');
+const sections = [...document.querySelectorAll('.chapter')];
+window.addEventListener('scroll', () => {
+  let cur = sections[0];
+  for (const s of sections) { if (window.scrollY >= s.offsetTop - 120) cur = s; }
+  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur.id));
+});
+</script>
+</body>
+</html>
