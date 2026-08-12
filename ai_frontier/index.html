@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI & LLM & 具身智能 · 近月进展 + 模型横评（2026-08-12）</title>
+<style>
+:root { --bg:#0f1117; --panel:#1a1d24; --panel2:#242833; --text:#e8eaf0; --sub:#9aa3b5;
+  --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; padding:28px; }
+.wrap { max-width:1080px; margin:0 auto; }
+h1 { font-size:26px; margin-bottom:4px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:22px; }
+h2 { font-size:19px; margin:30px 0 12px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:15px; margin:14px 0 8px; color:#c9d2e3; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:14px; }
+.card.hl { border-left:4px solid var(--yellow); }
+.card.info { border-left:4px solid var(--blue); }
+.card.good { border-left:4px solid var(--green); }
+table { width:100%; border-collapse:collapse; font-size:13px; margin:8px 0; }
+th { background:var(--panel2); color:var(--sub); padding:8px 10px; text-align:left; }
+td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; margin-right:4px; }
+.tag.red { background:rgba(255,93,93,.15); color:var(--red); }
+.tag.green { background:rgba(38,194,129,.15); color:var(--green); }
+.tag.yellow { background:rgba(255,212,59,.15); color:var(--yellow); }
+.tag.blue { background:rgba(74,158,255,.15); color:var(--blue); }
+.tag.purple { background:rgba(177,151,252,.15); color:var(--purple); }
+.pos { color:var(--green); } .neg { color:var(--red); } .hlk { color:var(--yellow); font-weight:700; }
+ul, ol { padding-left:20px; }
+li { margin:4px 0; }
+.kpi { display:flex; gap:12px; flex-wrap:wrap; margin:10px 0; }
+.kpi div { background:var(--panel2); border-radius:8px; padding:10px 14px; min-width:130px; flex:1; }
+.kpi .k { font-size:11px; color:var(--sub); }
+.kpi .v { font-size:17px; font-weight:700; margin-top:2px; }
+.small { font-size:12px; color:var(--sub); }
+.rank1 { color:var(--yellow); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>AI & LLM & 具身智能 · 近月进展与模型横评</h1>
+<div class="sub">as_of: 2026-08-12 | 覆盖: 2026-07-09 ~ 08-11 | 来源: LMArena 实时榜（当日抓取）+ HackerNews API + arXiv | 归档: ~/ai_frontier_kb/daily/2026-08-12.md</div>
+
+<h2>一、近月模型发布全景（7 大事件）</h2>
+<div class="card">
+<table>
+<tr><th>模型</th><th>发布日期</th><th>HN 热度</th><th>关键信息</th><th>评级</th></tr>
+<tr><td><b>Claude Opus 5</b></td><td>7/24</td><td>1778</td><td>Anthropic 新旗舰；LMArena Text 1505 / WebDev 1692 双榜第一梯队；7/27 有稳定性问题 + 3 词越狱讨论</td><td class="tag red">🔴 高</td></tr>
+<tr><td><b>GPT-5.6 / 5.6 Sol</b></td><td>6/26-7/9</td><td>1561</td><td>OpenAI 旗舰；<b>美国政府管控使用</b>（6/26 讨论）——前沿模型治理信号</td><td class="tag red">🔴 高</td></tr>
+<tr><td><b>Kimi K3</b></td><td>7/16</td><td>2107</td><td><b>开源前沿模型</b>；7/27 HF 权重发布；"K3 vs Fable SoTA" 讨论 877 分</td><td class="tag red">🔴 高</td></tr>
+<tr><td><b>Gemini 3.6 Flash</b></td><td>7/21</td><td>760</td><td>Google 新 Flash 系列（3.5 Flash-Lite/Cyber 同步）</td><td class="tag yellow">🟡 中</td></tr>
+<tr><td><b>GLM 5.2</b></td><td>6/28</td><td>1113</td><td><b>"GLM 5.2 beats Claude"</b>；"AI 成本崩塌"讨论 694 分</td><td class="tag red">🔴 高</td></tr>
+<tr><td><b>DeepSeek V4 Flash 0731</b></td><td>7/31</td><td>792</td><td>性能/价格分析 594 分——<b>Kevin 主对话在用</b></td><td class="tag red">🔴 高</td></tr>
+<tr><td><b>qwen3.8-max</b></td><td>近月</td><td>—</td><td>LMArena Text 1490 / Vision 1301 双榜前五</td><td class="tag yellow">🟡 中</td></tr>
+</table>
+</div>
+
+<h2>二、模型横评（LMArena 实时榜 2026-08-12）</h2>
+
+<h3>Text 榜 Top 10</h3>
+<div class="card info">
+<table>
+<tr><th>#</th><th>模型</th><th>分数</th><th>厂商</th></tr>
+<tr><td>1</td><td class="rank1">claude-fable-5</td><td>1506 ±5</td><td>Anthropic</td></tr>
+<tr><td>2</td><td>claude-opus-4-6-thinking</td><td>1505 ±4</td><td>Anthropic</td></tr>
+<tr><td>3</td><td>claude-opus-4-7-thinking</td><td>1502 ±4</td><td>Anthropic</td></tr>
+<tr><td>4</td><td>muse-spark-1.2 (xHigh)</td><td>1498 ±10</td><td>Meta</td></tr>
+<tr><td>5</td><td>claude-opus-4-6</td><td>1497 ±3</td><td>Anthropic</td></tr>
+<tr><td>6</td><td>claude-opus-4-7</td><td>1494 ±4</td><td>Anthropic</td></tr>
+<tr><td>7</td><td>claude-opus-5-high</td><td>1494 ±5</td><td>Anthropic</td></tr>
+<tr><td>8</td><td>claude-opus-5-max</td><td>1491 ±7</td><td>Anthropic</td></tr>
+<tr><td>9</td><td class="hlk">qwen3.8-max</td><td>1490 ±8</td><td>阿里</td></tr>
+<tr><td>10</td><td>muse-spark-1.1</td><td>1489 ±6</td><td>Meta</td></tr>
+</table>
+</div>
+
+<h3>WebDev 榜 Top 10（编码能力——Kevin 最相关）</h3>
+<div class="card info">
+<table>
+<tr><th>#</th><th>模型</th><th>分数</th><th>厂商</th></tr>
+<tr><td>1</td><td class="rank1">claude-opus-5-max</td><td>1692</td><td>Anthropic</td></tr>
+<tr><td>2</td><td class="hlk">kimi-k3-max</td><td>1674</td><td>Moonshot</td></tr>
+<tr><td>3</td><td class="hlk">qwen3.8-max</td><td>1670</td><td>阿里</td></tr>
+<tr><td>4</td><td>claude-opus-5-high</td><td>1666</td><td>Anthropic</td></tr>
+<tr><td>5</td><td>claude-fable-5</td><td>1628</td><td>Anthropic</td></tr>
+<tr><td>6</td><td>gpt-5.6-sol-xhigh</td><td>1623</td><td>OpenAI</td></tr>
+<tr><td>7</td><td class="hlk">glm-5.2-max</td><td>1588</td><td>智谱</td></tr>
+<tr><td>8</td><td class="hlk">deepseek-v4-flash-high</td><td>1585</td><td>DeepSeek</td></tr>
+<tr><td>9</td><td>claude-opus-4-8-thinking</td><td>1564</td><td>Anthropic</td></tr>
+<tr><td>10</td><td>claude-opus-4-7-thinking</td><td>1558</td><td>Anthropic</td></tr>
+</table>
+</div>
+
+<h3>Agent 榜 Top 10（净提升 %）</h3>
+<div class="card info">
+<table>
+<tr><th>#</th><th>模型</th><th>净提升</th><th>厂商</th></tr>
+<tr><td>1</td><td class="rank1">Claude Fable 5 (High)</td><td>+12.04% ±2.54</td><td>Anthropic</td></tr>
+<tr><td>2</td><td>Claude Opus 5 (High)</td><td>+11.96% ±1.44</td><td>Anthropic</td></tr>
+<tr><td>3</td><td>Claude Opus 5 (Max)</td><td>+11.92% ±1.70</td><td>Anthropic</td></tr>
+<tr><td>4</td><td>GPT 5.6 Sol (xHigh)</td><td>+10.72% ±1.79</td><td>OpenAI</td></tr>
+<tr><td>5</td><td class="hlk">Kimi K3 (Max)</td><td>+10.43% ±1.04</td><td>Moonshot</td></tr>
+<tr><td>6</td><td>Claude Opus 4.8 (Thinking)</td><td>+9.54% ±1.76</td><td>Anthropic</td></tr>
+<tr><td>7</td><td>GPT 5.5 (xHigh)</td><td>+8.70% ±1.01</td><td>OpenAI</td></tr>
+<tr><td>8</td><td>Claude Opus 4.7 (Thinking)</td><td>+8.17% ±1.42</td><td>Anthropic</td></tr>
+<tr><td>9</td><td>GPT 5.5 (High)</td><td>+7.63% ±0.95</td><td>OpenAI</td></tr>
+<tr><td>10</td><td>Claude Opus 4.7</td><td>+7.63% ±1.43</td><td>Anthropic</td></tr>
+</table>
+</div>
+
+<h3>Vision 榜 Top 10（Kevin 多模态需求）</h3>
+<div class="card info">
+<table>
+<tr><th>#</th><th>模型</th><th>分数</th><th>厂商</th></tr>
+<tr><td>1</td><td class="rank1">claude-fable-5</td><td>1315 ±9</td><td>Anthropic</td></tr>
+<tr><td>2</td><td class="hlk">qwen3.8-max</td><td>1301 ±9</td><td>阿里</td></tr>
+<tr><td>3</td><td>claude-opus-4-7-thinking</td><td>1301 ±7</td><td>Anthropic</td></tr>
+<tr><td>4</td><td>claude-opus-4-6-thinking</td><td>1300 ±7</td><td>Anthropic</td></tr>
+<tr><td>5</td><td>claude-opus-4-7</td><td>1299 ±7</td><td>Anthropic</td></tr>
+<tr><td>6</td><td>claude-opus-5-high</td><td>1297 ±11</td><td>Anthropic</td></tr>
+<tr><td>7</td><td>gemini-3.6-flash</td><td>1295 ±18</td><td>Google</td></tr>
+<tr><td>8</td><td>muse-spark</td><td>1294 ±9</td><td>Meta</td></tr>
+<tr><td>9</td><td>claude-opus-4-6</td><td>1293 ±7</td><td>Anthropic</td></tr>
+<tr><td>10</td><td>muse-spark-1.2 (xHigh)</td><td>1290 ±18</td><td>Meta</td></tr>
+</table>
+</div>
+
+<h2>三、Kevin 在用模型横评定位</h2>
+<div class="card hl">
+<table>
+<tr><th>模型</th><th>用途</th><th>WebDev</th><th>Agent</th><th>点评</th></tr>
+<tr><td><b>deepseek-v4-flash</b></td><td>主对话/CEO</td><td>1585（第 8）</td><td>—</td><td class="pos">性价比强，与 top 差距 <7%</td></tr>
+<tr><td><b>kimi k3</b></td><td>金融/多模态</td><td>1674（第 2）</td><td>+10.43%（第 5）</td><td class="hlk">被严重低估——WebDev 第 2、Agent 第 5，金融多模态用途合理</td></tr>
+<tr><td><b>glm-5.2</b></td><td>纯代码</td><td>1588（第 7）</td><td>—</td><td>与 Claude 差距 <7%，"beats Claude" 有争议但性价比突出</td></tr>
+</table>
+</div>
+
+<h2>四、具身智能近月进展</h2>
+<div class="card good">
+<table>
+<tr><th>事件</th><th>日期</th><th>要点</th></tr>
+<tr><td class="hlk"><b>宇树上海 IPO 超购 8000+ 倍</b></td><td>8/11</td><td>零售投资者疯狂认购——具身智能资本热度极端</td></tr>
+<tr><td><b>Unitree As2-W 发布</b></td><td>7/24</td><td>宇树新一代机型（145 分热度）</td></tr>
+<tr><td><b>小米 38B 世界模型</b></td><td>7/16</td><td>开源世界模型，为机器人生成训练数据</td></tr>
+<tr><td><b>现代汽车工人罢工</b></td><td>7/17</td><td>对人形机器人的恐惧引发劳资冲突——社会层面信号</td></tr>
+<tr><td><b>Needle2: 14MB agentic LLM</b></td><td>8/10</td><td>面向手机/可穿戴/机器人的微型 agent LLM（508 分）</td></tr>
+<tr><td><b>LingBot-Video</b></td><td>7/13</td><td>开源 MoE 视频基础模型，用于具身智能</td></tr>
+</table>
+</div>
+
+<h2>五、Agent 生态动态</h2>
+<div class="card">
+<ul>
+<li><b>10M-token context agentic model</b>（8/11）——超长上下文 agent 模型</li>
+<li><b>LLM Model-Swapping Trick 暴露推理痕迹</b>（8/11）——安全研究</li>
+<li><b>Remembrane: agent memory 单 SQLite 文件</b>（8/7）——记忆管理轻量化</li>
+<li><b>Unsloth Desktop App</b>（8/11）——本地跑/训模型</li>
+<li><b>AI 模型越狱/系统提示词泄露</b>（Opus 5 相关，7/30-31）——3 词越狱</li>
+</ul>
+</div>
+
+<h2>六、趋势判断</h2>
+<div class="card">
+<ol>
+<li class="hlk"><b>开源与闭源差距大幅收窄</b>：Kimi K3 开源 + GLM 5.2 平价挑战 Claude + qwen3.8 双榜前五——"AI 成本崩塌"叙事成型（GLM 5.2 文章 694 分讨论）</li>
+<li><b>WebDev/Agent 成为模型竞争主战场</b>：LMArena 单列 Agent/WebDev 榜，编码代理能力成为核心 KPI——<b>对 Kevin 的 OPC/子代理路由有直接参考</b></li>
+<li><b>监管趋严</b>：GPT-5.6 美国管控使用 + Opus 5 越狱研究——前沿模型治理进入实操阶段</li>
+<li><b>具身智能资本狂热 vs 就业担忧</b>：宇树 8000 倍超购 vs 现代工人罢工——产业预期与就业冲突并存</li>
+<li><b>本地推理崛起</b>：Needle2 14MB / Unsloth Desktop / 14MB agentic LLM——边缘部署成趋势</li>
+</ol>
+</div>
+
+<div class="small" style="margin-top:20px">
+数据来源：LMArena（arena.ai/leaderboard，2026-08-12 抓取）+ HackerNews Algolia API（近 30 天，按日期过滤）。评级按 ai-frontier-tracker skill 标准（agent 生态/推理模型权重最高）。归档：~/ai_frontier_kb/daily/2026-08-12.md。
+</div>
+
+</div>
+</body>
+</html>
