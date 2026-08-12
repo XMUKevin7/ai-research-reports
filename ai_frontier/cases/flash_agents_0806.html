@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>舆情监测 · Agent 协同流程</title>
+<style>
+:root { --bg:#0f1117; --panel:#1a1d24; --panel2:#242833; --text:#e8eaf0; --sub:#9aa3b5;
+  --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; padding:28px; }
+.wrap { max-width:1100px; margin:0 auto; }
+h1 { font-size:24px; margin-bottom:4px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:22px; }
+h2 { font-size:18px; margin:26px 0 12px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:14px; margin:12px 0 8px; color:#c9d2e3; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:14px; }
+table { width:100%; border-collapse:collapse; font-size:13px; margin:8px 0; }
+th { background:var(--panel2); color:var(--sub); padding:7px 10px; text-align:left; }
+td { padding:7px 10px; border-bottom:1px solid var(--border); }
+.tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:11px; }
+.tag.b { background:rgba(74,158,255,.15); color:var(--blue); }
+.tag.p { background:rgba(177,151,252,.15); color:var(--purple); }
+.tag.g { background:rgba(38,194,129,.15); color:var(--green); }
+.tag.o { background:rgba(255,169,77,.15); color:var(--orange); }
+.tag.r { background:rgba(255,93,93,.15); color:var(--red); }
+.flow { display:flex; align-items:stretch; gap:6px; flex-wrap:wrap; margin:12px 0; }
+.flow .box { flex:1; min-width:140px; border-radius:8px; padding:10px; text-align:center; font-size:12px; background:var(--panel2); border:1px solid var(--border); }
+.flow .box b { display:block; font-size:13px; }
+.flow .sep { align-self:center; color:var(--sub); font-size:16px; }
+.lane { border:1px solid var(--border); border-radius:10px; background:var(--panel); padding:10px; margin-bottom:10px; }
+.lane .lname { font-size:11px; color:var(--sub); border-bottom:1px solid var(--border); padding-bottom:5px; margin-bottom:6px; }
+.lane .step { font-size:12px; padding:5px 8px; margin:3px 0; border-radius:6px; background:var(--panel2); border:1px solid var(--border); }
+.lane .step.act { border-color:var(--blue); }
+.lane .step.wait { border-color:var(--yellow); color:var(--yellow); }
+.lane .step.done { border-color:var(--green); }
+.code { font-family:monospace; font-size:12px; background:var(--panel2); border-radius:6px; padding:8px 10px; margin:6px 0; white-space:pre-wrap; color:#c9d2e3; }
+.small { font-size:12px; color:var(--sub); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>舆情监测 · Agent 协同流程可视化</h1>
+<div class="sub">2026-08-06 | 三安光电 + 联创光电 舆情监测分析 | 采集 → 量化 → 核验 → 报告 四阶段闭环</div>
+
+<h2>一、流程总览（五阶段）</h2>
+<div class="flow">
+  <div class="box"><b>① 采集</b><br>iFinD news<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>② 结构化</b><br>事件分层<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>③ 量化</b><br>AR/CAR 计算<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>④ 核验</b><br>真实性复核<br><span class="tag p">子代理 k3</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>⑤ 报告</b><br>HTML 交付<br><span class="tag o">主 Agent</span></div>
+</div>
+
+<h2>二、Agent 分工与协作</h2>
+<div class="lane"><div class="lname">🤖 主 Agent（deepseek-v4-flash）— 编排 + 数据</div>
+  <div class="step act">加载 market-intelligence-daily skill（事件schema）</div>
+  <div class="step act">iFinD search_news / search_notice 采集 8/4-8/6 舆情</div>
+  <div class="step done">事件结构化：事实/来源/时间/重要性分层</div>
+  <div class="step done">量化影响：市场模型 AR/CAR（事件窗 [-5,+2]）</div>
+  <div class="step send">派发核验子代理 ← 关键协作点</div>
+</div>
+<div class="lane"><div class="lname">🧩 核验子代理（kimi k3 @ kimi-coding）— 独立复核</div>
+  <div class="step wait">接收 context：全部舆情事件 + 量化数据</div>
+  <div class="step wait">逐条核验：真实性（1-5）/ 个股相关度（1-5）</div>
+  <div class="step wait">评估 AR/CAR 合理性 + 解释市场反应</div>
+  <div class="step done">输出舆情风险等级 + 核心矛盾</div>
+</div>
+<div class="lane"><div class="lname">🗄 数据源</div>
+  <div class="step">iFinD news（新闻+公告语义检索）✅</div>
+  <div class="step">Tushare daily（最新行情 8/6）✅</div>
+  <div class="step">公司公告原文（上交所）✅ 交叉验证</div>
+</div>
+
+<h2>三、核验机制设计（本次核心）</h2>
+<div class="card">
+<h3>为什么需要独立核验子代理</h3>
+<p>舆情检索结果 ≠ 事实。iFinD 返回的是"片段 + 语义匹配"，存在：① 媒体二次解读混杂事实 ② 公告片段截断 ③ 概念炒作新闻与公司公告混淆。<br>
+<b>核验子代理独立判断</b>（不继承主 Agent 结论），对每条事件给出：可信度评分 + 相关度评分 + 是否需进一步核实。与主 Agent 的结构化结果交叉验证。</p>
+<h3>核验清单（子代理执行）</h3>
+<table>
+<tr><th>维度</th><th>检查项</th></tr>
+<tr><td>真实性</td><td>公司公告确认 vs 媒体解读 vs 传闻；公告编号可溯；监管文号可查</td></tr>
+<tr><td>相关度</td><td>事件对主营/治理/估值的实际影响；是否弱相关概念炒作</td></tr>
+<tr><td>量化合理性</td><td>AR/CAR 与股价实际反应匹配；β 估计是否稳健；事件窗是否完整</td></tr>
+<tr><td>遗漏风险</td><td>是否有未检索到的重要公告/后续进展</td></tr>
+</table>
+</div>
+
+<h2>四、本次执行记录</h2>
+<div class="card">
+<table>
+<tr><th>时间</th><th>动作</th><th>结果</th></tr>
+<tr><td>采集</td><td>iFinD search_news × 2 + search_notice × 2</td><td>发现 8 条舆情（联创立案/辞总裁/冻结/逾期 + 三安冻结/专访/InP）</td></tr>
+<tr><td>量化</td><td>Tushare 拉 8/3-8/6 行情 → 市场模型 AR/CAR</td><td>联创 CAR[-5,+2]=-12.10%；三安 CAR=+11.13%</td></tr>
+<tr><td>核验</td><td>delegate_task → k3 子代理（路由 finance）</td><td>进行中（独立判断中）</td></tr>
+<tr><td>交付</td><td>agent_flow.html + 舆情报告 HTML → GitHub Pages</td><td>待完成</td></tr>
+</table>
+</div>
+
+<div class="small" style="margin-top:16px">
+方法说明：市场模型 AR = R_i − (α + β×R_m)，估计窗 110 天，基准=两股平均（中证1000 数据不全的局限）；事件窗 [-5,+2]。核验子代理模型 kimi k3（delegation-router finance 路由）。
+</div>
+
+</div>
+</body>
+</html>

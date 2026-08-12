@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三安光电 vs 联创光电 · 归因分析专章 v3</title>
+<style>
+:root { --bg:#1a1d24; --panel:#242833; --panel2:#2b303d; --text:#e8eaf0; --sub:#9aa3b5; --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; padding:24px; }
+.wrap { max-width:1100px; margin:0 auto; }
+h1 { font-size:25px; margin-bottom:6px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:24px; }
+h2 { font-size:19px; margin:30px 0 14px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:15px; margin:16px 0 8px; color:#c9d2e3; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:16px; }
+.card.warn { border-left:4px solid var(--red); }
+.card.good { border-left:4px solid var(--green); }
+.card.info { border-left:4px solid var(--blue); }
+.card.hl { border-left:4px solid var(--yellow); }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0; }
+th { background:var(--panel2); color:var(--sub); font-weight:600; padding:8px 10px; text-align:left; }
+td { padding:8px 10px; border-bottom:1px solid var(--border); }
+img { max-width:100%; border-radius:8px; border:1px solid var(--border); margin:8px 0; }
+.neg { color:var(--red); } .pos { color:var(--green); } .flag { color:var(--yellow); font-weight:700; }
+.small { font-size:12px; color:var(--sub); }
+.verdict { background:linear-gradient(135deg,#242833,#2b2f3d); border:1px solid var(--border); border-radius:12px; padding:20px; margin:16px 0; }
+.section-note { font-size:12px; color:var(--sub); margin-top:6px; }
+@media (max-width:800px) { .grid2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>市场表现归因分析 · 三安光电 vs 联创光电</h1>
+<div class="sub">v3 专章 | 数据截止 2026-08-06 | 板块数据：东财概念指数（日频）+ iFinD 行业指数（半月频）</div>
+
+<div class="verdict">
+<h3>⚡ 核心归因结论</h3>
+<p><b>联创光电的股价主要由"高温超导/可控核聚变"概念驱动，而非其激光主业</b>——与可控核聚变 r=0.68（R²=0.46）、超导 r=0.67（R²=0.45），排名远超其主业相关板块；<br>
+<b>三安光电的股价驱动与其真实主业一致</b>——与半导体 r=0.71（R²=0.51）、LED r=0.69、国产芯片 r=0.69 高度相关，属"行业贝塔 + 部分个股 alpha"；<br>
+<b>联创 = 概念贝塔型（主题退潮放大下跌）；三安 = 行业贝塔型（景气联动）</b>——这解释了两者 2026 年走势的极端分化。</p>
+</div>
+
+<h2>一、相关性矩阵：个股 vs 概念板块（日频收益）</h2>
+<img src="charts/corr_heatmap.png" alt="相关性热力图">
+<div class="card info">
+<h3>解读</h3>
+<ul>
+<li><b>联创光电</b>：与可控核聚变（0.68）、超导（0.67）相关性最高——<span class="flag">但公司已公告"主营业务不涉及高温超导/核聚变"</span>，且联创超导仅参股 40% 不并表。即：<b>股价跟随的是市场对概念的炒作，不是公司基本面</b></li>
+<li><b>三安光电</b>：与半导体（0.71）、LED（0.69）、国产芯片（0.69）相关性最高——与其真实主业（LED 芯片 + 化合物半导体）完全一致</li>
+<li>两只票与"军工"也有 0.6 左右的相关（联创有激光/军贸业务、三安有军用红外/照明），但非主导因子</li>
+</ul>
+</div>
+
+<h2>二、板块解释力 R²：谁的收益能被板块解释？</h2>
+<img src="charts/r2_attribution.png" alt="R²归因">
+<div class="card hl">
+<h3>关键对比</h3>
+<table>
+<tr><th>个股</th><th>Top1 解释板块</th><th>Top2</th><th>Top3</th><th>含义</th></tr>
+<tr><td class="hl">联创光电</td><td>可控核聚变 R²=0.46</td><td>超导 R²=0.45</td><td>军工 R²=0.38</td><td><span class="flag">46% 的日收益波动由核聚变概念解释——非主业</span></td></tr>
+<tr><td>三安光电</td><td>半导体 R²=0.51</td><td>LED R²=0.48</td><td>国产芯片 R²=0.48</td><td><span class="pos">主业一致，行业贝塔主导</span></td></tr>
+</table>
+<div class="section-note">注：R² 为单板块回归；板块间有共线性，数值为"最强单一解释力"而非增量贡献</div>
+</div>
+
+<h2>三、个股 vs 关键板块走势对照</h2>
+<img src="charts/stock_vs_boards.png" alt="个股vs板块走势">
+<div class="card info">
+<h3>走势解读</h3>
+<ul>
+<li><b>联创（上图）</b>：2025 年中~2026-01 与超导/核聚变同步暴涨（概念最热期），2026 年概念退潮后暴跌——<span class="flag">股价完全跟着概念周期走</span></li>
+<li><b>三安（下图）</b>：与半导体/LED 板块长期同步，2026-06 反弹（+45%）正是半导体板块行情（+36%）的放大版</li>
+</ul>
+</div>
+
+<h2>四、事件窗口归因</h2>
+<img src="charts/event_window.png" alt="事件窗口">
+
+<div class="grid2">
+<div class="card warn">
+<h3>联创 2025H2 上涨（+26%）</h3>
+<ul>
+<li>同期板块：<span class="flag">可控核聚变 +72%、超导 +70%</span>、稀土 +63%、军工 +59%</li>
+<li><b>归因</b>：联创是"核聚变/超导概念"中的高弹性标的，市场把它当概念龙头炒</li>
+<li>但公司 2025 年报激光业务 +328% 是真实增长——<b>业绩与概念双轮，概念贡献更大</b></li>
+</ul>
+</div>
+<div class="card warn">
+<h3>联创 2026 回撤（-63%）</h3>
+<ul>
+<li>同期板块：超导 -13%、军工 -22%、核聚变 -10%</li>
+<li><b>归因</b>：个股跌幅（-63%）远超板块（-10~-22%）——<span class="flag">概念退潮 + 保留意见 + 逾期 + 实控人被查多重利空共振，戴维斯双杀</span></li>
+</ul>
+</div>
+</div>
+<div class="grid2">
+<div class="card good">
+<h3>三安 2026-06 反弹（+45%）</h3>
+<ul>
+<li>同期板块：半导体 +36%、国产芯片 +17%、LED +16%</li>
+<li><b>归因</b>：板块贝塔（半导体行情）+ 个股 alpha（CPO/光芯片概念 + 安意法进展），弹性大于板块</li>
+</ul>
+</div>
+<div class="card">
+<h3>近 3 年全景</h3>
+<ul>
+<li>板块累计：超导 +139%、核聚变 +129%、半导体 +114%</li>
+<li>个股：三安 -3%、联创 -9%——<span class="flag">概念涨了 130%+，个股几乎没涨（联创还亏）</span>：概念行情并未兑现为个股收益，印证"概念依赖但基本面未跟上"</li>
+</ul>
+</div>
+</div>
+
+<h2>五、归因总结：概念依赖度评估</h2>
+<div class="card warn">
+<table>
+<tr><th>维度</th><th>联创光电</th><th>三安光电</th></tr>
+<tr><td>主导驱动</td><td class="flag">高温超导/核聚变概念（R²=0.45-0.46）</td><td>半导体/LED 行业（R²=0.48-0.51）</td></tr>
+<tr><td>与主业一致性</td><td class="flag">不一致（主业激光相关性低）</td><td class="pos">一致（LED+化合物半导体）</td></tr>
+<tr><td>概念依赖度</td><td class="flag">高（高波动放大器）</td><td>低-中</td></tr>
+<tr><td>概念退潮表现</td><td class="flag">跌幅远超板块（-63% vs -10%）</td><td>跟随板块（-17% vs 板块-3~+7%）</td></tr>
+<tr><td>业绩支撑</td><td>激光真实增长但被治理风险覆盖</td><td>SiC 实质放量但报表仍亏</td></tr>
+</table>
+</div>
+
+<h2>六、观点交互：独立分析师验证（Kimi K3 视角）</h2>
+<div class="card good">
+<h3>独立子代理归因结论（置信度 90%）</h3>
+<ul>
+<li><b>确认联创概念驱动</b>：日频相关性 Top3 全部是非主营概念（核聚变 0.681、超导 0.668、军工 0.616），而真实主业（激光/背光）对应板块仅排第四——<b>相关性结构暴露本质</b></li>
+<li><b>公司剥离声明是最硬证据</b>：2026-07-02 公告自认"主营业务不涉及高温超导/核聚变"；联创超导参股 40% 不并表且亏损——<b>"一个亏损的非并表参股公司，凭什么驱动母公司市值？典型的 A 股标签溢价"</b></li>
+<li><b>涨跌不对称性 = 概念退潮即裸泳</b>：上涨期跟概念（+26% vs 板块 +70%），下跌期跌幅远超板块（-63% vs -13~-22%）——概念退潮时没有基本面承接</li>
+<li><b>不对称性量化（子代理补充）</b>：涨时联创仅为概念的 <b>1/3</b>（主业拖累，概念只能带飞这么多）；跌时是概念的 <b>3~5 倍</b>（基本面崩塌 + 概念退潮 = 戴维斯双杀）。<span class="flag">"涨时跟不动，跌时刹不住"是概念驱动股的核心特征</span></li>
+<li><b>三安：行业贝塔型确认 + alpha 占比 ~20%</b>：Top3 解释板块（半导体/LED/国产芯片）与其主业一致；2026-06 反弹 +45% 分解 = 半导体贝塔（~36%）+ SiC 个股 alpha（~9%，安意法独家供意法/6寸良率 90%+/维谛 500 万颗为独有催化）</li>
+<li><b>独立排序</b>：同意"三安 &gt; 联创"，且强调差距比表面更大——<b>"三安是'可定价风险'（下有半导体周期底部支撑），联创是'不可定价风险'（保留意见下激光价值无法定价，实际'无底'）"</b></li>
+<li><b>定性修正</b>：联创不是"垃圾"而是"高风险彩票"（激光 +328% 真实，但实控人被查意味着"不知道还有多少雷"）；三安不是"白马"而是"困境反转候选"（SiC 兑现需 2-4 季度验证）</li>
+</ul>
+<div class="section-note">方法：delegate_task 独立子代理（deepseek-v4-pro），输入归因数据 + 公告事实，输出独立判断（未受主分析影响）；与主报告结论交叉验证一致</div>
+</div>
+
+<h2>七、概念退潮检测指标（前瞻）</h2>
+<div class="card info">
+<h3>概念退潮检测体系（主分析 + 子代理五维方案合并）</h3>
+<table>
+<tr><th>维度</th><th>信号</th><th>阈值/动作</th><th>数据源</th></tr>
+<tr><td>① 概念板块相对强度</td><td>超导/核聚变 vs 沪深300 的 20 日超额收益</td><td>转负且连续 5 日 → 一级预警</td><td>东财/同花顺</td></tr>
+<tr><td>② 概念内龙头股走势</td><td>西部超导、永鼎股份、宝胜股份等纯正标的</td><td>龙头先于跟风股破位 → 退潮领先信号</td><td>行情软件</td></tr>
+<tr><td>③ 个股-概念背离度</td><td>联创 vs 超导板块 10 日滚动相关系数</td><td>从 &gt;0.6 骤降至 &lt;0.3 → 概念资金撤离</td><td>本地计算</td></tr>
+<tr><td>④ 成交量验证</td><td>联创 20 日均量 / 60 日均量</td><td>&lt;0.5 且持续萎缩 → 炒作冷却</td><td>行情软件</td></tr>
+<tr><td>⑤ 融资余额变化</td><td>联创融资余额周环比</td><td>连续 2 周下降 &gt;5% → 杠杆资金撤退</td><td>交易所</td></tr>
+<tr><td>⑥ 基本面锚</td><td>激光业务季度收入占比 / 保留意见澄清 / 逾期化解</td><td>主业占比升 = 估值锚回归（中性偏正）</td><td>财报/公告</td></tr>
+</table>
+<div class="section-note">综合退潮确认：指标 ①+②+③ 同时触发时，概念退潮概率 &gt;80%，联创式概念股下跌会加速（涨时跟不上的部分，跌时加倍偿还——2026-01~08 已演示）</div>
+</div>
+
+<div class="sub" style="margin-top:24px">
+⚠️ 归因基于日频收益相关性/单板块 R²，存在板块共线性；不构成投资建议。板块数据源：东方财富概念指数（日频 750 天）+ iFinD 行业指数（半月频 100 点）。"概念驱动"判断依据：相关性排名 + 事件窗口 + 公司公告（主营业务自认不涉及超导）。
+</div>
+
+</div>
+</body>
+</html>

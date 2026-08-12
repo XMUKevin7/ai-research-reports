@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三安光电 vs 联创光电 · 全量深度研究报告（v4 汇总版）</title>
+<style>
+:root { --bg:#0f1117; --panel:#1a1d24; --panel2:#242833; --text:#e8eaf0; --sub:#9aa3b5;
+  --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; padding:28px; }
+.wrap { max-width:1100px; margin:0 auto; }
+h1 { font-size:27px; margin-bottom:4px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:24px; }
+h2 { font-size:20px; margin:34px 0 14px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:15px; margin:16px 0 8px; color:#c9d2e3; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:16px; }
+.card.info { border-left:4px solid var(--blue); }
+.card.good { border-left:4px solid var(--green); }
+.card.warn { border-left:4px solid var(--red); }
+.card.hl { border-left:4px solid var(--yellow); }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0; }
+th { background:var(--panel2); color:var(--sub); font-weight:600; padding:8px 10px; text-align:left; }
+td { padding:8px 10px; border-bottom:1px solid var(--border); }
+tr:hover td { background:rgba(255,255,255,0.03); }
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; margin-right:6px; }
+.tag.blue { background:rgba(74,158,255,.15); color:var(--blue); }
+.tag.orange { background:rgba(255,169,77,.15); color:var(--orange); }
+.tag.green { background:rgba(38,194,129,.15); color:var(--green); }
+.tag.red { background:rgba(255,93,93,.15); color:var(--red); }
+.tag.purple { background:rgba(177,151,252,.15); color:var(--purple); }
+.tag.yellow { background:rgba(255,212,59,.15); color:var(--yellow); }
+img { max-width:100%; border-radius:8px; border:1px solid var(--border); margin:8px 0; }
+ul, ol { padding-left:20px; }
+li { margin:4px 0; }
+.small { font-size:12px; color:var(--sub); }
+.hl { color:var(--orange); font-weight:600; }
+.neg { color:var(--red); } .pos { color:var(--green); } .flag { color:var(--yellow); font-weight:700; }
+.verdict { background:linear-gradient(135deg,#1a1d24,#242833); border:1px solid var(--border); border-radius:12px; padding:20px; margin:16px 0; }
+.bigflag { background:rgba(255,93,93,.08); border:1px solid rgba(255,93,93,.3); border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.section-note { font-size:12px; color:var(--sub); margin-top:6px; }
+.toc { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 20px; margin-bottom:24px; }
+.toc a { color:var(--blue); text-decoration:none; margin-right:14px; font-size:13px; }
+.toc a:hover { text-decoration:underline; }
+@media (max-width:800px) { .grid2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>三安光电 vs 联创光电 · 全量深度研究报告</h1>
+<div class="sub">v4 汇总版 | 数据截止 2026-08-06 | 数据源：iFinD / Tushare / 东财 / 公司公告 | 含数据核验 + 舆情 + 归因 + AI 观点交互</div>
+
+<div class="toc">
+<b>目录：</b>
+<a href="#s1">① 结论速览</a>
+<a href="#s2">② 数据核验</a>
+<a href="#s3">③ 业务拆解</a>
+<a href="#s4">④ 财务质量+审计</a>
+<a href="#s5">⑤ 估值</a>
+<a href="#s6">⑥ 市场表现</a>
+<a href="#s7">⑦ 归因分析</a>
+<a href="#s8">⑧ 舆情事件</a>
+<a href="#s9">⑨ 风险催化</a>
+<a href="#s10">⑩ 对比结论</a>
+<a href="#s11">⑪ 反证条件</a>
+<a href="#s12">⑫ 研究方法</a>
+</div>
+
+<h2 id="s1">一、结论速览</h2>
+<div class="verdict">
+<h3>⚡ 一句话结论</h3>
+<p><b>三安光电</b>：产业逻辑在（SiC 真实放量）、财务包袱重（扣非连亏扩大）、治理瑕疵（股东冻结）——<span class="hl">"可定价风险"的困境反转候选</span>；<br>
+<b>联创光电</b>：<span class="flag">⚠⚠ 多重红旗</span>——年报保留意见 + 借款逾期 + 实控人被查 + 股价由非主营概念（超导/核聚变）驱动——<span class="neg">"不可定价风险"</span>；<br>
+<b>相对排序：三安 &gt; 联创</b>（基于财务可信度、治理风险、产业落地、归因健康度四方面）。</p>
+</div>
+
+<div class="bigflag">
+🚨 <b>v2→v4 结论演化</b>：v1 纯财务看"联创更好"→ 加入审计核验 + 舆情后反转（联创保留意见 + 治理风险）→ 加入归因后强化（联创股价由非主营概念驱动实锤）→ 加入 AI 独立子代理交叉验证（置信度 90%）。<b>数据核验改变结论的典型案例。</b>
+</div>
+
+<h2 id="s2">二、数据核验层</h2>
+<div class="card info">
+<table>
+<tr><th>数据类别</th><th>来源</th><th>核验方式</th><th>可信度</th></tr>
+<tr><td>财务指标</td><td>iFinD get_stock_financials</td><td>与 Tushare fina_indicator 交叉核对</td><td class="pos">高（两源一致）</td></tr>
+<tr><td>CAPEX/EBIT/EBITDA</td><td>iFinD</td><td>合并报表口径确认</td><td class="pos">高</td></tr>
+<tr><td>估值 PE/PB</td><td>iFinD + Tushare</td><td>交叉核对</td><td class="pos">中高</td></tr>
+<tr><td>日线行情</td><td>Tushare daily</td><td>750 交易日完整性检查</td><td class="pos">高</td></tr>
+<tr><td><b>审计意见</b></td><td>iFinD 审计信息</td><td>年报审计意见类型字段</td><td class="pos">高（联创保留意见为关键发现）</td></tr>
+<tr><td><b>公告/舆情</b></td><td>iFinD search_notice/news</td><td>公告原文片段 + 媒体交叉</td><td class="pos">高（公司公告为准）</td></tr>
+<tr><td><b>板块数据</b></td><td>东财概念指数 + iFinD 行业指数</td><td>15 个板块因子交叉</td><td class="pos">中高（日频+半月频）</td></tr>
+</table>
+<div class="section-note">局限：① Tushare daily_basic 限频 1 次/小时，PE 日频用 iFinD 半月频补齐；② 舆情检索为片段非全文；③ 2026 中报为业绩预告未经审计。</div>
+</div>
+
+<h2 id="s3">三、业务与商业模式拆解</h2>
+<div class="grid2">
+<div class="card info">
+<h3>三安光电（600703.SH）<span class="tag blue">LED + 化合物半导体</span></h3>
+<ul>
+<li><b>LED 芯片</b>：全球龙头，周期底部，2025 毛利率 12.4%</li>
+<li><b>SiC 碳化硅</b>：湖南 6 寸 16000 片/月（良率 90-93%）、8 寸 1000 片/月；<b>重庆安意法（51%）2000 片/周，8 寸达产 48 万片/年，独家供意法</b></li>
+<li><b>其他</b>：滤波器（亏损）、光芯片（400G/800G 批量出货，CPO 概念）</li>
+<li><b>估值逻辑</b>：LED 周期反转期权 + SiC 国产替代兑现</li>
+</ul>
+</div>
+<div class="card warn2">
+<h3>联创光电（600363.SH）<span class="tag yellow">⚠ 业务需澄清</span></h3>
+<ul>
+<li><b>激光</b>：中久光电，2025 营收 3.37 亿（<span class="pos">+328%</span>），反无人机系统过国军标认证并出口——<b>真增长引擎</b></li>
+<li><b>超导</b>：<span class="flag">公司 2026-07-02 公告自认"主营业务不涉及高温超导/核聚变"</span>；联创超导参股 40% 不并表，2025 净亏 2464 万</li>
+<li><b>传统业务</b>：背光/线缆，减亏中</li>
+</ul>
+</div>
+</div>
+
+<h2 id="s4">四、财务质量 + 审计核验</h2>
+<h3>审计意见（关键）</h3>
+<table>
+<tr><th>公司</th><th>审计单位</th><th>2023-2025 审计意见</th><th>关键事项</th></tr>
+<tr><td class="hl">三安光电</td><td>中审众环</td><td class="pos">标准无保留意见</td><td>报表可信度高</td></tr>
+<tr><td>联创光电</td><td>众华会计师事务所</td><td class="neg">保留意见（2025 年报）</td><td><b>营销中心预付款项商业实质无法判断</b>（涉密不提供证据）</td></tr>
+</table>
+
+<h3>核心财务对比（年度）</h3>
+<div><img src="charts/revenue.png" alt="营收"></div>
+<div class="grid2">
+<div><img src="charts/net_profit.png" alt="净利"></div>
+<div><img src="charts/gpm.png" alt="毛利率"></div>
+</div>
+<div class="grid2">
+<div><img src="charts/capex.png" alt="CAPEX"></div>
+<div class="card">
+<h3>现金流与资本开支</h3>
+<table>
+<tr><th>指标</th><th>公司</th><th>2025</th></tr>
+<tr><td rowspan="2">EBIT（亿）</td><td class="hl">三安</td><td class="neg">-0.49</td></tr>
+<tr><td>联创</td><td class="pos">6.12</td></tr>
+<tr><td rowspan="2">OCF（亿）</td><td class="hl">三安</td><td class="pos">18.8</td></tr>
+<tr><td>联创</td><td>1.80（<span class="flag">vs 净利 4.8 匹配度低</span>）</td></tr>
+<tr><td rowspan="2">有息负债（亿）</td><td class="hl">三安</td><td>136</td></tr>
+<tr><td>联创</td><td>21.8</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card warn">
+<h3>⚠️ 财务质量关键发现</h3>
+<ul>
+<li><b>三安</b>：扣非连亏 3 年扩大（-3.4/-5.1/-8.3 亿）；2026 中报预告 <b>扣非 -4.9~-5.5 亿</b>（首次中报亏损）；OCF 18.8 亿为正、EBITDA 40 亿——重资产折旧是主因，非现金流恶化</li>
+<li><b>联创</b>：<span class="flag">① 年报保留意见</span>（预付款实质存疑）② OCF 1.8 亿 vs 净利 4.8 亿（匹配度 37%）③ 2026Q1 营收 -23.6%/归母 -28.8% ④ 借款及票据逾期（2026-08-05）</li>
+</ul>
+</div>
+
+<h2 id="s5">五、估值</h2>
+<div class="grid2">
+<div>
+<div><img src="charts/pe_ttm_lian.png" alt="联创PE"><div class="section-note">联创 PE-TTM：~110x → 27.6x（估值大幅消化）</div></div>
+<div><img src="charts/pb_both.png" alt="PB对比"><div class="section-note">三安 PB 1.8x 历史低位 vs 联创 PB 2.7x</div></div>
+</div>
+<div class="card">
+<h3>估值快照（2026-08-04）</h3>
+<table>
+<tr><th>指标</th><th>三安光电</th><th>联创光电</th></tr>
+<tr><td>总市值</td><td>666 亿</td><td>111 亿</td></tr>
+<tr><td>PE-TTM</td><td class="neg">亏损无意义</td><td>24.9x（历史低位）</td></tr>
+<tr><td>PB</td><td>1.91x（低位）</td><td>2.45x（回落）</td></tr>
+<tr><td>PS-TTM</td><td>~3.7x</td><td>~3.3x</td></tr>
+</table>
+<ul>
+<li>三安：PB 1.9x 处 3 年低分位（区间 1.4-3.1x 中下）</li>
+<li>联创：PE 25x 接近历史低分位，但保留意见 + 治理风险下"便宜"需打折</li>
+<li class="flag">估值陷阱：联创 PE 低是因 2025 净利基数含存疑成分；三安 PE 无意义用 PB</li>
+</ul>
+</div>
+</div>
+
+<h2 id="s6">六、市场表现</h2>
+<div><img src="charts/price_trend.png" alt="价格走势"></div>
+<div class="grid2">
+<div><img src="charts/volatility.png" alt="波动率"></div>
+<div><img src="charts/amount.png" alt="成交额"></div>
+</div>
+<div><img src="charts/roll_corr.png" alt="相关性"></div>
+<div class="section-note">近 3 年双股均 -27%；联创 2026-01 冲高 78.76（+120%）后暴跌至 27.38（-65%）；三安 6 月"七天四板"回千亿后回落。相关性 0.3-0.5 低。</div>
+
+<h2 id="s7">七、归因分析（核心发现）</h2>
+<div class="bigflag">
+🚨 <b>量化归因实锤：联创光电的股价主要由"高温超导/可控核聚变"概念驱动，而非其激光主业！</b><br>
+联创与核聚变 r=0.68（R²=0.46）、超导 r=0.67（R²=0.45）——均非主业；而公司 7/2 公告自认"主营业务不涉及超导/核聚变"。
+</div>
+
+<h3>相关性热力图</h3>
+<div><img src="charts/corr_heatmap.png" alt="相关性热力图"></div>
+
+<h3>板块解释力 R²</h3>
+<div><img src="charts/r2_attribution.png" alt="R²归因"></div>
+
+<h3>个股 vs 关键板块走势</h3>
+<div><img src="charts/stock_vs_boards.png" alt="走势对照"></div>
+
+<h3>事件窗口归因</h3>
+<div><img src="charts/event_window.png" alt="事件窗口"></div>
+
+<div class="card hl">
+<h3>归因总结：概念贝塔 vs 行业贝塔</h3>
+<table>
+<tr><th>维度</th><th>联创光电</th><th>三安光电</th></tr>
+<tr><td>主导驱动</td><td class="flag">高温超导/核聚变概念（R²=0.45-0.46）</td><td>半导体/LED 行业（R²=0.48-0.51）</td></tr>
+<tr><td>与主业一致性</td><td class="flag">不一致（主业激光相关性低）</td><td class="pos">一致（LED+化合物半导体）</td></tr>
+<tr><td>概念退潮表现</td><td class="flag">跌幅远超板块（-63% vs -10%）</td><td>跟随板块（-17% vs -3~+7%）</td></tr>
+<tr><td>不对称性</td><td class="flag">涨时仅为概念 1/3，跌时是概念 3~5 倍</td><td>贝塔为主 + SiC alpha ~20%</td></tr>
+</table>
+</div>
+
+<h2 id="s8">八、舆情与事件</h2>
+<div class="grid2">
+<div class="card warn2">
+<h3>三安光电（近期）</h3>
+<ul>
+<li class="flag"><b>2026-07-24 控股股东股份被轮候冻结</b>（涉税，税收强制执行）——控制权稳定性风险</li>
+<li class="flag"><b>2026-07-14 中报预告</b>：归母 -9000万~-1.35亿（<b>上市以来首次中报亏损</b>），扣非 -4.9~-5.5亿</li>
+<li class="pos"><b>SiC 进展</b>：安意法 2000 片/周量产独家供意法；6 寸良率 90-93%；维谛供货 500 万颗；衬底电阻率降至 11mΩ·cm</li>
+<li class="pos"><b>光芯片</b>：400G/800G 批量出货（CPO，6 月"七天四板"）</li>
+</ul>
+</div>
+<div class="card warn">
+<h3>联创光电（近期）</h3>
+<ul>
+<li class="flag"><b>2026-08-05 借款及票据逾期</b>：融资能力下降，担保诉讼风险</li>
+<li class="flag"><b>2026-07-02 自证</b>：主营业务不涉及超导/核聚变；联创超导参股 40% 不并表且亏损</li>
+<li class="flag"><b>控股股东股份被司法冻结/拍卖</b>；<b>实控人被查</b></li>
+<li class="flag"><b>年报保留意见</b></li>
+<li class="pos"><b>激光真增长</b>：2025 营收 3.37 亿 +328%；反无人机过国军标认证出口；机构预期 2026 归母 ~6 亿</li>
+<li class="neg"><b>2026Q1</b>：营收 -23.6%，归母 -28.8%</li>
+</ul>
+</div>
+</div>
+
+<h2 id="s9">九、风险与催化剂</h2>
+<div class="grid2">
+<div class="card warn">
+<h3>三安光电</h3>
+<h4>风险</h4>
+<ul>
+<li class="flag">股东股份冻结（控制权）</li>
+<li class="neg">中报首亏、扣非连亏扩大</li>
+<li class="neg">折旧 40 亿/年、有息负债 136 亿</li>
+<li class="neg">SiC 价格战 + 汇兑 + 存货减值</li>
+</ul>
+<h4>催化剂</h4>
+<ul>
+<li class="pos">安意法达产放量（独家供意法）</li>
+<li class="pos">LED 价格企稳 / CPO 光芯片放量</li>
+</ul>
+</div>
+<div class="card warn">
+<h3>联创光电</h3>
+<h4>风险</h4>
+<ul>
+<li class="flag">保留意见（预付款实质存疑）</li>
+<li class="flag">借款逾期 + 担保诉讼</li>
+<li class="flag">控股股东拍卖 + 实控人被查</li>
+<li class="flag">超导逻辑被公司否认</li>
+<li class="neg">2026Q1 下滑、OCF 匹配差</li>
+</ul>
+<h4>催化剂</h4>
+<ul>
+<li class="pos">激光订单放量（反无人机出口）</li>
+<li class="pos">逾期化解 / 中报恢复增长</li>
+</ul>
+</div>
+</div>
+
+<h2 id="s10">十、对比结论</h2>
+<div class="verdict">
+<table>
+<tr><th>维度</th><th>三安光电</th><th>联创光电</th><th>谁更优</th></tr>
+<tr><td>盈利确定性</td><td class="neg">中报首亏</td><td class="neg">Q1 下滑 + 保留意见</td><td>都不佳</td></tr>
+<tr><td>财务可信度</td><td class="pos">标准无保留</td><td class="neg">保留意见</td><td class="hl">三安</td></tr>
+<tr><td>治理风险</td><td class="flag">股东冻结（中）</td><td class="flag">实控人+拍卖+逾期（高）</td><td class="hl">三安</td></tr>
+<tr><td>股价驱动健康度</td><td class="pos">行业贝塔（主业一致）</td><td class="neg">概念贝塔（非主业）</td><td class="hl">三安</td></tr>
+<tr><td>产业进展</td><td class="pos">SiC 真实放量</td><td class="pos">激光 +328%</td><td>平手</td></tr>
+<tr><td>估值</td><td class="pos">PB 1.9x 低位</td><td>PE 25x（含折价）</td><td class="hl">三安（相对）</td></tr>
+<tr><td>弹性</td><td class="pos">大（SiC 期权）</td><td>中（主题退潮）</td><td class="hl">三安</td></tr>
+</table>
+<p style="margin-top:12px">
+<b>最终结论</b>：<b>三安光电 &gt; 联创光电</b>。三安是"<b>可定价风险</b>"（下有半导体周期底部支撑 + SiC 真实产业进展），联创是"<b>不可定价风险</b>"（保留意见下激光价值无法定价，叠加概念退潮，实际"无底"）。<br>
+<span class="small">两者当前均处于风险释放期，排序不构成买入建议——需等待：三安（股东冻结解除 + 扣非收窄）、联创（保留意见澄清 + 逾期化解）。</span>
+</p>
+</div>
+
+<h2 id="s11">十一、反证条件与观察指标</h2>
+<div class="card info">
+<h3>三安光电</h3>
+<ul>
+<li><b>成立</b>：2026 中报扣非亏损收窄；安意法爬坡超预期；冻结解除</li>
+<li><b>证伪</b>：扣非再扩大；SiC 价格崩；控制权出问题</li>
+<li><b>观察</b>：冻结进展、中报（8 月）、安意法产能、LED 价格</li>
+</ul>
+<h3>联创光电</h3>
+<ul>
+<li><b>成立</b>：保留意见澄清；逾期化解；激光订单持续；中报恢复</li>
+<li><b>证伪</b>：保留意见升级；拍卖致控制权变更；概念再炒但业绩不兑现</li>
+<li><b>观察</b>：逾期进展、拍卖结果、中报、激光订单</li>
+</ul>
+<h3>概念退潮检测（五维体系）</h3>
+<table>
+<tr><th>维度</th><th>信号</th><th>阈值</th></tr>
+<tr><td>① 板块相对强度</td><td>超导/核聚变 vs 沪深300 20日超额</td><td>转负连续 5 日 → 一级预警</td></tr>
+<tr><td>② 概念龙头</td><td>西部超导/永鼎/宝胜</td><td>龙头先破位 → 领先信号</td></tr>
+<tr><td>③ 个股-概念背离</td><td>联创 vs 超导 10 日滚动相关</td><td>&gt;0.6 降至 &lt;0.3 → 资金撤离</td></tr>
+<tr><td>④ 量能</td><td>20日均量/60日均量</td><td>&lt;0.5 持续萎缩 → 冷却</td></tr>
+<tr><td>⑤ 融资余额</td><td>周环比</td><td>连续 2 周 -5% → 杠杆撤退</td></tr>
+</table>
+<div class="section-note">①+②+③ 同时触发 → 概念退潮概率 &gt;80%（联创式概念股下跌会加速）</div>
+</div>
+
+<h2 id="s12">十二、研究方法与 AI 协作</h2>
+<div class="card good">
+<h3>Agent 协作流程（可视化）</h3>
+<div class="grid2">
+<div>
+<h4>协作架构</h4>
+<ul>
+<li><b>主 Agent</b>：任务分解（todo 7 项）、数据拉取（iFinD/Tushare/东财 15+ 次调用）、计算、报告组装</li>
+<li><b>独立子代理</b>（deepseek-v4-pro，51s）：输入归因数据+公告事实，独立输出判断（置信度 90%），未受主分析影响</li>
+<li><b>观点交互</b>：主分析 vs 子代理交叉验证 → 吸收 5 个增量观点（不对称性量化/可定价风险/五维检测）</li>
+</ul>
+</div>
+<div>
+<h4>报告演进</h4>
+<ul>
+<li><b>v1</b>：纯财务（结论：联创更好）</li>
+<li><b>v2</b>：+数据核验 + 审计 + 舆情（结论反转：三安更好）</li>
+<li><b>v3</b>：+归因专章（联创概念驱动实锤）</li>
+<li><b>v4</b>：全量汇总（本报告）</li>
+</ul>
+</div>
+</div>
+<div class="section-note">完整协作流程图见：<a href="agent协作流程可视化.html" style="color:var(--blue)">agent协作流程可视化.html</a>（同目录）</div>
+</div>
+
+<div class="sub" style="margin-top:24px">
+⚠️ 本报告为研究分析，不构成投资建议。数据源：iFinD/Tushare/东财/公司公告，截止 2026-08-06。事实、推断、观点分层标注；2026 中报为业绩预告未经审计；归因数值含目测近似。相对排序基于研究框架判断，非交易信号。
+</div>
+
+</div>
+</body>
+</html>

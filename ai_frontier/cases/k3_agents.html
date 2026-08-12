@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent 协作流程可视化 · 三安/联创归因分析</title>
+<style>
+:root { --bg:#0f1117; --panel:#1a1d24; --panel2:#242833; --text:#e8eaf0; --sub:#9aa3b5;
+  --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6; padding:28px; }
+.wrap { max-width:1200px; margin:0 auto; }
+h1 { font-size:24px; margin-bottom:4px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:22px; }
+h2 { font-size:17px; margin:28px 0 14px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:14px; margin:14px 0 8px; color:#c9d2e3; }
+
+/* ===== 架构图 ===== */
+.arch { display:grid; grid-template-columns:1fr 1.4fr 1fr; gap:14px; margin-top:10px; }
+.layer { border:1px solid var(--border); border-radius:12px; padding:14px; background:var(--panel); display:flex; flex-direction:column; gap:8px; }
+.layer .lname { font-size:12px; color:var(--sub); text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:2px; }
+.node { border-radius:8px; padding:10px 12px; font-size:13px; background:var(--panel2); border:1px solid var(--border); }
+.node b { display:block; font-size:13px; margin-bottom:2px; }
+.node span { color:var(--sub); font-size:11px; }
+.node.main { border-color:var(--blue); border-left:4px solid var(--blue); }
+.node.sub { border-color:var(--purple); border-left:4px solid var(--purple); }
+.node.data { border-color:var(--green); border-left:4px solid var(--green); }
+.node.out { border-color:var(--orange); border-left:4px solid var(--orange); }
+.node.chan { border-color:var(--yellow); border-left:4px solid var(--yellow); }
+.arrow { text-align:center; color:var(--sub); font-size:20px; padding:2px 0; }
+.arrow small { display:block; font-size:10px; color:var(--sub); }
+
+/* ===== 时序图 ===== */
+.timeline { position:relative; margin:10px 0 20px; padding-left:28px; }
+.timeline::before { content:""; position:absolute; left:10px; top:0; bottom:0; width:2px; background:var(--border); }
+.tl-item { position:relative; margin-bottom:16px; }
+.tl-item::before { content:""; position:absolute; left:-25px; top:6px; width:12px; height:12px; border-radius:50%; background:var(--blue); border:2px solid var(--bg); }
+.tl-item.sub::before { background:var(--purple); }
+.tl-item.data::before { background:var(--green); }
+.tl-item.out::before { background:var(--orange); }
+.tl-item.warn::before { background:var(--red); }
+.tl-item .t { font-size:11px; color:var(--sub); font-family:monospace; }
+.tl-item .c { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:13px; margin-top:3px; }
+.tl-item .c b { color:var(--blue); }
+.tl-item.sub .c b { color:var(--purple); }
+.tl-item.warn .c { border-left:4px solid var(--red); }
+
+/* ===== 泳道图 ===== */
+.lanes { display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin-top:10px; }
+.lane { border:1px solid var(--border); border-radius:10px; background:var(--panel); padding:10px; }
+.lane .lname { font-size:11px; color:var(--sub); text-align:center; border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:8px; }
+.lane .step { font-size:11.5px; padding:6px 8px; margin:4px 0; border-radius:6px; background:var(--panel2); border:1px solid var(--border); }
+.lane .step.act { border-color:var(--blue); }
+.lane .step.wait { border-color:var(--yellow); color:var(--yellow); }
+.lane .step.done { border-color:var(--green); }
+.lane .step.send { border-color:var(--orange); }
+
+/* ===== 信息流 ===== */
+.flow { display:flex; align-items:stretch; gap:8px; flex-wrap:wrap; margin:14px 0; }
+.flow .box { flex:1; min-width:150px; border-radius:8px; padding:10px; text-align:center; font-size:12px; background:var(--panel2); border:1px solid var(--border); }
+.flow .box b { display:block; font-size:13px; }
+.flow .sep { align-self:center; color:var(--sub); font-size:18px; }
+
+.kv { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin:10px 0; }
+.kv .card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.kv .card .k { font-size:11px; color:var(--sub); }
+.kv .card .v { font-size:13px; margin-top:2px; }
+.verdict { background:linear-gradient(135deg,#1a1d24,#242833); border:1px solid var(--border); border-radius:12px; padding:18px; margin:14px 0; }
+.code { font-family:monospace; font-size:12px; background:var(--panel2); border:1px solid var(--border); border-radius:6px; padding:10px 12px; margin:6px 0; white-space:pre-wrap; color:#c9d2e3; }
+.tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:11px; margin-right:4px; }
+.tag.b { background:rgba(74,158,255,.15); color:var(--blue); }
+.tag.p { background:rgba(177,151,252,.15); color:var(--purple); }
+.tag.g { background:rgba(38,194,129,.15); color:var(--green); }
+.tag.o { background:rgba(255,169,77,.15); color:var(--orange); }
+.tag.y { background:rgba(255,212,59,.15); color:var(--yellow); }
+.small { font-size:12px; color:var(--sub); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Agent 协作流程可视化 · 三安/联创归因分析</h1>
+<div class="sub">2026-08-06 实际执行流程 | 主 Agent（Hermes）+ 独立子代理（delegate_task）+ 多数据源 | 产物：v1→v2→v3 三版报告</div>
+
+<h2>一、协作架构总览</h2>
+<div class="arch">
+  <div class="layer">
+    <div class="lname">👤 用户 / 需求层</div>
+    <div class="node main"><b>Kevin</b><span>提出分析需求 + 框架建议 + 两次迭代反馈</span></div>
+    <div class="node main"><b>反馈循环</b><span>"要数据核验" "要舆情" "要归因" "要协作"</span></div>
+  </div>
+  <div class="arrow">⇄<small>指令 / 产物</small></div>
+  <div class="layer">
+    <div class="lname">🤖 Agent 协作层</div>
+    <div class="node main"><b>主 Agent（Hermes）</b><span>deepseek-v4-pro · 任务分解 · 数据拉取 · 计算 · 报告组装</span></div>
+    <div class="node sub"><b>独立子代理 ×1</b><span>deepseek-v4-pro · delegate_task 派发 · 51s 独立分析 · 置信度 90%</span></div>
+    <div class="node sub"><b>观点交互</b><span>主分析 vs 子代理独立判断 → 交叉验证 → 吸收增量</span></div>
+  </div>
+  <div class="arrow">⇄<small>API / CSV</small></div>
+  <div class="layer">
+    <div class="lname">🗄 数据层（多源并行）</div>
+    <div class="node data"><b>iFinD MCP</b><span>财务 / 审计意见 / 公告 / 舆情 / 估值（主源）</span></div>
+    <div class="node data"><b>Tushare</b><span>日线行情 750 天（限频 1次/时）</span></div>
+    <div class="node data"><b>东财公开 API</b><span>概念板块日频（8 个 BK 指数）</span></div>
+  </div>
+</div>
+
+<h2>二、任务分解（Kanban / Todo 管理）</h2>
+<div class="kv">
+  <div class="card"><div class="k">① 拉取行情数据</div><div class="v">Tushare 日线 750 天 ×2 股 + 板块指数</div></div>
+  <div class="card"><div class="k">② 财务数据核验</div><div class="v">iFinD 三表 + 审计意见 + 双源交叉</div></div>
+  <div class="card"><div class="k">③ 估值数据</div><div class="v">PE/PB TTM + 历史分位（iFinD+Tushare）</div></div>
+  <div class="card"><div class="k">④ 归因计算</div><div class="v">相关性矩阵 / R² / 事件窗口</div></div>
+  <div class="card"><div class="k">⑤ 可视化</div><div class="v">13 张图表（matplotlib 深色主题）</div></div>
+  <div class="card"><div class="k">⑥ 观点交互</div><div class="v">delegate_task 子代理独立验证</div></div>
+  <div class="card"><div class="k">⑦ 交付</div><div class="v">HTML 报告 → 飞书 DM（附件+摘要）</div></div>
+</div>
+
+<h2>三、时序流程（实际执行）</h2>
+<div class="timeline">
+  <div class="tl-item"><div class="t">09:03</div><div class="c"><b>任务启动</b>：用户提出双股分析 → 主 Agent 建 todo（7 项）→ 加载 investment-thesis / market-intelligence-daily skill</div></div>
+  <div class="tl-item data"><div class="t">09:03-09:06</div><div class="c"><b>数据拉取（并行）</b>：Tushare daily ×2 成功；<span class="tag b">Tushare</span> daily_basic 触发限频（1次/时）→ 切换 <span class="tag g">iFinD</span> 补估值</div></div>
+  <div class="tl-item data"><div class="t">09:14</div><div class="c"><b>财务核验发现 v1 重大缺陷</b>：<span class="tag p">iFinD 审计信息</span> 查出联创 2025 年报 <b style="color:var(--red)">保留意见</b>（营销中心预付款）→ 触发报告升级</div></div>
+  <div class="tl-item data"><div class="t">09:22</div><div class="c"><b>舆情核验</b>：<span class="tag p">iFinD search_notice/search_news</span> 发现联创逾期/冻结/实控人被查 + 三安股东冻结/中报首亏 → v2 结论反转</div></div>
+  <div class="tl-item"><div class="t">09:31-09:45</div><div class="c"><b>归因数据准备</b>：东财概念板块 API（8 个，断连重试 4 次）+ iFinD 行业指数（7 个半月频）→ 15 个板块因子</div></div>
+  <div class="tl-item"><div class="t">09:46</div><div class="c"><b>归因计算</b>：相关性矩阵（联创↔核聚变 r=0.68）→ R²（联创 核聚变 0.46）→ 5 个事件窗口 → <b>结论：联创=概念贝塔，三安=行业贝塔</b></div></div>
+  <div class="tl-item sub"><div class="t">09:53-09:57</div><div class="c"><b>🤝 Agent 协作（delegate_task）</b>：主 Agent 派发独立子代理<br>
+  <span class="code">delegate_task(goal="独立判断联创是否概念驱动...",
+  context=归因数据+公告事实, role=leaf)</span>
+  子代理 <b>51s 独立分析</b> → 结论：确认概念驱动（置信度 90%）+ 5 个增量观点</div></div>
+  <div class="tl-item sub"><div class="t">09:57</div><div class="c"><b>观点收敛</b>：子代理结果回传 → 主 Agent 交叉验证（两方一致）→ 吸收增量（涨跌不对称性 / 可定价vs不可定价风险 / 五维退潮检测）→ 更新 v3 报告</div></div>
+  <div class="tl-item out"><div class="t">10:00</div><div class="c"><b>交付</b>：v2 主报告 + v3 归因专章 → <span class="tag o">飞书 DM</span> HTML 附件 + 文字摘要 → 本地持久化 ~/research_notes/stock_analysis/</div></div>
+</div>
+
+<h2>四、Agent 协作泳道（关键交互细节）</h2>
+<div class="lanes">
+  <div class="lane"><div class="lname">👤 Kevin</div>
+    <div class="step act">提出需求</div>
+    <div class="step act">框架讨论</div>
+    <div class="step act">反馈①：要数据核验+舆情</div>
+    <div class="step act">反馈②：要归因+协作</div>
+  </div>
+  <div class="lane"><div class="lname">🤖 主 Agent</div>
+    <div class="step">todo 分解 7 项</div>
+    <div class="step">拉数据（Tushare/iFinD）</div>
+    <div class="step">财务+审计+舆情核验</div>
+    <div class="step act">归因计算（本地脚本）</div>
+    <div class="step act">组装 v1→v2→v3 报告</div>
+    <div class="step send">派发子代理 ← 关键协作</div>
+  </div>
+  <div class="lane"><div class="lname">🧩 子代理</div>
+    <div class="step wait">接收 context（数据+事实）</div>
+    <div class="step wait">独立分析 51s</div>
+    <div class="step wait">输出判断（置信度 90%）</div>
+    <div class="step done">回传 5 个增量观点</div>
+  </div>
+  <div class="lane"><div class="lname">🗄 数据源</div>
+    <div class="step">Tushare 日线 ✅</div>
+    <div class="step">iFinD 财务/审计/公告 ✅</div>
+    <div class="step">东财板块（重试4次）✅</div>
+    <div class="step">iFinD 行业指数 ✅</div>
+  </div>
+  <div class="lane"><div class="lname">📤 交付</div>
+    <div class="step">v2 主报告（HTML）</div>
+    <div class="step">v3 归因专章（HTML）</div>
+    <div class="step send">飞书 DM 附件+摘要</div>
+    <div class="step done">本地持久化</div>
+  </div>
+</div>
+
+<h2>五、观点交互机制（本轮核心）</h2>
+<div class="flow">
+  <div class="box"><b>主分析</b><br>归因数据 + 计算<br><span class="tag b">相关性/R²/事件窗口</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>context 注入</b><br>数据 + 公告事实<br><span class="tag p">delegate_task</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>独立子代理</b><br>无主分析影响<br><span class="tag p">deepseek-v4-pro · 51s</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>交叉验证</b><br>结论一致 → 置信度提升<br><span class="tag g">90%</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>吸收增量</b><br>5 个新观点并入报告<br><span class="tag o">v3 更新</span></div>
+</div>
+
+<div class="verdict">
+<h3>⚡ 协作设计要点（可复用）</h3>
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
+<tr><th style="text-align:left;padding:6px 8px;background:var(--panel2);color:var(--sub)">原则</th><th style="text-align:left;padding:6px 8px;background:var(--panel2);color:var(--sub)">本轮实践</th></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid var(--border)"><b>上下文完整传递</b></td><td style="padding:6px 8px;border-bottom:1px solid var(--border)">子代理 context 含全部归因数据 + 公告事实，不依赖对话历史</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid var(--border)"><b>独立性</b></td><td style="padding:6px 8px;border-bottom:1px solid var(--border)">子代理先出结论，主分析不预置答案 → 防锚定</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid var(--border)"><b>异步非阻塞</b></td><td style="padding:6px 8px;border-bottom:1px solid var(--border)">dispatch 后主 Agent 继续组装报告，结果回传后合并</td></tr>
+<tr><td style="padding:6px 8px;border-bottom:1px solid var(--border)"><b>可观测</b></td><td style="padding:6px 8px;border-bottom:1px solid var(--border)">live transcript 实时可见子代理推理过程</td></tr>
+<tr><td style="padding:6px 8px;"><b>增量吸收</b></td><td style="padding:6px 8px;">子代理 5 个增量观点（不对称性量化/可定价风险/五维检测）全部并入报告，非简单"同意/反对"</td></tr>
+</table>
+</div>
+
+<h2>六、本轮数据流转统计</h2>
+<div class="kv">
+  <div class="card"><div class="k">API 调用</div><div class="v">iFinD ~15 次 + Tushare 5 次 + 东财 ~15 次</div></div>
+  <div class="card"><div class="k">子代理</div><div class="v">1 个 · 51.55s · api_calls=1</div></div>
+  <div class="card"><div class="k">数据文件</div><div class="v">个股 2×日线 + 估值 + 15 板块 CSV + 财务 JSON</div></div>
+  <div class="card"><div class="k">图表</div><div class="v">13 张（财务6 + 市场4 + 归因4 之一共用）</div></div>
+  <div class="card"><div class="k">报告版本</div><div class="v">v1（纯财务）→ v2（+核验舆情）→ v3（+归因协作）</div></div>
+  <div class="card"><div class="k">交付</div><div class="v">飞书 DM ×3 轮（附件+摘要）</div></div>
+</div>
+
+<div class="sub" style="margin-top:22px">
+可视化说明：本页为流程回顾图（非实时监控）。协作机制为 Hermes delegate_task：主 Agent 派发 → 子代理隔离上下文独立运行 → 结果异步回传 → 主 Agent 交叉验证并吸收。本轮子代理模型 deepseek-v4-pro（与主 Agent 相同模型，通过 context 注入实现"独立视角"）。
+</div>
+
+</div>
+</body>
+</html>

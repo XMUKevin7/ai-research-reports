@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全市场舆情监测 · Agent 协同流程</title>
+<style>
+:root { --bg:#0f1117; --panel:#1a1d24; --panel2:#242833; --text:#e8eaf0; --sub:#9aa3b5;
+  --blue:#4a9eff; --orange:#ffa94d; --green:#26c281; --red:#ff5d5d; --purple:#b197fc; --yellow:#ffd43b; --border:#3a4050; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; padding:28px; }
+.wrap { max-width:1100px; margin:0 auto; }
+h1 { font-size:24px; margin-bottom:4px; }
+.sub { color:var(--sub); font-size:13px; margin-bottom:22px; }
+h2 { font-size:18px; margin:26px 0 12px; padding-left:10px; border-left:4px solid var(--blue); }
+h3 { font-size:14px; margin:12px 0 8px; color:#c9d2e3; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:14px; }
+table { width:100%; border-collapse:collapse; font-size:13px; margin:8px 0; }
+th { background:var(--panel2); color:var(--sub); padding:7px 10px; text-align:left; }
+td { padding:7px 10px; border-bottom:1px solid var(--border); }
+.tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:11px; }
+.tag.b { background:rgba(74,158,255,.15); color:var(--blue); }
+.tag.p { background:rgba(177,151,252,.15); color:var(--purple); }
+.tag.g { background:rgba(38,194,129,.15); color:var(--green); }
+.tag.o { background:rgba(255,169,77,.15); color:var(--orange); }
+.tag.r { background:rgba(255,93,93,.15); color:var(--red); }
+.flow { display:flex; align-items:stretch; gap:6px; flex-wrap:wrap; margin:12px 0; }
+.flow .box { flex:1; min-width:140px; border-radius:8px; padding:10px; text-align:center; font-size:12px; background:var(--panel2); border:1px solid var(--border); }
+.flow .box b { display:block; font-size:13px; }
+.flow .sep { align-self:center; color:var(--sub); font-size:16px; }
+.lane { border:1px solid var(--border); border-radius:10px; background:var(--panel); padding:10px; margin-bottom:10px; }
+.lane .lname { font-size:11px; color:var(--sub); border-bottom:1px solid var(--border); padding-bottom:5px; margin-bottom:6px; }
+.lane .step { font-size:12px; padding:5px 8px; margin:3px 0; border-radius:6px; background:var(--panel2); border:1px solid var(--border); }
+.lane .step.act { border-color:var(--blue); }
+.lane .step.wait { border-color:var(--yellow); color:var(--yellow); }
+.lane .step.done { border-color:var(--green); }
+.lane .step.send { border-color:var(--orange); }
+.small { font-size:12px; color:var(--sub); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>全市场舆情监测 · Agent 协同流程可视化</h1>
+<div class="sub">2026-08-11 | 监控范围：全市场热点 + 关注池（quant_core ETF 池 + 历史标的）| 五阶段闭环：采集 → 映射 → 量化 → 核验 → 报告</div>
+
+<h2>一、流程总览</h2>
+<div class="flow">
+  <div class="box"><b>① 范围定义</b><br>关注池 + 全市场<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>② 热点采集</b><br>iFinD 主题扫描<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>③ 事件映射</b><br>事件→个股→影响链<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>④ 量化影响</b><br>超额收益计算<br><span class="tag b">主 Agent</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>⑤ 独立核验</b><br>真实性+相关度<br><span class="tag p">子代理 k3</span></div>
+  <div class="sep">→</div>
+  <div class="box"><b>⑥ 报告</b><br>双 HTML 交付<br><span class="tag o">主 Agent</span></div>
+</div>
+
+<h2>二、Agent 分工</h2>
+<div class="lane"><div class="lname">🤖 主 Agent（deepseek-v4-flash）— 编排 + 数据</div>
+  <div class="step act">定义监控范围：quant_core ETF 池（20+只）+ 三安/联创 + 全市场热点</div>
+  <div class="step act">iFinD search_news 分主题扫描（立案/业绩/重组/股东/异动/行业）</div>
+  <div class="step act">search_notice 核验公告（三安问询函回复、联创异动公告、富煌冻结等）</div>
+  <div class="step done">Tushare 拉 6 标的 + 上证指数行情 → 超额收益计算</div>
+  <div class="step send">派发全市场核验子代理（kimi k3）</div>
+</div>
+<div class="lane"><div class="lname">🧩 核验子代理（kimi k3 @ kimi-coding）— 独立复核</div>
+  <div class="step wait">接收 6 大事件 + 量化数据</div>
+  <div class="step wait">逐件核验：真实性（1-5）/ 个股相关度（1-5）</div>
+  <div class="step wait">超额收益合理性评估（建设机械/麦迪/联创/富煌）</div>
+  <div class="step wait">全市场舆情主题聚类 + 热度排序</div>
+  <div class="step done">风险标的排序 + 概念放大警示</div>
+</div>
+<div class="lane"><div class="lname">🗄 数据源</div>
+  <div class="step">iFinD news（search_news / search_notice）✅</div>
+  <div class="step">Tushare daily（6 标的 + 上证指数）✅</div>
+  <div class="step">上交所/深交所公告原文 ✅</div>
+</div>
+
+<h2>三、核验机制设计</h2>
+<div class="card">
+<h3>为什么全市场舆情更需要独立核验</h3>
+<p>全市场扫描会捞到大量"标题党"和概念炒作——<b>建设机械涨停是因为重组（真），麦迪 +23% 是因为什么（可能纯情绪）</b>，AI 光互连对光迅/天孚是真实基本面还是主题炒作？子代理独立判断，逐件给可信度 + 相关度评分，并做主题聚类防"只见树木不见森林"。</p>
+<h3>量化方法（升级）</h3>
+<table>
+<tr><th>维度</th><th>方法</th></tr>
+<tr><td>基准</td><td>上证指数（替代上轮"两股平均"，更标准）</td></tr>
+<tr><td>指标</td><td>区间累计收益 + 超额收益（个股 - 基准）</td></tr>
+<tr><td>窗口</td><td>8/4→8/11（事件前后）</td></tr>
+<tr><td>事件日细节</td><td>逐日 pct_chg（如建设机械 8/10 +10%、联创 8/10 -10%）</td></tr>
+</table>
+</div>
+
+<h2>四、本次执行记录</h2>
+<div class="card">
+<table>
+<tr><th>阶段</th><th>动作</th><th>结果</th></tr>
+<tr><td>范围</td><td>quant_core ETF 池 + 三安/联创 + 全市场</td><td>6 只标的进入事件清单</td></tr>
+<tr><td>采集</td><td>iFinD 6 主题 × search_news + 5 组 search_notice</td><td>7 大热点事件 + 关注池 2 新公告</td></tr>
+<tr><td>量化</td><td>Tushare 6 标的 + 上证指数</td><td>超额：麦迪 +31.8% / 联创 -27.8% / 建设机械 +9.4%</td></tr>
+<tr><td>核验</td><td>delegate_task → k3</td><td>进行中</td></tr>
+<tr><td>交付</td><td>agent_flow.html + 全市场舆情报告 → GitHub Pages</td><td>待完成</td></tr>
+</table>
+</div>
+
+<div class="small" style="margin-top:16px">
+方法说明：超额收益 = 个股区间累计 - 上证指数区间累计（+2.9%）；事件日逐日收益用 Tushare pct_chg。核验子代理：kimi k3（delegation-router finance 路由）。
+</div>
+
+</div>
+</body>
+</html>
